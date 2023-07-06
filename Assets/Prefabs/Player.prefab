@@ -45,9 +45,9 @@ GameObject:
   - component: {fileID: 8389754325033268917}
   - component: {fileID: 131038243853906011}
   - component: {fileID: 8963137117708827055}
+  - component: {fileID: 6436364532984392766}
   - component: {fileID: 5852657446621556495}
   - component: {fileID: 5793284991986140716}
-  - component: {fileID: 6436364532984392766}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -318,10 +318,31 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.22524136
+  m_Radius: 0.29242712
   m_Height: 0.84436643
   m_Direction: 0
-  m_Center: {x: 0.012183189, y: -0.8334573, z: 0}
+  m_Center: {x: 0.012183189, y: -0.90064305, z: 0}
+--- !u!95 &6436364532984392766
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2557069414317964516}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 71b612c290fc4344ab8eb1197e1f8c22, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &5852657446621556495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,27 +386,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 5852657446621556495}
   moveSpeed: 40
---- !u!95 &6436364532984392766
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2557069414317964516}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 71b612c290fc4344ab8eb1197e1f8c22, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5784362975508480462
 GameObject:
   m_ObjectHideFlags: 0
