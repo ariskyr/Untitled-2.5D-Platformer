@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1433969670639722361}
   - component: {fileID: 8158856324144212588}
   m_Layer: 0
-  m_Name: NPC_Slime
+  m_Name: Enemy_Slime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

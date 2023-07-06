@@ -49,7 +49,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public PlayerController controller;
+    public Transform attackPoint;
+    public float attackRange = 0.5f;
     public float moveSpeed = 40f;
+    public int attackDamage = 40;
     private Vector2 movementInput;
     private float HorizontalMove = 0f;
     private float VerticalMove = 0f;
@@ -70,13 +73,15 @@ public class PlayerMovement : MonoBehaviour
     {
         // flag to lock movement if attacking, I don't like something about how it feels
         // revisit later
-        if (canMove)
+        if (!canMove)
         {
+            movementInput = Vector2.zero;
+        }
             HorizontalMove = movementInput.x * moveSpeed * Time.fixedDeltaTime;
             VerticalMove = movementInput.y * moveSpeed * Time.fixedDeltaTime;
             controller.Move(HorizontalMove, VerticalMove, crouch, jump);
             jump = false;
-        }
+        
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -142,17 +147,33 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
+
         if (context.started && !context.performed)
         {
             CurrentState = PlayerStates.ATTACK;
             stateLock = true;
+            Collider[] hitcolliders = Physics.OverlapSphere(attackPoint.position, attackRange);
+            foreach(Collider enemy in hitcolliders)
+            {
+                if(enemy.gameObject.tag == "Enemy")
+                {
+                    enemy.GetComponent<enemy>().TakeDamage(attackDamage);
+                }
+            }
         }
     }
 
     public void OnAttackFinished()
     {
         stateLock = false;
-        CurrentState = PlayerStates.IDLE;
         canMove = true;
+        CurrentState = PlayerStates.IDLE;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if(attackPoint == null)
+            return;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }
