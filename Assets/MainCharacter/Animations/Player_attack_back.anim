@@ -23,7 +23,7 @@ AnimationClip:
     - time: 0
       value: {fileID: 5279891, guid: a527e09f35ae69a428b1729f935a5669, type: 3}
     - time: 0.125
-      value: {fileID: -1612137613, guid: a527e09f35ae69a428b1729f935a5669, type: 3}
+      value: {fileID: 5279891, guid: a527e09f35ae69a428b1729f935a5669, type: 3}
     - time: 0.25
       value: {fileID: 1589341747, guid: a527e09f35ae69a428b1729f935a5669, type: 3}
     - time: 0.375
@@ -51,7 +51,7 @@ AnimationClip:
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
     - {fileID: 5279891, guid: a527e09f35ae69a428b1729f935a5669, type: 3}
-    - {fileID: -1612137613, guid: a527e09f35ae69a428b1729f935a5669, type: 3}
+    - {fileID: 5279891, guid: a527e09f35ae69a428b1729f935a5669, type: 3}
     - {fileID: 1589341747, guid: a527e09f35ae69a428b1729f935a5669, type: 3}
     - {fileID: 1630590638, guid: a527e09f35ae69a428b1729f935a5669, type: 3}
   m_AnimationClipSettings:
@@ -80,7 +80,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.5
-    functionName: OnFireFinished
+    functionName: OnAttackFinished
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

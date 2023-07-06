@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,19 +26,21 @@ public class PlayerMovement : MonoBehaviour
                 {
                     case PlayerStates.IDLE:
                         animator.Play("Player_BT_Idle");
+                        canMove = true;
                         break;
                     case PlayerStates.WALK:
                         animator.Play("Player_BT_Walk");
+                        canMove = true;
                         break;
                     case PlayerStates.ATTACK:
                         animator.Play("Player_BT_Attack");
-                        stateLock = true;
+                        canMove = false;
                         break;
                     case PlayerStates.JUMP:
-                        animator.Play("Player_BT_Walk");
+                        animator.Play("Player_BT_Jump");
                         break;
                     case PlayerStates.CROUCH:
-                        animator.Play("Player_BT_Walk");
+                        animator.Play("Player_BT_Crouch");
                         break;
                 }
             }
@@ -53,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
     private bool jump = false;
     private bool crouch = false;
     private bool stateLock = false;         // if true, animation state shouldn't change
+    private bool canMove = true;            // if true, character can move
     private Animator animator;
     private PlayerStates currentState;
 
@@ -64,17 +68,22 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        HorizontalMove = movementInput.x * moveSpeed;
-        VerticalMove = movementInput.y * moveSpeed;
-        controller.Move(HorizontalMove * Time.fixedDeltaTime, VerticalMove * Time.fixedDeltaTime, crouch, jump);
-        jump = false;
+        // flag to lock movement if attacking, I don't like something about how it feels
+        // revisit later
+        if (canMove)
+        {
+            HorizontalMove = movementInput.x * moveSpeed * Time.fixedDeltaTime;
+            VerticalMove = movementInput.y * moveSpeed * Time.fixedDeltaTime;
+            controller.Move(HorizontalMove, VerticalMove, crouch, jump);
+            jump = false;
+        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
         movementInput = context.ReadValue<Vector2>();
 
-        if(movementInput != Vector2.zero) 
+        if (canMove && movementInput != Vector2.zero) 
         {
             //switch to walking if speed is not zero
             CurrentState = PlayerStates.WALK;
@@ -92,8 +101,15 @@ public class PlayerMovement : MonoBehaviour
         {
             CurrentState = PlayerStates.JUMP;
             jump = true;
+            // maybe change this so that the player can attack in the air
+            stateLock = true;
         }
-        // TODO add a OnJumpFinished function event on the end of a jump animation to change state
+    }
+
+    public void OnLanding()
+    {
+        stateLock = false;
+        CurrentState = PlayerStates.IDLE;
     }
 
     public void OnCrouch(InputAction.CallbackContext context)
@@ -109,14 +125,19 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void OnFire()
+    public void OnAttack(InputAction.CallbackContext context)
     {
-        CurrentState = PlayerStates.ATTACK;
+        if (context.started && !context.performed)
+        {
+            CurrentState = PlayerStates.ATTACK;
+            stateLock = true;
+        }
     }
 
-    public void OnFireFinished()
+    public void OnAttackFinished()
     {
         stateLock = false;
         CurrentState = PlayerStates.IDLE;
+        canMove = true;
     }
 }

@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     const float k_CeilingRadius = .2f;          // Radius of the overlap circle to deterrmine if the player can stand up
     private bool m_FacingRight = true;          // Determine which way the player is facing.
     private bool m_wasCrouching = false;
-    private bool m_Grounded = false;            // whether or not the player is grounded.
+    private bool m_Grounded = true;                    // whether or not the player is grounded.
     private Vector3 m_Velocity = Vector3.zero;  // The speed of the player
     private Rigidbody m_Rigidbody;
 
@@ -58,15 +58,15 @@ public class PlayerController : MonoBehaviour
         m_Grounded = false;
         // Check a radius around the groundcheck position for any objects designated as ground
         Collider[] colliders = Physics.OverlapSphere(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
-        foreach (Collider collider in colliders)
+        for(int i = 0; i < colliders.Length; i++)
         {
-            if(collider != gameObject)
+            //if at least 1 object is colliding, that is not the player
+            if (colliders[i].gameObject != gameObject)
             {
                 m_Grounded = true;
-                if(!wasGrounded)
-                {
+                // check when player has landed
+                if (!wasGrounded)
                     OnLandEvent.Invoke();
-                }
             }
         }
     }
@@ -135,7 +135,6 @@ public class PlayerController : MonoBehaviour
         // If the player should jump
         if (m_Grounded && jump)
         {
-            m_Grounded = false;
             m_Rigidbody.AddForce(new Vector3(0f, m_JumpForce, 0f));
         }
     }
