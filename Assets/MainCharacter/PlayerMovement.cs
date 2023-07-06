@@ -112,6 +112,21 @@ public class PlayerMovement : MonoBehaviour
         CurrentState = PlayerStates.IDLE;
     }
 
+    // communication with the controller, if the player can crouch or not, regardless of the crouch button
+    public void OnCrouching(bool isCrouching)
+    {
+        if (isCrouching)
+        {
+            CurrentState = PlayerStates.CROUCH;
+            stateLock = true;   // lock to prevent animation change, might need to change if we want to have a crouch attack
+        }
+        else
+        {
+            stateLock = false;
+            CurrentState = PlayerStates.IDLE;
+        }
+    }
+
     public void OnCrouch(InputAction.CallbackContext context)
     {
         if (context.started && !context.performed)
