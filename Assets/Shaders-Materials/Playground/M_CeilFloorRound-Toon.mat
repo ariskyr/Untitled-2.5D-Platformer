@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Lerp-Blending
-  m_Shader: {fileID: -6465566751694194690, guid: 44b620aec89baf94a9a7fd1b31150eaf,
+  m_Name: M_CeilFloorRound-Toon
+  m_Shader: {fileID: -6465566751694194690, guid: b61d76edcf94f3040b688f4336a9f2ed,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -38,12 +38,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BlendAmount: 0.34
+    - _Bands: 5
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Strength: 0.16
     m_Colors: []
   m_BuildTextureStacks: []
---- !u!114 &8893640497853491665
+--- !u!114 &1938225804457211885
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
