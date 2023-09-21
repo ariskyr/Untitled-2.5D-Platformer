@@ -142,11 +142,11 @@ public class PlayerController : MonoBehaviour
     private void Flip()
     {
         // Switch the way the player is labelled as facing.
-        m_FacingRight = !m_FacingRight;
+        //m_FacingRight = !m_FacingRight;
 
         //Multiply the player's  x local scale by -1.
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
+        //Vector3 scale = transform.localScale;
+        //scale.x *= -1;
+        //transform.localScale = scale;
     }
 }
