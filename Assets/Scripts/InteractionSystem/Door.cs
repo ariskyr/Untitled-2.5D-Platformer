@@ -6,10 +6,14 @@ public class Door : MonoBehaviour, IInteractable
 {  
     [SerializeField] private string _prompt;
     [SerializeField] private bool IsRotatingDoor = true;
-    [SerializeField] private float Speed = 1f;
+    [SerializeField] private float timeToOpen = 1f;
     [Header("Rotation Configs")]
     [SerializeField] private float RotationAmount = 90f;
     [SerializeField] private float ForwardDirection = 0;
+
+    [Header("Transition to Level")]
+    [SerializeField] private CircleWipeTransition transition;
+    [SerializeField] private string levelToLoad;
 
     public string InteractionPrompt => _prompt;
     public bool IsOpen = false;
@@ -26,9 +30,13 @@ public class Door : MonoBehaviour, IInteractable
         Forward = transform.forward;
     }
 
+    //Interact with the object
     public bool Interact(Interactor interactor)
     {
+        //start coroutine to open door
         bool isOpened = Open(interactor.transform.position);
+        //load the next level
+        transition.StartTransition(levelToLoad);
         return isOpened;
     }
 
@@ -67,11 +75,11 @@ public class Door : MonoBehaviour, IInteractable
         IsOpen = true;
 
         float time = 0;
-        while(time < 1)
+        while(time < timeToOpen)
         {
             transform.rotation = Quaternion.Slerp(startRotation, endRotation, time);
             yield return null;
-            time += Time.deltaTime * Speed;
+            time += Time.deltaTime;
         }
     }
 
@@ -99,11 +107,11 @@ public class Door : MonoBehaviour, IInteractable
         IsOpen = false;
 
         float time = 0;
-        while (time < 1)
+        while (time < timeToOpen)
         {
             transform.rotation = Quaternion.Slerp(startRotation, endRotation , time);
             yield return null;
-            time += Time.deltaTime * Speed;
+            time += Time.deltaTime;
         }
     }
 }

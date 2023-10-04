@@ -35,6 +35,9 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        // Ensure the Player object is not destroyed when loading new scenes
+        DontDestroyOnLoad(gameObject);
+
         m_Rigidbody = GetComponent<Rigidbody>();
 
         if (OnLandEvent == null)

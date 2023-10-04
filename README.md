@@ -69,10 +69,13 @@ Reimagining an old game with modern gameplay mechanics using the Unity Engine.
 
 * **Main Camera**:
     1. <u>CameraFollow.cs</u> -> camera follows the player at a fixed point
+
 * **Player**:
     1. <u>PlayerController.cs</u> -> controls how the player falls, what is ground etc.. (Brackeys)
     2. <u>PlayerMovement.cs</u> -> attack range, movement speed, attack damage... stuff like that (Brackeys)
     3. <u>Interactor.cs</u> -> handles when the InteractionCanvas is shown if an interactable object is near.
+    4. <u>CircleWipeTransition.cs</u> -> handles scene transition using a custom HLSL shader (SG_MaskTransition),
+    invoke by calling the StartTransition method with a string of the level name.
 
 * **Interactables**:
 Could be stuff like doors, tables etc... depending on the scope the game will take. All interactable objects

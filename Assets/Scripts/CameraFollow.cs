@@ -13,6 +13,7 @@ public class CameraFollow : MonoBehaviour
     void Start()
     {
         offset = transform.position - target.position;
+        DontDestroyOnLoad(gameObject); // Persistent
     }
 
     // Update is called once per frame
