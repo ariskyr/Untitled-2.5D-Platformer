@@ -1,2 +1,80 @@
 # Untitled 2.5 Platformer
- A 2.5D game that is a work in progress
+
+## Overview
+A 2.5D game that is a work in progress
+
+## Table of Contents
+
+- [Game Concept](#game-concept)
+- [Gameplay](#gameplay)
+- [Features](#features)
+- [Game Mechanics](#game-mechanics)
+- [Artwork](#artwork)
+- [Sound and Music](#sound-and-music)
+- [Platform and Technology](#platform-and-technology)
+- [Controls](#controls)
+- [Installation](#installation)
+
+## Game Concept
+
+Reimagining an old game with modern gameplay mechanics using the Unity Engine. 
+ 1. [Placeholder: Provide Story/Setting]
+ 2. [Placeholder: whats the player's goal]
+ 3. [Placeholder: differences from the old game, improvements etc]
+
+## Gameplay
+
+ [Placeholder: Provide how the player progresses, level design etc]
+
+## Features
+
+ [Placeholder: provide any features that could/will exist]
+
+## Game Mechanics
+
+ **Movement** is done in a 2-axis fashion using front-back / left-right animations. There
+ is support for jumping/crouching so we have to implement those in-game in some manner on the
+ level design.
+ **Combat** is done probably using left click to attack for now. Future enhancements could be dodging
+ blocking etc...
+
+## Artwork
+
+ 1. Primarily made by us
+ 2. Player is using animations from [mystic_woods](https://game-endeavor.itch.io/mystic-woods) as a 
+ placeholder for now. We will be using a different character probably.
+
+## Sound and Music
+
+ [Placeholder: idk, will see]
+
+## Platform and Technology
+
+ * Unity Engine
+ * Windows
+
+## Controls
+
+ Standard Inputs used by most games, Scheme can be changed from the options (in the future)
+ For now:
+   1. WASD -> Movement
+   2. Left click -> Attack
+   3. E -> Interact
+
+## Installation
+
+ [Placeholder: will see]
+
+## System Explanation
+
+* **Main Camera**:
+    1. <u>CameraFollow.cs</u> -> camera follows the player at a fixed point
+* **Player**:
+    1. <u>PlayerController.cs</u> -> controls how the player falls, what is ground etc.. (Brackeys)
+    2. <u>PlayerMovement.cs</u> -> attack range, movement speed, attack damage... stuff like that (Brackeys)
+    3. <u>Interactor.cs</u> -> handles when the InteractionCanvas is shown if an interactable object is near.
+
+* **Interactables**:
+Could be stuff like doors, tables etc... depending on the scope the game will take. All interactable objects
+implement the interactable interface to get the prompt texts and the action.
+    1. <u>Door.cs</u> -> press e to open a door and trigger a scene transition to an interior level
