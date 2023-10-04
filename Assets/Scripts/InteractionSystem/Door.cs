@@ -2,18 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : MonoBehaviour
-{
-    public bool IsOpen = false;
-    [SerializeField]
-    private bool IsRotatingDoor = true;
-    [SerializeField]
-    private float Speed = 1f;
+public class Door : MonoBehaviour, IInteractable
+{  
+    [SerializeField] private string _prompt;
+    [SerializeField] private bool IsRotatingDoor = true;
+    [SerializeField] private float Speed = 1f;
     [Header("Rotation Configs")]
-    [SerializeField]
-    private float RotationAmount = 90f;
-    [SerializeField]
-    private float ForwardDirection = 0;
+    [SerializeField] private float RotationAmount = 90f;
+    [SerializeField] private float ForwardDirection = 0;
+
+    public string InteractionPrompt => _prompt;
+    public bool IsOpen = false;
 
     private Vector3 StartRotation;
     private Vector3 Forward;
@@ -23,10 +22,17 @@ public class Door : MonoBehaviour
     private void Awake()
     {
         StartRotation = transform.rotation.eulerAngles;
+        //Forward signifies where the door is oriented
         Forward = transform.forward;
     }
 
-    public void Open(Vector3 UserPosition)
+    public bool Interact(Interactor interactor)
+    {
+        bool isOpened = Open(interactor.transform.position);
+        return isOpened;
+    }
+
+    public bool Open(Vector3 UserPosition)
     {
         if (!IsOpen) 
         {
@@ -39,9 +45,10 @@ public class Door : MonoBehaviour
                 float dot = Vector3.Dot(Forward, (UserPosition - transform.position).normalized);
                 Debug.Log($"Dot: {dot.ToString("N3")}");
                 AnimationCoroutine = StartCoroutine(DoRotationOpen(dot));
+                return true;
             }
         }
-
+        return false;
     }
 
     private IEnumerator DoRotationOpen(float ForwardAmount)

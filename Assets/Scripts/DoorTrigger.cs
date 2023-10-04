@@ -9,7 +9,7 @@ public class DoorTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent<PlayerController>(out PlayerController controller))
+        if(other.TryGetComponent(out PlayerController controller))
         {
             if (!Door.IsOpen)
             {
@@ -20,7 +20,7 @@ public class DoorTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.TryGetComponent<PlayerController>(out PlayerController controller))
+        if(other.TryGetComponent(out PlayerController controller))
         {
             if (Door.IsOpen)
             {
