@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5bfbb81153301714fbaa0342c1b5afb4
+guid: c28ed6dfb75e60e40ad8e42ef28e50ae
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,8 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Outer
-    second: {fileID: 2100000, guid: 87843d6daecfa3a42a2ae2963c7f55e5, type: 2}
+      name: Braces
+    second: {fileID: 2100000, guid: a47c5f972e55bd348aa20186aaae0150, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: OuterBarrel
+    second: {fileID: 2100000, guid: bf607ae9c64a276489dd6d4e005867b2, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
