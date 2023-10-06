@@ -12,15 +12,14 @@ public class Door : MonoBehaviour, IInteractable
     [SerializeField] private float ForwardDirection = 0;
 
     [Header("Transition to Level")]
-    [SerializeField] private CircleWipeTransition transition;
     [SerializeField] private string levelToLoad;
 
     public string InteractionPrompt => _prompt;
     public bool IsOpen = false;
 
+    private CircleWipeTransition transition;
     private Vector3 StartRotation;
     private Vector3 Forward;
-
     private Coroutine AnimationCoroutine;
 
     private void Awake()
@@ -28,6 +27,14 @@ public class Door : MonoBehaviour, IInteractable
         StartRotation = transform.rotation.eulerAngles;
         //Forward signifies where the door is oriented
         Forward = transform.forward;
+    }
+
+    private void Start()
+    {
+        //find the player and initialise the transition
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        Transform transitionTransform = player.transform.Find("CircleWipeTransition");
+        transition = transitionTransform.GetComponent<CircleWipeTransition>();
     }
 
     //Interact with the object

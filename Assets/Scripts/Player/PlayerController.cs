@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 m_Velocity = Vector3.zero;  // The speed of the player
     private Rigidbody m_Rigidbody;
 
+    private static PlayerController playerInstance; // IMPORTANT: the player instance to avoid duplication
+
     [Header("Events")]
     [Space]
 
@@ -35,8 +37,17 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        // Ensure the Player object is not destroyed when loading new scenes
-        DontDestroyOnLoad(gameObject);
+        // Ensure the Player object is not destroyed/duplicated when loading new scenes
+        DontDestroyOnLoad(this);
+
+        if(playerInstance == null) 
+        {
+            playerInstance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
 
         m_Rigidbody = GetComponent<Rigidbody>();
 
