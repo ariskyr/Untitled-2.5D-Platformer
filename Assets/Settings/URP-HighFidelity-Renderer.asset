@@ -1,5 +1,30 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7903692569789869820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf2822077771c4d62b1e1e272f5b8f69, type: 3}
+  m_Name: ScreenSpaceCavity
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  m_Shader: {fileID: 4800000, guid: 4e03c0c18361a4ef7918b432dab94846, type: 3}
+  m_Settings:
+    cavityType: 1
+    debug: 0
+    curvatureScale: 1
+    curvatureRidge: 0.75
+    curvatureValley: 0.75
+    cavityDistance: 0.25
+    cavityAttenuation: 0.015625
+    cavityRidge: 1.25
+    cavityValley: 1.25
+    cavitySamples: 4
 --- !u!114 &-1878332245247344467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12,14 +37,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
   m_Name: SSAO
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   m_Settings:
     AOMethod: 1
     Downsample: 0
     AfterOpaque: 0
     Source: 1
     NormalSamples: 1
-    Intensity: 0.5
+    Intensity: 0.25
     DirectLightingStrength: 0.25
     Radius: 0.25
     Samples: 0
@@ -53,7 +78,8 @@ MonoBehaviour:
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
   - {fileID: -1878332245247344467}
-  m_RendererFeatureMap: adc0de57c6d2eee5
+  - {fileID: -7903692569789869820}
+  m_RendererFeatureMap: adc0de57c6d2eee504d1c7bb7b715092
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
