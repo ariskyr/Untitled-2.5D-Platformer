@@ -39,10 +39,29 @@ Reimagining an old game with modern gameplay mechanics using the Unity Engine.
  blocking etc...
 
 ## Artwork
+ Primarily made by us
 
- 1. Primarily made by us
- 2. Player is using animations from [mystic_woods](https://game-endeavor.itch.io/mystic-woods) as a 
+ 1. Player is using animations from [mystic_woods](https://game-endeavor.itch.io/mystic-woods) as a 
  placeholder for now. We will be using a different character probably.
+
+ 2. **Modular Interior House Pack**: 105 Low Poly assets for primary use in interior spaces. All assets are made to be modular in 2x2m tile.
+    * 5 Wooden Beams
+    * Flooring + 15 different Wall Models (Wood + Stone)
+    * 3 Wardrobe Assets, 1 bed, 1 pillow, 2 sacks
+    * Torch, 2 lanterns and 3 candles
+    * 2 Slim (1m width) Wooden walls + 3 Short (0.25m height) wooden walls
+    * 2 carpets, 1 door, 1 wooden railing
+    * Fireplace + 2 lumber assets
+    * 2 Hanging Cloths + Curtains
+    * 4 different cupboards + 2 jugs, 2 plates, 3 cups, 3 bottles, 3 bowls, 4 pots + leaves
+    * 2 Windows, 3 ladders, 1 shed
+    * 1 chest, 1 crate, 2 barrels, 1 basket
+    * 2 tables, 2 chairs, 3 stools, 2 bars
+    * 10 different book assets, (single, stacks and multiple)
+
+3. **Modular Exterior House Pack**: TODO (mostly stuff for homes/towns)
+4. **Modular Environment Pack**: Trees, Stones, Cliffs etc (will be used for overworld and caves/beaches)
+
 
 ## Sound and Music
 
@@ -81,3 +100,8 @@ Reimagining an old game with modern gameplay mechanics using the Unity Engine.
 Could be stuff like doors, tables etc... depending on the scope the game will take. All interactable objects
 implement the interactable interface to get the prompt texts and the action.
     1. <u>Door.cs</u> -> press e to open a door and trigger a scene transition to an interior level
+
+* **SreenSpace Cavity**:
+A ScreenSpace cavity renderer feature. Allows highlighting of mesh edges to make assets pop a bit more (since its low poly). Replicates what blender cavity option does.
+    1. Main renderer feature is in ScreenSpaceCavity/Shaders/**Cavity**. Place onto the URP Renderer Data (options to configure in there)
+    2. Custom **ToonyLight** shader in ShaderPack/Shaders that can be used on any asset to enable the effect.
