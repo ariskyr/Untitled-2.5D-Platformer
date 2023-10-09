@@ -10,6 +10,7 @@ A 2.5D game that is a work in progress
 - [Features](#features)
 - [Game Mechanics](#game-mechanics)
 - [Artwork](#artwork)
+- [Art Direction](#art_direction)
 - [Sound and Music](#sound-and-music)
 - [Platform and Technology](#platform-and-technology)
 - [Controls](#controls)
@@ -62,6 +63,22 @@ Reimagining an old game with modern gameplay mechanics using the Unity Engine.
 3. **Modular Exterior House Pack**: TODO (mostly stuff for homes/towns)
 4. **Modular Environment Pack**: Trees, Stones, Cliffs etc (will be used for overworld and caves/beaches)
 
+## Art Direction
+
+* **SreenSpace Cavity**:
+A ScreenSpace cavity renderer feature. Allows highlighting of mesh edges to make assets pop a bit more (since its low poly). Replicates what blender cavity option does.
+    1. Main renderer feature is in ScreenSpaceCavity/Shaders/**Cavity**. Place onto the URP Renderer Data (options to configure in there)
+    2. Custom **ToonyLight** shader in ShaderPack/Shaders that can be used on any asset to enable the effect.
+
+* **Mixed GI**:
+    * Bake Lightmaps for each scene. Set static all object that are not movable and generate the lightmap. Settings can be tweaked.
+
+    * a Light probe group is used to sample the lightmap on different points and display that on dynamic objects. WIP: Still need to apply that to 2D sprites.
+
+* **Post-Process**:
+    * Each scene contains a Global_PPV (Global volume with a post process profile slapped on). All Post process settings are contained there (Tonemapping, Bloom etc...)
+
+    * For specific scenarios a Local_PPV can be created to make custom setups for different areas.
 
 ## Sound and Music
 
@@ -100,8 +117,3 @@ Reimagining an old game with modern gameplay mechanics using the Unity Engine.
 Could be stuff like doors, tables etc... depending on the scope the game will take. All interactable objects
 implement the interactable interface to get the prompt texts and the action.
     1. <u>Door.cs</u> -> press e to open a door and trigger a scene transition to an interior level
-
-* **SreenSpace Cavity**:
-A ScreenSpace cavity renderer feature. Allows highlighting of mesh edges to make assets pop a bit more (since its low poly). Replicates what blender cavity option does.
-    1. Main renderer feature is in ScreenSpaceCavity/Shaders/**Cavity**. Place onto the URP Renderer Data (options to configure in there)
-    2. Custom **ToonyLight** shader in ShaderPack/Shaders that can be used on any asset to enable the effect.
