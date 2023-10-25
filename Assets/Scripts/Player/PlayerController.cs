@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform m_CeilingCheck;                          // A position to check for ceilings.
     [SerializeField] private Transform m_GroundCheck;                           // A position to check for ground.
     [SerializeField] private Collider m_CrouchDisableCollider;                  // A collider that will be disabled when crouching
+    [SerializeField] private Transform m_AttackPoint;                            // The area that the attack is performed
 
     const float k_GroundedRadius = .2f;         // Radius of the overlap circle to determine if grounded
     const float k_CeilingRadius = .2f;          // Radius of the overlap circle to deterrmine if the player can stand up
@@ -135,15 +136,15 @@ public class PlayerController : MonoBehaviour
             m_Rigidbody.velocity = Vector3.SmoothDamp(m_Rigidbody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
             // If the input is moving the player right and the player is facing left...
-           /* if (HorizontalMove > 0 && !m_FacingRight)
+            if (HorizontalMove > 0 && !m_FacingRight)
             {
                 Flip();
-            }*/
+            }
             // Otherwise if the input is moving the player left and the player is facing right...
-            /*else if (HorizontalMove < 0 && m_FacingRight)
+            else if (HorizontalMove < 0 && m_FacingRight)
             {
                 Flip();
-            }*/
+            }
 
         }
         // If the player should jump
@@ -158,9 +159,7 @@ public class PlayerController : MonoBehaviour
         // Switch the way the player is labelled as facing.
         m_FacingRight = !m_FacingRight;
 
-        //Multiply the player's  x local scale by -1.
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
+        //Flip the position of the attack point to be always in front of the player
+        m_AttackPoint.RotateAround(transform.position,Vector3.up ,180);
     }
 }
