@@ -74,3 +74,11 @@ crashlytics-build.properties
 
 #Asset Folders that are not needed
 /[Aa]ssets/TerrainSampleAssets
+
+# Ignore the Unity version
+ProjectSettings/ProjectVersion.txt
+
+#Ignore all .meta file
+*.meta
+#But not source file with postfix. which is everything but a folder
+!*.*.meta
