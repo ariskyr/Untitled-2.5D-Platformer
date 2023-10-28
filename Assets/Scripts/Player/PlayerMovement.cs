@@ -56,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movementInput;
     private float HorizontalMove = 0f;
     private float VerticalMove = 0f;
+    private bool interact = false;
     private bool jump = false;
     private bool crouch = false;
     private bool stateLock = false;         // if true, animation state shouldn't change
@@ -161,6 +162,25 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            interact = true;
+        }
+        else if (context.canceled)
+        {
+            interact = false;
+        }
+    }
+
+    public bool GetInteractPressed()
+    {
+        bool result = interact;
+        interact = false;
+        return result;
     }
 
     public void OnAttackFinished()

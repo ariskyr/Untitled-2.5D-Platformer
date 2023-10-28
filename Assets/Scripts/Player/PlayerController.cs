@@ -160,6 +160,7 @@ public class PlayerController : MonoBehaviour
         m_FacingRight = !m_FacingRight;
 
         //Flip the position of the attack point to be always in front of the player
-        m_AttackPoint.RotateAround(transform.position,Vector3.up ,180);
+        m_AttackPoint.RotateAround(transform.position, Vector3.up, 180);
+        
     }
 }

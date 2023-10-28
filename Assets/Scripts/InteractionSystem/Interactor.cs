@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +14,7 @@ public class Interactor : MonoBehaviour
     private int _numFound;
     private readonly Collider[] _colliders = new Collider[3];
     private IInteractable _interactable;
+    private PlayerMovement pMovementRef;
 
     private void Update()
     {
@@ -29,9 +31,11 @@ public class Interactor : MonoBehaviour
                 if (!_interactionPromptUI.IsDisplayed) _interactionPromptUI.SetUp(_interactable.InteractionPrompt);
 
                 // on button press, interact
-                if (Keyboard.current.eKey.wasPressedThisFrame) _interactable.Interact(this);
+                pMovementRef = FindObjectOfType<PlayerMovement>();
+                if (pMovementRef.GetInteractPressed()) _interactable.Interact(this);
             }
         }
+        
         else
         {   
             // set interactable to null and close UI
