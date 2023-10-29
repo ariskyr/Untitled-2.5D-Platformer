@@ -39,6 +39,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Screen Space Layer
+    uniqueID: 2183775243
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

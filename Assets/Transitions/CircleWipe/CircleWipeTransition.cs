@@ -57,7 +57,7 @@ public class CircleWipeTransition : MonoBehaviour
     void GetCharacterPosition()
     {
         Vector3 targetPosition = _player.transform.position;
-        targetPosition.y -= 0.5f; // small adjustment
+        //targetPosition.y -= 0.5f; // small adjustment
         Vector3 screenPos = Camera.main.WorldToScreenPoint(targetPosition);
 
         float characterScreen_w = 0;

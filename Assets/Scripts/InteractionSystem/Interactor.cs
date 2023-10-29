@@ -12,6 +12,7 @@ public class Interactor : MonoBehaviour
     [SerializeField] private InteractionPromptUI _interactionPromptUI;
 
     private int _numFound;
+    private bool _hasInteracted = false;
     private readonly Collider[] _colliders = new Collider[3];
     private IInteractable _interactable;
     private PlayerMovement pMovementRef;
@@ -27,18 +28,28 @@ public class Interactor : MonoBehaviour
 
             if (_interactable != null) 
             {
-                // show the interact UI if its not displayed
-                if (!_interactionPromptUI.IsDisplayed) _interactionPromptUI.SetUp(_interactable.InteractionPrompt);
+                //if hasn't interacted
+                if (!_hasInteracted)
+                {
+                    // show the interact UI if its not displayed
+                    if (!_interactionPromptUI.IsDisplayed) _interactionPromptUI.SetUp(_interactable.InteractionPrompt);
 
-                // on button press, interact
-                pMovementRef = FindObjectOfType<PlayerMovement>();
-                if (pMovementRef.GetInteractPressed()) _interactable.Interact(this);
+                    // on button press, interact
+                    pMovementRef = FindObjectOfType<PlayerMovement>();
+                    if (pMovementRef.GetInteractPressed())
+                    {
+                        _hasInteracted = true;
+                        _interactionPromptUI.Close();
+                        _interactable.Interact(this);
+                    }
+                }
             }
         }
         
         else
-        {   
+        {
             // set interactable to null and close UI
+            _hasInteracted = false;
             if (_interactable != null) _interactable = null;
             if (_interactionPromptUI.IsDisplayed) _interactionPromptUI.Close();
         }
