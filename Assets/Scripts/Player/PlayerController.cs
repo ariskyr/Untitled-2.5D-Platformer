@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     const float k_GroundedRadius = .2f;         // Radius of the overlap circle to determine if grounded
     const float k_CeilingRadius = .2f;          // Radius of the overlap circle to deterrmine if the player can stand up
     private bool m_FacingRight = true;          // Determine which way the player is facing.
+    public bool m_Directionright = true;
     private bool m_wasCrouching = false;
     private bool m_Grounded = true;                    // whether or not the player is grounded.
     private Vector3 m_Velocity = Vector3.zero;  // The speed of the player
@@ -134,6 +135,15 @@ public class PlayerController : MonoBehaviour
             Vector3 targetVelocity = new Vector3(HorizontalMove * 10f, m_Rigidbody.velocity.y, VerticalMove * 10f);
             // And then smoothing it out and applying it to the character
             m_Rigidbody.velocity = Vector3.SmoothDamp(m_Rigidbody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+
+            if(HorizontalMove > 0)
+            {
+                m_Directionright = true;
+            }
+            else
+            {
+                m_Directionright = false;
+            }
 
             // If the input is moving the player right and the player is facing left...
             if (HorizontalMove > 0 && !m_FacingRight)
