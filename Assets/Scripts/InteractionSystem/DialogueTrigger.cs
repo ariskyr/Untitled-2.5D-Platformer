@@ -5,6 +5,7 @@ using UnityEngine;
 public class DialogueTrigger : MonoBehaviour, IInteractable
 {
     [SerializeField] private string _prompt;
+    [SerializeField] public float zoomDuration = 0.5f;
     public string InteractionPrompt => _prompt;
 
     [Header("Ink JSON")]

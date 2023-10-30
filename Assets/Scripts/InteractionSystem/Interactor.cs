@@ -10,12 +10,22 @@ public class Interactor : MonoBehaviour
     [SerializeField] private float _interactionPointRadius = 0.5f;
     [SerializeField] private LayerMask _interactableMask;
     [SerializeField] private InteractionPromptUI _interactionPromptUI;
+    [SerializeField] private float zoomDuration = 0.5f;
 
     private int _numFound;
     private bool _hasInteracted = false;
     private readonly Collider[] _colliders = new Collider[3];
     private IInteractable _interactable;
     private PlayerMovement pMovementRef;
+    private bool isZoomed = false;
+    private Camera _camera;
+    private float _cameraFOV;
+
+    private void Awake()
+    {
+        _camera = Camera.main;
+        _cameraFOV = _camera.fieldOfView;
+    }
 
     private void Update()
     {
@@ -38,6 +48,14 @@ public class Interactor : MonoBehaviour
                     pMovementRef = FindObjectOfType<PlayerMovement>();
                     if (pMovementRef.GetInteractPressed())
                     {
+                        if (_interactable is DialogueTrigger dialogueTrigger)
+                        {
+                            if (!isZoomed)
+                            {
+                                isZoomed = true;
+                                StartCoroutine(CameraZoom(isZoomingIn: true));
+                            }
+                        }
                         _hasInteracted = true;
                         _interactionPromptUI.Close();
                         _interactable.Interact(this);
@@ -45,12 +63,19 @@ public class Interactor : MonoBehaviour
                 }
             }
         }
-        
         else
         {
             // set interactable to null and close UI
             _hasInteracted = false;
-            if (_interactable != null) _interactable = null;
+            if (_interactable != null)
+            {
+                if (_interactable is DialogueTrigger dialogueTrigger && isZoomed)
+                {
+                    StartCoroutine(CameraZoom(isZoomingIn: false));
+                    isZoomed = false;
+                }
+                _interactable = null;
+            }
             if (_interactionPromptUI.IsDisplayed) _interactionPromptUI.Close();
         }
     }
@@ -59,5 +84,30 @@ public class Interactor : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(_interactionPoint.position, _interactionPointRadius);
+    }
+
+    private IEnumerator CameraZoom(bool isZoomingIn)
+    {
+        float timer = 0;
+        float targetFOV = _cameraFOV / 2;
+        float currentFOV = _camera.fieldOfView;
+
+        while (timer <= zoomDuration)
+        {
+            float t = timer / zoomDuration;
+
+            // This is just for demonstration purposes
+            if (isZoomingIn)
+            {
+                _camera.fieldOfView = Mathf.Lerp(_cameraFOV, targetFOV, t); // Zooming in effect
+            }
+            else
+            {
+                _camera.fieldOfView = Mathf.Lerp(currentFOV, _cameraFOV, t); // Zooming out effect
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
     }
 }

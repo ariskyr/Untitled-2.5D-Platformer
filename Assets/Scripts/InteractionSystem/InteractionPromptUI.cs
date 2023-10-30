@@ -22,6 +22,7 @@ public class InteractionPromptUI : MonoBehaviour
     private Vector3 initialPositionLeft = new Vector3(0.55f, 0f, 0f);
     private Vector3 targetPositionRight = new Vector3(-0.356f, 0.142f, 0f);
     private Vector3 targetPositionLeft = new Vector3(0.356f, 0.142f, 0f);
+    private bool playerDirection = false;
 
     private void Start()
     {
@@ -35,7 +36,8 @@ public class InteractionPromptUI : MonoBehaviour
     {
         if (allowPositionUpdate)
         {
-            if (_playerController.m_Directionright)
+            playerDirection = _playerController.m_Directionright;
+            if (playerDirection)
             {
                 gameObject.transform.localPosition = initialPositionRight;
             }
@@ -53,8 +55,8 @@ public class InteractionPromptUI : MonoBehaviour
     {
         _promptText.text = promptText;
 
-        Vector3 start = _playerController.m_Directionright ? initialPositionRight : initialPositionLeft;
-        Vector3 target = _playerController.m_Directionright ? targetPositionRight : targetPositionLeft;
+        Vector3 start = playerDirection ? initialPositionRight : initialPositionLeft;
+        Vector3 target = playerDirection ? targetPositionRight : targetPositionLeft;
 
         if (IsTransitioning)
         {
@@ -70,7 +72,7 @@ public class InteractionPromptUI : MonoBehaviour
     public void Close()
     {
         Vector3 start = gameObject.transform.localPosition;
-        Vector3 oppositeDirection = _playerController.m_Directionright ? initialPositionLeft : initialPositionRight;
+        Vector3 oppositeDirection = !playerDirection ? initialPositionLeft : initialPositionRight;
 
         if (IsTransitioning)
         {
