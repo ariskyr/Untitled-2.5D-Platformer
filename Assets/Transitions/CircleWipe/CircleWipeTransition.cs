@@ -105,17 +105,17 @@ public class CircleWipeTransition : MonoBehaviour
         _maskTransition.material.SetFloat("Center_Y", characterScreen_h);
     }
 
-    public void StartTransition(string levelToLoad)
+    public void StartTransition(string levelToLoad, Vector3 positionToLoad)
     {
-        StartCoroutine(LoadLevelCoroutine(levelToLoad));
+        StartCoroutine(LoadLevelCoroutine(levelToLoad, positionToLoad));
     }
 
-    IEnumerator LoadLevelCoroutine(string sceneName)
+    IEnumerator LoadLevelCoroutine(string sceneName, Vector3 positionToLoad)
     {
         _isStarting = true; // Set the loading flag to true
         yield return new WaitForSeconds(transitionTime);
         SceneManager.LoadScene(sceneName);
-        _player.transform.position = new Vector3(0f, 1.188f, 0f); // Reset Player position
+        _player.transform.position = positionToLoad;
         _isStarting = false;
     }
 }
