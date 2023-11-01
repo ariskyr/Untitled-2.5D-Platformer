@@ -26,7 +26,7 @@ public class DialogueTrigger : MonoBehaviour, IInteractable
 
     public bool Interact(Interactor interactor)
     {
-        Debug.Log(inkJson.text);
+        DialogueManager.Instance.EnterDialogueMode(inkJson);
         return true;
     }
 }

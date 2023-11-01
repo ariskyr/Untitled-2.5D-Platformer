@@ -12,6 +12,11 @@ public class Interactor : MonoBehaviour
     [SerializeField] private InteractionPromptUI _interactionPromptUI;
     [SerializeField] private float zoomDuration = 0.5f;
 
+    [Header("Ink JSON")]
+    [SerializeField] private float _FovOffset = 2f;
+    [SerializeField] private Vector3 _rotationOffset = new Vector3(-15f, 0f, 0f);
+    [SerializeField] private Vector3 _positionOffset = new Vector3(0, -1f, 0f);
+
     private int _numFound;
     private bool _hasInteracted = false;
     private readonly Collider[] _colliders = new Collider[3];
@@ -19,11 +24,13 @@ public class Interactor : MonoBehaviour
     private PlayerMovement pMovementRef;
     private bool isZoomed = false;
     private Camera _camera;
+    private CameraFollow _cameraFollowScript;
     private float _cameraFOV;
 
     private void Awake()
     {
         _camera = Camera.main;
+        _cameraFollowScript = _camera.GetComponent<CameraFollow>();
         _cameraFOV = _camera.fieldOfView;
     }
 
@@ -45,14 +52,14 @@ public class Interactor : MonoBehaviour
                     if (!_interactionPromptUI.IsDisplayed) _interactionPromptUI.SetUp(_interactable.InteractionPrompt);
 
                     // on button press, interact
-                    pMovementRef = FindObjectOfType<PlayerMovement>();
-                    if (pMovementRef.GetInteractPressed())
+                    if (PlayerMovement.Instance.GetInteractPressed())
                     {
-                        if (_interactable is DialogueTrigger dialogueTrigger)
+                        if (_interactable is DialogueTrigger)
                         {
                             if (!isZoomed)
                             {
                                 isZoomed = true;
+                                _cameraFollowScript.canFollow = false;
                                 StartCoroutine(CameraZoom(isZoomingIn: true));
                             }
                         }
@@ -69,8 +76,10 @@ public class Interactor : MonoBehaviour
             _hasInteracted = false;
             if (_interactable != null)
             {
-                if (_interactable is DialogueTrigger dialogueTrigger && isZoomed)
+                if (_interactable is DialogueTrigger && isZoomed)
                 {
+                    _cameraFollowScript.canFollow = true;
+                    DialogueManager.Instance.ExitDialogueMode();
                     StartCoroutine(CameraZoom(isZoomingIn: false));
                     isZoomed = false;
                 }
@@ -89,8 +98,10 @@ public class Interactor : MonoBehaviour
     private IEnumerator CameraZoom(bool isZoomingIn)
     {
         float timer = 0;
-        float targetFOV = _cameraFOV / 2;
+        float targetFOV = _cameraFOV / _FovOffset;
         float currentFOV = _camera.fieldOfView;
+        Vector3 initialCamPos = _camera.transform.position;
+        Quaternion initialCamRot = _camera.transform.rotation;
 
         while (timer <= zoomDuration)
         {
@@ -99,11 +110,21 @@ public class Interactor : MonoBehaviour
             // This is just for demonstration purposes
             if (isZoomingIn)
             {
-                _camera.fieldOfView = Mathf.Lerp(_cameraFOV, targetFOV, t); // Zooming in effect
+                // Zooming in effect
+                Quaternion targetRot = Quaternion.Euler(_rotationOffset) * initialCamRot;
+
+                _camera.fieldOfView = Mathf.Lerp(_cameraFOV, targetFOV, t);
+                _camera.transform.position = Vector3.Lerp(initialCamPos, initialCamPos + _positionOffset, t);
+                _camera.transform.rotation = Quaternion.Lerp(initialCamRot, targetRot, t);
             }
             else
             {
-                _camera.fieldOfView = Mathf.Lerp(currentFOV, _cameraFOV, t); // Zooming out effect
+                // Zooming out effect
+                Quaternion targetRot = Quaternion.Euler(-_rotationOffset) * initialCamRot;
+
+                _camera.fieldOfView = Mathf.Lerp(currentFOV, _cameraFOV, t);
+                _camera.transform.position = Vector3.Lerp(initialCamPos, initialCamPos - _positionOffset, t);
+                _camera.transform.rotation = Quaternion.Lerp(initialCamRot, targetRot, t);
             }
 
             timer += Time.deltaTime;
