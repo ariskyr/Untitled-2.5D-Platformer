@@ -167,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
             Collider[] hitcolliders = Physics.OverlapSphere(attackPoint.position, attackRange);
             foreach(Collider enemy in hitcolliders)
             {
-                if(enemy.gameObject.tag == "Enemy")
+                if(enemy.CompareTag("Enemy"))
                 {
                     enemy.GetComponent<enemy>().TakeDamage(attackDamage);
                 }

@@ -14,14 +14,13 @@ public class Interactor : MonoBehaviour
 
     [Header("Ink JSON")]
     [SerializeField] private float _FovOffset = 2f;
-    [SerializeField] private Vector3 _rotationOffset = new Vector3(-15f, 0f, 0f);
-    [SerializeField] private Vector3 _positionOffset = new Vector3(0, -1f, 0f);
+    [SerializeField] private Vector3 _rotationOffset = new(-15f, 0f, 0f);
+    [SerializeField] private Vector3 _positionOffset = new(0, -1f, 0f);
 
     private int _numFound;
     private bool _hasInteracted = false;
     private readonly Collider[] _colliders = new Collider[3];
     private IInteractable _interactable;
-    private PlayerMovement pMovementRef;
     private bool isZoomed = false;
     private Camera _camera;
     private CameraFollow _cameraFollowScript;
@@ -54,8 +53,13 @@ public class Interactor : MonoBehaviour
                     // on button press, interact
                     if (PlayerMovement.Instance.GetInteractPressed())
                     {
+                        _hasInteracted = true;
+                        _interactionPromptUI.Close();
+                        _interactable.Interact(this);
+                        // dialogue
                         if (_interactable is DialogueTrigger)
                         {
+                            //zoom in for dialogue
                             if (!isZoomed)
                             {
                                 isZoomed = true;
@@ -63,9 +67,17 @@ public class Interactor : MonoBehaviour
                                 StartCoroutine(CameraZoom(isZoomingIn: true));
                             }
                         }
-                        _hasInteracted = true;
-                        _interactionPromptUI.Close();
-                        _interactable.Interact(this);
+                    }
+                }
+                else
+                {
+                    // if dialogue is not playing
+                    if (!DialogueManager.Instance.DialogueIsPlaying)
+                    {
+                        _hasInteracted = false;
+                        _cameraFollowScript.canFollow = true;
+                        StartCoroutine(CameraZoom(isZoomingIn: false));
+                        isZoomed = false;
                     }
                 }
             }
