@@ -7,8 +7,12 @@ using Ink.Runtime;
 
 public class DialogueManager : MonoBehaviour
 {
+    [Header("Params")]
+    [SerializeField] private float typingSpeed = 0.04f;
+
     [Header("Dialogue UI")]
     [SerializeField] private GameObject dialoguePanel;
+    [SerializeField] private GameObject continueIcon;
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private TextMeshProUGUI displayNameText;
     [SerializeField] private Animator portraitAnimator;
@@ -16,12 +20,15 @@ public class DialogueManager : MonoBehaviour
 
     private Story currentStory;
     public bool DialogueIsPlaying { get; private set; }
+    private bool canContinueToNextLine = false;
 
     public static DialogueManager Instance { get; private set; }
 
     [Header("Choices UI")]
     [SerializeField] private GameObject[] choices;
     private TextMeshProUGUI[] choicesText;
+
+    private Coroutine displayLineCoroutine;
 
     private const string SPEAKER_TAG = "speaker";
     private const string PORTRAIT_TAG = "portrait";
@@ -60,7 +67,9 @@ public class DialogueManager : MonoBehaviour
         {
             return;
         }
-        if (PlayerMovement.Instance.GetInteractPressed())
+        if (canContinueToNextLine &&
+            currentStory.currentChoices.Count == 0 &&
+            PlayerMovement.Instance.GetInteractPressed())
         {
             ContinueStory();
         }
@@ -91,9 +100,12 @@ public class DialogueManager : MonoBehaviour
     {
         if (currentStory.canContinue)
         {
-            dialogueText.text = currentStory.Continue();
-            //display choices if any
-            DisplayChoices();
+            if (displayLineCoroutine != null)
+            {
+                StopCoroutine(displayLineCoroutine);
+            }
+            displayLineCoroutine = StartCoroutine(DisplayLine(currentStory.Continue()));
+
             //handle tags
             HandleTags(currentStory.currentTags);
         }
@@ -131,7 +143,19 @@ public class DialogueManager : MonoBehaviour
 
     public void MakeChoice(int choiceIndex)
     {
-        currentStory.ChooseChoiceIndex(choiceIndex);
+        if (canContinueToNextLine)
+        {
+            currentStory.ChooseChoiceIndex(choiceIndex);
+            ContinueStory();
+        }
+    }
+
+    private void HideChoices()
+    {
+        foreach (GameObject choiceButton in choices)
+        {
+            choiceButton.SetActive(false);
+        }
     }
 
     private void HandleTags(List<string> currentTags)
@@ -171,4 +195,33 @@ public class DialogueManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
         EventSystem.current.SetSelectedGameObject(choices[0]);
     }
+
+    private IEnumerator DisplayLine(string line)
+    {
+        canContinueToNextLine = false;
+        continueIcon.SetActive(false); // hide while typing
+        HideChoices();
+
+        int visibleCharacters = 0;
+
+        dialogueText.text = line; //init
+        dialogueText.maxVisibleCharacters = visibleCharacters; //hide all chars
+        while (visibleCharacters < line.Length)
+        {
+            if (visibleCharacters > 3 && PlayerMovement.Instance.GetInteractPressed())
+            {
+                dialogueText.maxVisibleCharacters = line.Length;
+                break;
+            }
+
+            visibleCharacters++;
+            dialogueText.maxVisibleCharacters = visibleCharacters;
+            yield return new WaitForSeconds(typingSpeed);
+        }
+
+        continueIcon.SetActive(true); // show again
+        DisplayChoices(); //display choices if any
+        canContinueToNextLine = true;
+    }
+
 }
