@@ -40,9 +40,7 @@ public class Interactor : MonoBehaviour
 
         if (_numFound > 0 )
         {
-            _interactable = _colliders[0].GetComponent<IInteractable>();
-
-            if (_interactable != null) 
+            if (_colliders[0].TryGetComponent<IInteractable>(out _interactable)) 
             {
                 //if hasn't interacted
                 if (!_hasInteracted)
@@ -126,8 +124,8 @@ public class Interactor : MonoBehaviour
                 Quaternion targetRot = Quaternion.Euler(_rotationOffset) * initialCamRot;
 
                 _camera.fieldOfView = Mathf.Lerp(_cameraFOV, targetFOV, t);
-                _camera.transform.position = Vector3.Lerp(initialCamPos, initialCamPos + _positionOffset, t);
-                _camera.transform.rotation = Quaternion.Lerp(initialCamRot, targetRot, t);
+                _camera.transform.SetPositionAndRotation(Vector3.Lerp(initialCamPos, initialCamPos + _positionOffset, t), 
+                                                         Quaternion.Lerp(initialCamRot, targetRot, t));
             }
             else
             {
@@ -135,8 +133,8 @@ public class Interactor : MonoBehaviour
                 Quaternion targetRot = Quaternion.Euler(-_rotationOffset) * initialCamRot;
 
                 _camera.fieldOfView = Mathf.Lerp(currentFOV, _cameraFOV, t);
-                _camera.transform.position = Vector3.Lerp(initialCamPos, initialCamPos - _positionOffset, t);
-                _camera.transform.rotation = Quaternion.Lerp(initialCamRot, targetRot, t);
+                _camera.transform.SetPositionAndRotation(Vector3.Lerp(initialCamPos, initialCamPos - _positionOffset, t), 
+                                                         Quaternion.Lerp(initialCamRot, targetRot, t));
             }
 
             timer += Time.deltaTime;

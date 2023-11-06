@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 m_Velocity = Vector3.zero;  // The speed of the player
     private Rigidbody m_Rigidbody;
 
+    private readonly Collider[] _colliders = new Collider[10];
     private static PlayerController playerInstance; // IMPORTANT: the player instance to avoid duplication
 
     [Header("Events")]
@@ -53,10 +54,8 @@ public class PlayerController : MonoBehaviour
 
         m_Rigidbody = GetComponent<Rigidbody>();
 
-        if (OnLandEvent == null)
-            OnLandEvent = new UnityEvent();
-        if (OnCrouchEvent == null)
-            OnCrouchEvent = new BoolEvent();
+        OnLandEvent ??= new UnityEvent();
+        OnCrouchEvent ??= new BoolEvent();
     }
 
     private void Update()
@@ -64,7 +63,7 @@ public class PlayerController : MonoBehaviour
         // Adjust the falling speed
         if (m_Rigidbody.velocity.y < 0)
         {
-            m_Rigidbody.velocity += Vector3.up * Physics.gravity.y * fallMultiplier * Time.deltaTime;
+            m_Rigidbody.velocity += fallMultiplier * Physics.gravity.y * Time.deltaTime * Vector3.up;
         }
     }
 
@@ -73,11 +72,11 @@ public class PlayerController : MonoBehaviour
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
         // Check a radius around the groundcheck position for any objects designated as ground
-        Collider[] colliders = Physics.OverlapSphere(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
-        for(int i = 0; i < colliders.Length; i++)
+        int numColliders = Physics.OverlapSphereNonAlloc(m_GroundCheck.position, k_GroundedRadius, _colliders, m_WhatIsGround);
+        for (int i = 0; i < numColliders; i++)
         {
             //if at least 1 object is colliding, that is not the player
-            if (colliders[i].gameObject != gameObject)
+            if (_colliders[i].gameObject != gameObject)
             {
                 m_Grounded = true;
                 // check when player has landed
@@ -93,8 +92,8 @@ public class PlayerController : MonoBehaviour
         if (!crouch)
         {
             //If the player has a ceiling preventing them from standing up, keep them crouching
-            Collider[] colliders = Physics.OverlapSphere(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround);
-            if (colliders.Length > 0)
+            int numColliders = Physics.OverlapSphereNonAlloc(m_CeilingCheck.position, k_CeilingRadius, _colliders, m_WhatIsGround);
+            if (numColliders > 0)
                 crouch = true;
         }
 
@@ -132,7 +131,7 @@ public class PlayerController : MonoBehaviour
             }
 
             // Move the character by finding the target velocity
-            Vector3 targetVelocity = new Vector3(HorizontalMove * 10f, m_Rigidbody.velocity.y, VerticalMove * 10f);
+            Vector3 targetVelocity = new(HorizontalMove * 10f, m_Rigidbody.velocity.y, VerticalMove * 10f);
             // And then smoothing it out and applying it to the character
             m_Rigidbody.velocity = Vector3.SmoothDamp(m_Rigidbody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
