@@ -202,21 +202,37 @@ public class DialogueManager : MonoBehaviour
         continueIcon.SetActive(false); // hide while typing
         HideChoices();
 
-        int visibleCharacters = 0;
+        bool isAddingRichTextTag = false;
 
+        int visibleCharacters = 0;
         dialogueText.text = line; //init
         dialogueText.maxVisibleCharacters = visibleCharacters; //hide all chars
         while (visibleCharacters < line.Length)
         {
+            //skip
             if (visibleCharacters > 3 && PlayerMovement.Instance.GetInteractPressed())
             {
                 dialogueText.maxVisibleCharacters = line.Length;
                 break;
             }
 
-            visibleCharacters++;
-            dialogueText.maxVisibleCharacters = visibleCharacters;
-            yield return new WaitForSeconds(typingSpeed);
+            if (dialogueText.text.EndsWith("<") || isAddingRichTextTag)
+            {
+                isAddingRichTextTag = true;
+                dialogueText.maxVisibleCharacters = visibleCharacters;
+                visibleCharacters++;
+                if (dialogueText.text.EndsWith(">"))
+                {
+                    isAddingRichTextTag = false;
+                }
+            }
+            else
+            {
+                visibleCharacters++;
+                dialogueText.maxVisibleCharacters = visibleCharacters;
+                yield return new WaitForSeconds(typingSpeed);
+            }
+
         }
 
         continueIcon.SetActive(true); // show again

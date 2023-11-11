@@ -2,11 +2,11 @@ Ti leei maga #speaker: Liolios #portrait: liolios_default #layout: left
 -> main
 
 === main ===
-Thes content?
+Thes <color=\#5B81FF>content</color>?
 + [e e]
     EEEE EEEEEE #portrait: liolios_ee
 + [agona?]
-    pame na doume ton agona! #portrait: liolios_agona
+    pame na doume ton <color=\#FF0000>agona!</color> #portrait: liolios_agona
 
 - SOVARA RE FILARAKO #speaker: Byronis #portrait: byronis_cringe #layout: right
 
