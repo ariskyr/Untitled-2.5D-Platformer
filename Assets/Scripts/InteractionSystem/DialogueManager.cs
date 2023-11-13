@@ -10,6 +10,9 @@ public class DialogueManager : MonoBehaviour
     [Header("Params")]
     [SerializeField] private float typingSpeed = 0.04f;
 
+    [Header("Load Globals JSON")]
+    [SerializeField] private TextAsset loadGlobalsJSON;
+
     [Header("Dialogue UI")]
     [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private GameObject continueIcon;
@@ -34,6 +37,8 @@ public class DialogueManager : MonoBehaviour
     private const string PORTRAIT_TAG = "portrait";
     private const string LAYOUT_TAG = "layout";
 
+    private DialogueVariables dialogueVariables;
+
     private void Awake()
     {
         if (Instance != null)
@@ -41,6 +46,8 @@ public class DialogueManager : MonoBehaviour
             Debug.LogWarning("More than 1 player movement was found");
         }
         Instance = this;
+
+        dialogueVariables = new DialogueVariables(loadGlobalsJSON);
     }
 
     private void Start()
@@ -82,6 +89,9 @@ public class DialogueManager : MonoBehaviour
         DialogueIsPlaying = true;
         dialoguePanel.SetActive(true);
 
+        //var listener
+        dialogueVariables.StartListening(currentStory);
+
         //reset tag defaults
         displayNameText.text = "???";
         portraitAnimator.Play("default");
@@ -91,6 +101,9 @@ public class DialogueManager : MonoBehaviour
     }
     public void ExitDialogueMode()
     {
+        //var listener
+        dialogueVariables.StopListening(currentStory);
+
         DialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
@@ -240,4 +253,13 @@ public class DialogueManager : MonoBehaviour
         canContinueToNextLine = true;
     }
 
+    public Ink.Runtime.Object GetVariableState(string variableName)
+    {
+        dialogueVariables.Variables.TryGetValue(variableName, out Ink.Runtime.Object variableValue);
+        if (variableValue == null)
+        {
+            Debug.Log("Ink variable was found to be null: " + variableName);
+        }
+        return variableValue;
+    }
 }
