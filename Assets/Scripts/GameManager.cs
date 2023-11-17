@@ -6,15 +6,15 @@ using UnityEngine;
 //IMPORTANT: MAKE SURE GAME MANAGER EXISTS IN THE FIRST SCENE THAT WILL BE LOADED ON GAME START
 public class GameManager : MonoBehaviour
 {
-    private static GameManager instance;
+    public static GameManager Instance { get; private set; }
 
     [SerializeField] private string[] scenesWithCrossfade;
 
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
