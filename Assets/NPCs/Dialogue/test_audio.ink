@@ -3,7 +3,7 @@ Ti leei maga #speaker: Liolios #portrait: liolios_default #layout: left #audio: 
 
 === main ===
 Thes <color=\#5B81FF>content</color>?
-+ [e e]
++ [ποθτσα]
     EEEE EEEEEE #portrait: liolios_ee
 + [agona?]
     pame na doume ton <color=\#FF0000>agona!</color> #portrait: liolios_agona

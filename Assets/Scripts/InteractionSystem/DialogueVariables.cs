@@ -20,6 +20,7 @@ public class DialogueVariables
             globalVariablesStory.state.LoadJson(jsonState);
         }
 
+
         Variables = new Dictionary<string, Ink.Runtime.Object>();
         foreach (string name in globalVariablesStory.variablesState)
         {

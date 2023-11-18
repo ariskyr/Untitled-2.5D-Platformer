@@ -245,6 +245,7 @@ public class DialogueManager : MonoBehaviour
             }
         }
     }
+
     private void PlayDialogueSound(int currentDisplayedCharacterCount, char currentCharacter)
     {
         //set variables
