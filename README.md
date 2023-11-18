@@ -29,7 +29,16 @@ Reimagining an old game with modern gameplay mechanics using the Unity Engine.
 
 ## Features
 
- [Placeholder: provide any features that could/will exist]
+ 1. **Dialogue System** (18 Nov 2023)
+    Fully customizable dialogue system that uses the **inkle** scripting language.
+     * Typing effect
+     * Skipping to end of line
+     * portrait tags
+     * speaker name tags
+     * audio tags (using Scriptable Object)
+     * layout tags
+     * rich text for coloring different works with meaning (eg. locations)
+     * multiple choices
 
 ## Game Mechanics
 
@@ -42,8 +51,7 @@ Reimagining an old game with modern gameplay mechanics using the Unity Engine.
 ## Artwork
  Primarily made by us
 
- 1. Player is using animations from [mystic_woods](https://game-endeavor.itch.io/mystic-woods) as a 
- placeholder for now. We will be using a different character probably.
+ 1. Player is using a [link spritesheet](https://www.deviantart.com/gregarlink10/art/Link-Ocarina-of-Time-UPDATED-868055542). Very few of the animations have been used, we will be adding more in time.
 
  2. **Modular Interior House Pack**: 105 Low Poly assets for primary use in interior spaces. All assets are made to be modular in 2x2m tile.
     * 5 Wooden Beams
@@ -65,6 +73,9 @@ Reimagining an old game with modern gameplay mechanics using the Unity Engine.
 
 ## Art Direction
 
+* **2.5D perspective**:
+Characters and NPCs will be 2D spritesheet with (probably) 2-axis movement and animations. The rest of the world is 3D low poly
+
 * **SreenSpace Cavity**:
 A ScreenSpace cavity renderer feature. Allows highlighting of mesh edges to make assets pop a bit more (since its low poly). Replicates what blender cavity option does.
     1. Main renderer feature is in ScreenSpaceCavity/Shaders/**Cavity**. Place onto the URP Renderer Data (options to configure in there)
@@ -82,20 +93,19 @@ A ScreenSpace cavity renderer feature. Allows highlighting of mesh edges to make
 
 ## Sound and Music
 
- [Placeholder: idk, will see]
+1. Dialogue has animal crossing style sounds (using vowels and different pitch and played frequency of each sound. New AudioSO (Scriptable Objects) can be easily made using the Assets/NPCs/Dialogue/Audio/DialogueAudioInfoSO.cs script)
 
 ## Platform and Technology
 
- * Unity Engine
- * Windows
+    * Unity Engine
+    * Windows
 
 ## Controls
-
- Standard Inputs used by most games, Scheme can be changed from the options (in the future)
- For now:
-   1. WASD -> Movement
-   2. Left click -> Attack
-   3. E -> Interact
+Standard Inputs used by most games, Scheme can be changed from the options (in the future)
+For now:
+    1. WASD -> Movement
+    2. Left click -> Attack
+    3. E -> Interact
 
 ## Installation
 
@@ -117,3 +127,20 @@ A ScreenSpace cavity renderer feature. Allows highlighting of mesh edges to make
 Could be stuff like doors, tables etc... depending on the scope the game will take. All interactable objects
 implement the interactable interface to get the prompt texts and the action.
     1. <u>Door.cs</u> -> press e to open a door and trigger a scene transition to an interior level
+    2. <u>DialogueTrigger.cs</u> -> press e to start a conversation with an NPC.
+
+* **Dialogue**:
+    * How to Setup a new NPC:
+    get the NPC prefab, inside the DialogueTrigger script, put an ink JSON (compiled) file that includes the story of an NPC. Example of an ink file:
+    ![Example Ink](docs\example_ink.jpg)
+        * choices are made with + symbol (inside [] the text of the choice)
+        * tags can be place with #key: value
+        * color can be placed with rich text like"<color=\\#FF0000>test<\/color> (this will make the test word red.)
+        * portraits should be placed as an animation inside the PortraitAnimator (just place the image in the first frame of an animation with the same name as the one in the ink tag )
+        * more layouts can be made if needed
+        * audio can be made using a new Audio Scriptable Object. The important part is to have the id be the same name as the audio tag. The SO object should also be placed in a list in Dialogue Manager under Audio. Example SO looks like this:
+        ![Example Audio SO](docs\example_audio_SO.jpg)
+
+    * How the Dialogue system is made:
+        1. <u>DialogueManager.cs</u> - **SINGLETON CLASS** -> handles how the story of a specific npc is parsed with methods like DisplayLine(), ContinueStory(), HandleTags() etc that when used together can parse an ink JSON file that contains the story of an npc.
+        2. <u>DialogueVariables.cs</u> -> handles global variables that can be set and used by multiple npcs. the variables are stored inside the globals.ink file that is included in other ink files that need to use it. The variables are saved in PlayerPrefs for now (TODO: needs to change)

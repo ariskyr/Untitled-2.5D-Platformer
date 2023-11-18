@@ -43,8 +43,8 @@ Material:
     m_Ints: []
     m_Floats:
     - Center_X: 0.5
-    - Center_Y: 0.49999982
-    - Radius: 1
+    - Center_Y: 0.4999999
+    - Radius: 1.0016303
     - Smooth: 0.1
     - _QueueControl: 0
     - _QueueOffset: 0
