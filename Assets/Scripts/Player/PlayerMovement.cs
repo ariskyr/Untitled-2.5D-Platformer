@@ -48,6 +48,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public static PlayerMovement Instance { get; private set; }
+
     public PlayerController controller;
     public Transform attackPoint;
     public float attackRange = 0.5f;
@@ -63,6 +65,15 @@ public class PlayerMovement : MonoBehaviour
     private bool canMove = true;            // if true, character can move
     private Animator animator;
     private PlayerStates currentState;
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Debug.LogWarning("More than 1 player movement was found");
+        }
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -156,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
             Collider[] hitcolliders = Physics.OverlapSphere(attackPoint.position, attackRange);
             foreach(Collider enemy in hitcolliders)
             {
-                if(enemy.gameObject.tag == "Enemy")
+                if(enemy.CompareTag("Enemy"))
                 {
                     enemy.GetComponent<enemy>().TakeDamage(attackDamage);
                 }

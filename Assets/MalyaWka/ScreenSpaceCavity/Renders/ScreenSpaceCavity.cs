@@ -30,8 +30,10 @@ namespace MalyaWka.ScreenSpaceCavity.Renders
 
         [SerializeField, HideInInspector] private Shader m_Shader = null;
         [SerializeField] private ScreenSpaceCavitySettings m_Settings = new ScreenSpaceCavitySettings();
-        
+
+        [Obsolete]
         private RenderTargetHandle m_DepthTexture;
+        [Obsolete]
         private RenderTargetHandle m_NormalsTexture;
         
         private Material m_Material;
@@ -142,7 +144,10 @@ namespace MalyaWka.ScreenSpaceCavity.Renders
                 cmd.SetGlobalVector(SourceSize, new Vector4(width, height, 1.0f / width, 1.0f / height));
             }
 
+            [Obsolete]
+#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
             public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
+#pragma warning restore CS0809 // Obsolete member overrides non-obsolete member
             {
                 Vector4 curvatureParams = new Vector4(
                     m_CurrentSettings.curvatureScale,
@@ -189,7 +194,10 @@ namespace MalyaWka.ScreenSpaceCavity.Renders
                 ConfigureClear(ClearFlag.None, Color.white);
             }
 
+            [Obsolete]
+#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
             public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
+#pragma warning restore CS0809 // Obsolete member overrides non-obsolete member
             {
                 if (material == null)
                 {
