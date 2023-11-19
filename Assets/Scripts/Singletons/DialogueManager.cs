@@ -6,7 +6,7 @@ using TMPro;
 using Ink.Runtime;
 using Unity.VisualScripting;
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager : GenericSingleton<DialogueManager>
 {
     [Header("Params")]
     [SerializeField] private float typingSpeed = 0.04f;
@@ -33,7 +33,6 @@ public class DialogueManager : MonoBehaviour
     private Story currentStory;
     public bool DialogueIsPlaying { get; private set; }
     private bool canContinueToNextLine = false;
-    public static DialogueManager Instance { get; private set; }
 
     [Header("Choices UI")]
     [SerializeField] private GameObject[] choices;
@@ -48,14 +47,11 @@ public class DialogueManager : MonoBehaviour
 
     private DialogueVariables dialogueVariables;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance != null)
-        {
-            Debug.LogWarning("More than 1 player movement was found");
-        }
-        Instance = this;
-
+        //instantiate from base class
+        base.Awake();
+        //the rest of the instantiation
         dialogueVariables = new DialogueVariables(loadGlobalsJSON);
         audioSource = gameObject.AddComponent<AudioSource>();
         currentAudioInfo = defaultAudioInfo;
@@ -78,6 +74,7 @@ public class DialogueManager : MonoBehaviour
         }
         InitializeAudioInfoDictionary();
     }
+
 
     private void InitializeAudioInfoDictionary()
     {
@@ -114,7 +111,7 @@ public class DialogueManager : MonoBehaviour
         }
         if (canContinueToNextLine &&
             currentStory.currentChoices.Count == 0 &&
-            PlayerMovement.Instance.GetInteractPressed())
+            InputManager.Instance.GetInteractPressed())
         {
             ContinueStory();
         }
@@ -139,8 +136,17 @@ public class DialogueManager : MonoBehaviour
     }
     public void ExitDialogueMode()
     {
+        //clear the coroutine if playing
+        if (displayLineCoroutine != null)
+        {
+            StopCoroutine(displayLineCoroutine);
+        }
+
         //var listener
-        dialogueVariables.StopListening(currentStory);
+        if (currentStory != null)
+        {
+            dialogueVariables.StopListening(currentStory);
+        }
 
         DialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
@@ -317,7 +323,7 @@ public class DialogueManager : MonoBehaviour
         foreach (char letter in line.ToCharArray())
         {
             //skip
-            if (dialogueText.maxVisibleCharacters > 3 && PlayerMovement.Instance.GetInteractPressed())
+            if (dialogueText.maxVisibleCharacters > 3 && InputManager.Instance.GetInteractPressed())
             {
                 dialogueText.maxVisibleCharacters = line.Length;
                 break;

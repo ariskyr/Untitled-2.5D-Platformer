@@ -113,8 +113,12 @@ For now:
 
 ## System Explanation
 
-* **Main Camera**:
-    1. <u>CameraFollow.cs</u> -> camera follows the player at a fixed point
+* **SINGLETONS**:
+    1. <u>GenericSingleton.cs</u>: the generic singleton class that all singletons should derive from. It just makes sure that only 1 instance exists and if accessible globally.
+    2. <u>CameraManager.cs</u>: manager script that should contain any methods that manipulate the camera position and attributes
+    3. <u>DialogueManager.cs</u>: explained in the dialogue section
+    4. <u>InputManager.cs</u>: contains all input events in the form of C# functions that are then mapped to the Player Input and contain methods to get the input values.
+    5. <u>GameManager.cs</u>: should contain general game attributes that are important globally for the whole game.
 
 * **Player**:
     1. <u>PlayerController.cs</u> -> controls how the player falls, what is ground etc.. (Brackeys)

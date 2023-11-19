@@ -6,7 +6,7 @@ public class DialogueVariables
 {
     public Dictionary<string, Ink.Runtime.Object> Variables { get; private set; }
 
-    private Story globalVariablesStory;
+    private readonly Story globalVariablesStory;
     private const string saveVariablesKey = "INK_VARIABLES";
 
     public DialogueVariables(TextAsset loadGlobalsJSON)
