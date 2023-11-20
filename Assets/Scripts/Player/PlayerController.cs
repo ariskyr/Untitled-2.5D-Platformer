@@ -138,12 +138,12 @@ public class PlayerController : MonoBehaviour
             // If the input is moving the player right and the player is facing left...
             if (HorizontalMove > 0 && !m_FacingRight)
             {
-                Flip();
+                FlipAttackPoint();
             }
             // Otherwise if the input is moving the player left and the player is facing right...
             else if (HorizontalMove < 0 && m_FacingRight)
             {
-                Flip();
+                FlipAttackPoint();
             }
 
         }
@@ -154,7 +154,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Flip()
+    private void FlipAttackPoint()
     {
         // Switch the way the player is labelled as facing.
         m_FacingRight = !m_FacingRight;

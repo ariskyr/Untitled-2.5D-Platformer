@@ -63,10 +63,13 @@ public class PlayerMovement : MonoBehaviour
     private bool canMove = true;            // if true, character can move
     private Animator animator;
     private PlayerStates currentState;
+    private CharacterCombat playerCombat;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+        playerCombat = GetComponent<CharacterCombat>();
+
     }
 
     // Update is called once per frame
@@ -156,9 +159,10 @@ public class PlayerMovement : MonoBehaviour
             Collider[] hitcolliders = Physics.OverlapSphere(attackPoint.position, attackRange);
             foreach(Collider enemy in hitcolliders)
             {
-                if(enemy.gameObject.tag == "Enemy")
+                if(enemy.gameObject.tag == "Enemy" && playerCombat != null && enemy.GetComponent<CharacterStats>() != null)
                 {
-                    enemy.GetComponent<enemy>().TakeDamage(attackDamage);
+                    //playerCombat item contains the stats of the player (attack damage etc) and reduces the stats of the enemy (currentHealth)
+                    playerCombat.Attack(enemy.GetComponent<CharacterStats>());
                 }
             }
         }
