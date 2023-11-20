@@ -48,6 +48,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public static PlayerMovement Instance { get; private set; }
+
     public PlayerController controller;
     public Transform attackPoint;
     public float attackRange = 0.5f;
@@ -64,6 +66,15 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private PlayerStates currentState;
     private CharacterCombat playerCombat;
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Debug.LogWarning("More than 1 player movement was found");
+        }
+        Instance = this;
+    }
 
     private void Start()
     {

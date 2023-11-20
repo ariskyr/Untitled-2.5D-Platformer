@@ -9,7 +9,6 @@ using static UnityEngine.GraphicsBuffer;
 public class CircleWipeTransition : MonoBehaviour
 {
     [SerializeField] public float transitionTime = 1f;
-    [SerializeField] public GameObject _player;
     [SerializeField] public Image _maskTransition;
 
     private bool _isStarting = false;
@@ -56,7 +55,7 @@ public class CircleWipeTransition : MonoBehaviour
 
     void GetCharacterPosition()
     {
-        Vector3 targetPosition = _player.transform.position;
+        Vector3 targetPosition = gameObject.transform.position;
         //targetPosition.y -= 0.5f; // small adjustment
         Vector3 screenPos = Camera.main.WorldToScreenPoint(targetPosition);
 
@@ -105,17 +104,17 @@ public class CircleWipeTransition : MonoBehaviour
         _maskTransition.material.SetFloat("Center_Y", characterScreen_h);
     }
 
-    public void StartTransition(string levelToLoad)
+    public void StartTransition(string levelToLoad, Vector3 positionToLoad)
     {
-        StartCoroutine(LoadLevelCoroutine(levelToLoad));
+        StartCoroutine(LoadLevelCoroutine(levelToLoad, positionToLoad));
     }
 
-    IEnumerator LoadLevelCoroutine(string sceneName)
+    IEnumerator LoadLevelCoroutine(string sceneName, Vector3 positionToLoad)
     {
         _isStarting = true; // Set the loading flag to true
         yield return new WaitForSeconds(transitionTime);
         SceneManager.LoadScene(sceneName);
-        _player.transform.position = new Vector3(0f, 1.188f, 0f); // Reset Player position
+        transform.parent.position = positionToLoad;
         _isStarting = false;
     }
 }
