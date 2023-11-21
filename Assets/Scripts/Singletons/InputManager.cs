@@ -5,9 +5,41 @@ using UnityEngine.InputSystem;
 
 public class InputManager : GenericSingleton<InputManager>
 {
+    private Vector2 move = Vector2.zero;
+    private bool attack = false;
     private bool jump = false;
     private bool crouch = false;
     private bool interact = false;
+    private bool test = false;
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        move = context.ReadValue<Vector2>();
+    }
+
+    public Vector2 GetMovePressed()
+    {
+        return move;
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            attack = true;
+        }
+        else if (context.canceled)
+        {
+            attack = false;
+        }
+    }
+
+    public bool GetAttackPressed()
+    {
+        bool result = attack;
+        attack = false;
+        return result;
+    }
 
     public void OnJump(InputAction.CallbackContext context)
     {
@@ -61,6 +93,24 @@ public class InputManager : GenericSingleton<InputManager>
     {
         bool result = interact;
         interact = false;
+        return result;
+    }
+
+    public void OnTest(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            test = true;
+        }
+        else if (context.canceled)
+        {
+            test = false;
+        }
+    }
+    public bool GetTestPressed()
+    {
+        bool result = test;
+        test = false;
         return result;
     }
 }

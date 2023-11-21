@@ -31,6 +31,7 @@ public class Interactor : MonoBehaviour
                     // show the interact UI if its not displayed
                     if (!_interactionPromptUI.IsDisplayed) _interactionPromptUI.SetUp(_interactable.InteractionPrompt);
 
+
                     // on button press, interact
                     if (InputManager.Instance.GetInteractPressed())
                     {

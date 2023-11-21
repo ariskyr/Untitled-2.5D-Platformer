@@ -8,8 +8,8 @@ using static UnityEngine.GraphicsBuffer;
 
 public class CircleWipeTransition : MonoBehaviour
 {
-    [SerializeField] public float transitionTime = 1f;
-    [SerializeField] public Image _maskTransition;
+    [SerializeField] private float transitionTime = 1f;
+    [SerializeField] private Image _maskTransition;
 
     private bool _isStarting = false;
     private RectTransform _canvas;
@@ -55,12 +55,13 @@ public class CircleWipeTransition : MonoBehaviour
 
     void GetCharacterPosition()
     {
-        Vector3 targetPosition = gameObject.transform.position;
-        //targetPosition.y -= 0.5f; // small adjustment
+        Vector3 targetPosition = transform.position;
+        targetPosition.y -= 0.2f; // small adjustment
+        targetPosition.x -= 0.08f;
         Vector3 screenPos = Camera.main.WorldToScreenPoint(targetPosition);
 
-        float characterScreen_w = 0;
-        float characterScreen_h = 0;
+        float characterScreen_w;
+        float characterScreen_h;
 
         if(_isStarting)
         {

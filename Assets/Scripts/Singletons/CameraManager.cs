@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
 
-public class CameraManager : GenericSingleton<CameraManager>
+public class CameraManager : GenericSingleton<CameraManager>, IDataPersistence
 {
     [Header("Camera Follow")]
     [SerializeField] private Transform target;
@@ -29,6 +29,16 @@ public class CameraManager : GenericSingleton<CameraManager>
         defaultCameraRot = playerCamera.transform.rotation;
     }
 
+    public void LoadData(GameData data)
+    {
+        transform.position = data.cameraPosition;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.cameraPosition = transform.position;
+    }
+
     void Start()
     {
         offset = transform.position - target.position;
@@ -45,14 +55,13 @@ public class CameraManager : GenericSingleton<CameraManager>
     //Follow a specific target object
     public void FollowTarget(Transform target, float smoothing)
     {
-            Vector3 targetCamPos = target.position + offset;
-            transform.position = Vector3.Lerp(transform.position, targetCamPos, smoothing * Time.deltaTime);
+        Vector3 targetCamPos = target.position + offset;
+        transform.position = Vector3.Lerp(transform.position, targetCamPos, smoothing * Time.deltaTime);
     }
 
     public void CameraZoomIn(float zoomDuration, Vector3 positionOffset, Vector3 rotationOffset, float fovOffset)
     {
         StopZoomCoroutine();
-
         zoomCoroutine = StartCoroutine(CameraZoom(true, zoomDuration, positionOffset, rotationOffset, fovOffset));
     }
 

@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
     public enum PlayerStates 
     {
@@ -57,10 +57,20 @@ public class PlayerMovement : MonoBehaviour
     private float HorizontalMove = 0f;
     private float VerticalMove = 0f;
     private bool jump = false;
+    private bool interact = false;
     private bool stateLock = false;         // if true, animation state shouldn't change
     private bool canMove = true;            // if true, character can move
     private Animator animator;
     private PlayerStates currentState;
+
+    public void LoadData(GameData data)
+    {
+        transform.position = data.playerPosition;
+    }
+    public void SaveData(GameData data)
+    {
+        data.playerPosition = transform.position;
+    }
 
     private void Start()
     {
@@ -70,6 +80,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
+        //movementInput = InputManager.Instance.GetMovePressed();
+
         // flag to lock movement if attacking, I don't like something about how it feels
         // revisit later
         if (!canMove)
@@ -161,5 +173,23 @@ public class PlayerMovement : MonoBehaviour
         if(attackPoint == null)
             return;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            interact = true;
+        }
+        else if (context.canceled)
+        {
+            interact = false;
+        }
+    }
+    public bool GetInteractPressed()
+    {
+        bool result = interact;
+        interact = false;
+        return result;
     }
 }

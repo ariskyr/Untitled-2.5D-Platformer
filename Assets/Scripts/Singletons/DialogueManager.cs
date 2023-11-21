@@ -5,8 +5,10 @@ using UnityEngine.EventSystems;
 using TMPro;
 using Ink.Runtime;
 using Unity.VisualScripting;
+using System.Linq;
+using static UnityEngine.Rendering.DebugUI;
 
-public class DialogueManager : GenericSingleton<DialogueManager>
+public class DialogueManager : GenericSingleton<DialogueManager>, IDataPersistence
 {
     [Header("Params")]
     [SerializeField] private float typingSpeed = 0.04f;
@@ -47,12 +49,35 @@ public class DialogueManager : GenericSingleton<DialogueManager>
 
     private DialogueVariables dialogueVariables;
 
+    public void LoadData(GameData data)
+    {
+        dialogueVariables = new DialogueVariables(loadGlobalsJSON);
+        foreach (var variable in dialogueVariables.Variables.ToList())
+        {
+            if (data.dialogueVars.ContainsKey(variable.Key))
+            {
+                StringValue variableValue = new(data.dialogueVars[variable.Key]);
+                dialogueVariables.VariableChanged(variable.Key, variableValue);
+                Debug.Log("Initialized dialogue global variable: " + variable.Key + " = " + variableValue);
+            }
+        }
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.dialogueVars.Clear();
+        foreach (string variableKey in dialogueVariables.Variables.Keys)
+        {
+            StringValue variableValue = (StringValue)GetVariableState(variableKey);
+            data.dialogueVars.Add(variableKey, variableValue.ToString());
+        }
+    }
+
     protected override void Awake()
     {
         //instantiate from base class
         base.Awake();
         //the rest of the instantiation
-        dialogueVariables = new DialogueVariables(loadGlobalsJSON);
         audioSource = gameObject.AddComponent<AudioSource>();
         currentAudioInfo = defaultAudioInfo;
     }
@@ -362,10 +387,5 @@ public class DialogueManager : GenericSingleton<DialogueManager>
             Debug.Log("Ink variable was found to be null: " + variableName);
         }
         return variableValue;
-    }
-
-    public void OnApplicationQuit()
-    {
-        dialogueVariables?.SaveVariables();
     }
 }
