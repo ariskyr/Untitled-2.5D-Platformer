@@ -18,9 +18,9 @@ public class FileDataHandler
         this.useEncryption = useEncryption;
     }
 
-    public GameData Load()
+    public GameData Load(string profileID)
     {
-        string fullPath = Path.Combine(dataDirPath, dataFilename);
+        string fullPath = Path.Combine(dataDirPath, profileID, dataFilename);
         GameData loadedData = null;
         if (File.Exists(fullPath))
         {
@@ -50,9 +50,9 @@ public class FileDataHandler
         return loadedData;
     }
 
-    public void Save(GameData data)
+    public void Save(GameData data, string profileID)
     {
-        string fullPath = Path.Combine(dataDirPath, dataFilename);
+        string fullPath = Path.Combine(dataDirPath, profileID, dataFilename);
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
