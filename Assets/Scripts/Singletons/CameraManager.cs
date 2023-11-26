@@ -31,6 +31,7 @@ public class CameraManager : GenericSingleton<CameraManager>, IDataPersistence
 
     public void LoadData(GameData data)
     {
+
         transform.position = data.cameraPosition;
     }
 

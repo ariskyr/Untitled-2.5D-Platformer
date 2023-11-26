@@ -88,4 +88,43 @@ public class FileDataHandler
         }
         return modifiedData;
     }
+
+    public Dictionary<string, GameData> LoadAllProfiles()
+    {
+        Dictionary<string, GameData> profileDictionary = new Dictionary<string, GameData>();
+
+        //loop over the dir where the slots exist
+        IEnumerable<DirectoryInfo> dirInfos = new DirectoryInfo(dataDirPath).EnumerateDirectories();
+        foreach (DirectoryInfo dirInfo in dirInfos)
+        {
+            string profileID = dirInfo.Name;
+
+            //skip the Unity folder since it will always be there
+            if(profileID == "Unity")
+            {
+                continue;
+            }
+
+            //exclude the junk that doesn't include a data json object
+            string fullPath = Path.Combine(dataDirPath, profileID, dataFilename);
+            if (!File.Exists(fullPath))
+            {
+                Debug.LogWarning("Skipping directory when loading profiles because it doesn't contain game data: " + profileID);
+                continue;
+            }
+
+            //load
+            GameData profileData = Load(profileID);
+            if (profileData != null)
+            {
+                profileDictionary.Add(profileID, profileData);
+            }
+            else
+            {
+                Debug.LogError("Tried to load profile but data was null. ProfileID: " + profileID);
+            }
+        }
+
+        return profileDictionary;
+    }
 }

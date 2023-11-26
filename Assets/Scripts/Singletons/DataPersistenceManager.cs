@@ -17,7 +17,7 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
     private GameData gameData;
     private List<IDataPersistence> dataPersistenceObjects;
     private FileDataHandler dataHandler;
-    private string selectedProfileID = "test";
+    private string selectedProfileID = "1";
 
     protected override void Awake()
     {
@@ -30,13 +30,11 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        SceneManager.sceneUnloaded -= OnSceneUnloaded;
     }
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -45,9 +43,12 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
         LoadGame();
     }
 
-    public void OnSceneUnloaded(Scene scene)
+    public void ChangeSelectedProfileID(string newProfileID)
     {
-        SaveGame();
+        //update selected slot
+        this.selectedProfileID = newProfileID;
+        //Load game using the newly selected profile
+        LoadGame();
     }
 
     public void NewGame()
@@ -103,7 +104,7 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
 
     private List<IDataPersistence> FindAllDataPersistenceObjects()
     {
-        IEnumerable<IDataPersistence> dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>()
+        IEnumerable<IDataPersistence> dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>(true)
             .OfType<IDataPersistence>();
 
         return new List<IDataPersistence>(dataPersistenceObjects);
@@ -112,5 +113,10 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
     public bool HasGameData()
     {
         return gameData != null;
+    }
+
+    public Dictionary<string, GameData> GetAllProfilesGameData()
+    {
+        return dataHandler.LoadAllProfiles();
     }
 }
