@@ -20,6 +20,6 @@ public class GameData
         playerPosition = new Vector3((float)-0.26, (float)0.58, (float)-1.65);
         cameraPosition = new Vector3(0, 2, (float)-4.5);
         dialogueVars = new SerializableDictionary<string, string>();
-        currentScene = "MainMenu";
+        currentScene = "MAGITIS_DevScene";
     }
 }

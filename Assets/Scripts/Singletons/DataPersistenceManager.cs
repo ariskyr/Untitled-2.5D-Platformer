@@ -17,7 +17,7 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
     private GameData gameData;
     private List<IDataPersistence> dataPersistenceObjects;
     private FileDataHandler dataHandler;
-    private string selectedProfileID = "1";
+    private string selectedProfileID = "";
 
     protected override void Awake()
     {
