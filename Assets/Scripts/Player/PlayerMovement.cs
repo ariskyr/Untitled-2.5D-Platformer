@@ -67,11 +67,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     {
         //Default positions for the player per scene
         // per scene position save (? maybe)
+        transform.position = data.playerPosition;
     }
     public void SaveData(GameData data)
     {
         //Default positions for the camera per scene
         // per scene position save (? maybe)
+        data.playerPosition = transform.position;
     }
 
     private void Start()

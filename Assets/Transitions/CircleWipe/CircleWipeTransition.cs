@@ -114,8 +114,8 @@ public class CircleWipeTransition : MonoBehaviour
     {
         _isStarting = true; // Set the loading flag to true
         yield return new WaitForSeconds(transitionTime);
-        SceneManager.LoadScene(sceneName);
-        transform.parent.position = positionToLoad;
+        DataPersistenceManager.Instance.SaveGame();
+        SceneManager.LoadSceneAsync(sceneName);
         _isStarting = false;
     }
 }

@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SaveSlot : MonoBehaviour
+public class SaveSlot : MonoBehaviour, IPointerEnterHandler
 {
     [Header("Profile ID")]
     [SerializeField] private string profileID = "";
 
     [Header("Content")]
+    [SerializeField] private SaveSlotsUI slotsUI;
     [SerializeField] private GameObject noDataContent;
     [SerializeField] private GameObject hasDataContent;
     [SerializeField] private TextMeshProUGUI slotNameText;
@@ -65,5 +67,11 @@ public class SaveSlot : MonoBehaviour
     public void SetInteractable(bool interactable)
     {
         saveSlotButton.interactable = interactable;
+    }
+
+    //this is called everytime a save slot is hovered
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        slotsUI.currentlyHoveredProfileId = this.profileID;
     }
 }

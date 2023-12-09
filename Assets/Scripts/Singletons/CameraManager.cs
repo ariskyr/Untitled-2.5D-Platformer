@@ -33,12 +33,14 @@ public class CameraManager : GenericSingleton<CameraManager>, IDataPersistence
     {
         //Default positions for the camera per scene
         // per scene position save (? maybe)
+        transform.position = data.cameraPosition;
     }
 
     public void SaveData(GameData data)
     {
         //Default positions for the camera per scene
         // per scene position save (? maybe)
+        data.cameraPosition = transform.position;
     }
 
     void Start()

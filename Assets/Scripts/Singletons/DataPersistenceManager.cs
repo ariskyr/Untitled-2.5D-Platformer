@@ -9,6 +9,7 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
     //TODO remove
     [Header("DEV Debugging")]
     [SerializeField] private bool initializeDataIfNull = false;
+    [SerializeField] private bool disableDataPersistence = false;
 
     [Header("File Storage Config")]
     [SerializeField] private string fileName;
@@ -22,6 +23,11 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
     protected override void Awake()
     {
         base.Awake();
+
+        if (disableDataPersistence )
+        {
+            Debug.LogWarning("DEV: Data Persistence is disabled.");
+        }
 
         //persistent data path is under user appdata
         dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
@@ -58,6 +64,12 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
 
     public void LoadGame()
     {
+        //DEBUG
+        if (disableDataPersistence)
+        {
+            return;
+        }
+
         gameData = dataHandler.Load(selectedProfileID);
 
         //dev debug
@@ -81,6 +93,12 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
 
     public void SaveGame()
     {
+        //DEBUG
+        if (disableDataPersistence)
+        {
+            return;
+        }
+
         if (this.gameData == null)
         {
             Debug.LogWarning("No data was found. A new game needs to be started before data can be saved.");
@@ -94,6 +112,11 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
         }
 
         dataHandler.Save(gameData, selectedProfileID);
+    }
+
+    public void DeleteProfileData(string profileID)
+    {
+        dataHandler.Delete(profileID);
     }
 
     //remove in the future

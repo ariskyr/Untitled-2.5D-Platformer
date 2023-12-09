@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -13,6 +14,8 @@ public class SaveSlotsUI : MonoBehaviour
     [SerializeField] private Button backButton;
 
     private SaveSlot[] saveSlots;
+
+    public string currentlyHoveredProfileId;
 
     private void Awake()
     {
@@ -29,17 +32,23 @@ public class SaveSlotsUI : MonoBehaviour
         {
             //make new game
             DataPersistenceManager.Instance.NewGame();
-        }
-        //before loading scenes, save game needs to be called
-        DataPersistenceManager.Instance.SaveGame();
-        if (!saveSlot.GetDataExistence())
-        {
+            //before loading scenes, save game needs to be called
+            DataPersistenceManager.Instance.SaveGame();
             //DEFAULT SCENE TO BE LOADED ON NEW GAME
             SceneManager.LoadSceneAsync("MAGITIS_DevScene");
         }
         else
         {
             SceneManager.LoadSceneAsync(GameManager.Instance.currentScene);
+        }
+    }
+
+    public void OnDeleteClicked()
+    {   
+        if (currentlyHoveredProfileId != null)
+        {
+            DataPersistenceManager.Instance.DeleteProfileData(currentlyHoveredProfileId);
+            ActivateMenu();
         }
     }
 

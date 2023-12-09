@@ -78,6 +78,31 @@ public class FileDataHandler
         }
     }
 
+    public void Delete(string profileID) 
+    { 
+        if (profileID == null)
+        {
+            return;
+        }
+
+        string fullPath = Path.Combine(dataDirPath, profileID, dataFilename);
+        try
+        {
+            if (File.Exists(fullPath))
+            {
+                Directory.Delete(Path.GetDirectoryName(fullPath), true);
+            }
+            else
+            {
+                Debug.LogWarning("Tried to delete profile data, but data was not found at path: " + fullPath);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to delete profile data for profileID: " + profileID + " at path: " + fullPath + "\n" + e);
+        }
+    }
+
     // XOR operation using the encryption word
     private string EncryptDecrypt(string data)
     {
