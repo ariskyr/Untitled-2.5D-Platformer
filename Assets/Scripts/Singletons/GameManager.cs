@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : GenericSingleton<GameManager>, IDataPersistence
 {
     public string CurrentScene { get; private set; }
+    public string LastScene { get; private set; }
 
     private void OnEnable()
     {
@@ -24,6 +25,14 @@ public class GameManager : GenericSingleton<GameManager>, IDataPersistence
     {
         CurrentScene = scene.name;
         Debug.Log("Scene loaded: " + CurrentScene);
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        //before loading scenes, save game needs to be called
+        DataPersistenceManager.Instance.SaveGame();
+        //DEFAULT SCENE TO BE LOADED ON NEW GAME
+        SceneManager.LoadSceneAsync(sceneName);
     }
 
     public void LoadData(GameData data)

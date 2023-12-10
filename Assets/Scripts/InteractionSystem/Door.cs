@@ -13,7 +13,6 @@ public class Door : MonoBehaviour, IInteractable
 
     [Header("Transition to Level")]
     [SerializeField] private string levelToLoad;
-    [SerializeField] private Vector3 positionToLoad;
 
     public string InteractionPrompt => _prompt;
     public bool IsOpen = false;
@@ -41,11 +40,32 @@ public class Door : MonoBehaviour, IInteractable
     //Interact with the object
     public bool Interact(Interactor interactor)
     {
-        //start coroutine to open door
         bool isOpened = Open(interactor.transform.position);
-        //load the next level
-        transition.StartTransition(levelToLoad, positionToLoad);
+
+        //subscribe to event so that load scene only happens after transition is over
+        transition.OnTransitionComplete += HandleCloseBlackScreenComplete;
+        transition.CloseBlackScreen();
+
         return isOpened;
+    }
+
+    private void HandleCloseBlackScreenComplete()
+    {
+        //unsub to prevent multiple subscriptions
+        transition.OnTransitionComplete -= HandleCloseBlackScreenComplete;
+
+        //load level
+        GameManager.Instance.LoadScene(levelToLoad);
+
+        transition.OnTransitionComplete += HandleOpenBlackScreenComplete;
+
+        transition.OpenBlackScreen();
+    }
+
+    private void HandleOpenBlackScreenComplete()
+    {
+        //unsub to prevent multiple subscriptions
+        transition.OnTransitionComplete -= HandleOpenBlackScreenComplete;
     }
 
     public bool Open(Vector3 UserPosition)

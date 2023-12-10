@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour, IDataPersistence
+public class PlayerMovement : MonoBehaviour
 {
     public enum PlayerStates 
     {
@@ -48,6 +48,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
     }
 
+    //the player position
+    public Vector3 playerPosition;
+
     public PlayerController controller;
     public Transform attackPoint;
     public float attackRange = 0.5f;
@@ -63,22 +66,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private Animator animator;
     private PlayerStates currentState;
 
-    public void LoadData(GameData data)
-    {
-        //Default positions for the player per scene
-        // per scene position save (? maybe)
-        transform.position = data.playerPosition;
-    }
-    public void SaveData(GameData data)
-    {
-        //Default positions for the camera per scene
-        // per scene position save (? maybe)
-        data.playerPosition = transform.position;
-    }
-
     private void Start()
     {
         animator = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        playerPosition = transform.position;
     }
 
     // Update is called once per frame

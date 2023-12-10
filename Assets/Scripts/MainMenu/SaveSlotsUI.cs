@@ -33,17 +33,12 @@ public class SaveSlotsUI : MonoBehaviour
         if (!saveSlot.hasData)
         {
             //make new game
-            DataPersistenceManager.Instance.NewGame();
-            //before loading scenes, save game needs to be called
-            DataPersistenceManager.Instance.SaveGame();
-            //DEFAULT SCENE TO BE LOADED ON NEW GAME
-            SceneManager.LoadSceneAsync("MAGITIS_DevScene");
+            string defaultScene = DataPersistenceManager.Instance.NewGame();
+            GameManager.Instance.LoadScene(defaultScene);
         }
         else
         {
-            //before loading scenes, save game needs to be called
-            DataPersistenceManager.Instance.SaveGame();
-            SceneManager.LoadSceneAsync(GameManager.Instance.CurrentScene);
+            GameManager.Instance.LoadScene(GameManager.Instance.LastScene);
         }
     }
 

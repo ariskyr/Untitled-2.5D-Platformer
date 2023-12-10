@@ -76,9 +76,10 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
         LoadGame();
     }
 
-    public void NewGame()
+    public string NewGame()
     {
         gameData = new GameData();
+        return gameData.lastScene;
     }
 
     public void LoadGame()

@@ -4,118 +4,119 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using static UnityEngine.GraphicsBuffer;
-
+using System;
 
 public class CircleWipeTransition : MonoBehaviour
 {
-    [SerializeField] private float transitionTime = 1f;
-    [SerializeField] private Image _maskTransition;
+    [SerializeField] float transitionDuration = 1f;
 
-    private bool _isStarting = false;
-    private RectTransform _canvas;
-    float _screen_h = 0;
-    float _screen_w = 0;
-    float _radius = 1;
-    float _counter;
+    private Canvas canvas;
+    private Image blackScreen;
 
-    // Start is called before the first frame update
-    void Start()
+    private Vector2 playerCanvasPos;
+    private Coroutine transitionCoroutine;
+    private static readonly int RADIUS = Shader.PropertyToID("_Radius");
+    private static readonly int CENTER_X = Shader.PropertyToID("_CenterX");
+    private static readonly int CENTER_Y = Shader.PropertyToID("_CenterY");
+
+    //event to signal the end of the transition
+    public event Action OnTransitionComplete;
+
+    private void Awake()
     {
-
-        Canvas canvas = GetComponent<Canvas>();
-        canvas.worldCamera = Camera.main;
-        GetCharacterPosition();
+        canvas = GetComponent<Canvas>();
+        blackScreen = GetComponentInChildren<Image>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        _counter += Time.deltaTime;
+        DrawBlackScreen();
+    }
 
-        if (_counter >= 0.5)
+    public void OpenBlackScreen()
+    {
+        if (transitionCoroutine != null)
         {
-            if (_isStarting)
-            {
-                if (_radius > 0)
-                {
-                    _radius -= Time.deltaTime / transitionTime;
-                    _maskTransition.material.SetFloat("Radius", _radius);
-                }
-            }
-            else
-            {
-                if (_radius < 1)
-                {
-                    _radius += Time.deltaTime / transitionTime;
-                    _maskTransition.material.SetFloat("Radius", _radius);
-                }
-            }
+            StopCoroutine(transitionCoroutine);
         }
+        transitionCoroutine = StartCoroutine(Transition(transitionDuration, 0, 1, () => 
+            {
+            OnTransitionComplete?.Invoke();
+            }
+        ));
     }
 
-    void GetCharacterPosition()
+    public void CloseBlackScreen()
     {
-        Vector3 targetPosition = transform.position;
-        targetPosition.y -= 0.2f; // small adjustment
-        targetPosition.x -= 0.08f;
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(targetPosition);
-
-        float characterScreen_w;
-        float characterScreen_h;
-
-        if(_isStarting)
+        if (transitionCoroutine != null)
         {
-            _radius = 0;
-            _maskTransition.material.SetFloat("Radius", _radius);
+            StopCoroutine(transitionCoroutine);
+        }
+        transitionCoroutine = StartCoroutine(Transition(transitionDuration, 1, 0, () => 
+            { 
+            OnTransitionComplete?.Invoke(); 
+            }
+        ));
+    }
+
+    private void DrawBlackScreen()
+    {
+        //get player position
+        var screenWidth = Screen.width;
+        var screenHeight = Screen.height;
+        var playerScreenPos = Camera.main.WorldToScreenPoint(transform.parent.position);
+
+
+        //draw to image to full screen via canvas rect size
+        var canvasRect = canvas.GetComponent<RectTransform>().rect;
+        var canvasWidth = canvasRect.width;
+        var canvasHeight = canvasRect.height;
+
+        //screen conversion from square to actual size
+        playerCanvasPos = new Vector2
+        {
+            x = (playerScreenPos.x / screenWidth) * canvasWidth,
+            y = (playerScreenPos.y / screenHeight) * canvasHeight
+        };
+
+        var squareValue = 0f;
+        if (canvasWidth > canvasHeight)
+        {
+            //Landscape
+            squareValue = canvasWidth;
+            playerCanvasPos.y += (canvasWidth - canvasHeight) * 0.5f;
         }
         else
         {
-            _radius = 1;
-            _maskTransition.material.SetFloat("Radius", _radius);
+            squareValue = canvasHeight;
+            playerCanvasPos.x += (canvasHeight - canvasWidth) * 0.5f;
         }
 
-        _canvas = GetComponent<RectTransform>();
-        _screen_h = Screen.height;
-        _screen_w = Screen.width;
+        playerCanvasPos /= squareValue;
+        var mat = blackScreen.material;
+        mat.SetFloat(CENTER_X, playerCanvasPos.x);
+        mat.SetFloat(CENTER_Y, playerCanvasPos .y);
 
-        if(_screen_w < _screen_h)
-        {
-            _maskTransition.rectTransform.sizeDelta = new Vector2(_canvas.rect.height, _canvas.rect.height);
-            float newScreenPos_x = screenPos.x + (_screen_h - _screen_w) / 2;
-
-            characterScreen_w = (newScreenPos_x * 100) / _screen_h;
-            characterScreen_w /= 100;
-
-            characterScreen_h = (screenPos.y * 100) / _screen_h;
-            characterScreen_h /= 100;
-        }
-        else
-        {
-            _maskTransition.rectTransform.sizeDelta = new Vector2(_canvas.rect.width, _canvas.rect.width);
-            float newScreenPos_y = screenPos.y + (_screen_w - _screen_h) / 2;
-
-            characterScreen_w = (screenPos.x * 100) / _screen_w;
-            characterScreen_w /= 100;
-
-            characterScreen_h = (newScreenPos_y * 100) / _screen_w;
-            characterScreen_h /= 100;
-        }
-
-        _maskTransition.material.SetFloat("Center_X", characterScreen_w);
-        _maskTransition.material.SetFloat("Center_Y", characterScreen_h);
+        //assign to image
+        blackScreen.rectTransform.sizeDelta = new Vector2(squareValue, squareValue);
     }
 
-    public void StartTransition(string levelToLoad, Vector3 positionToLoad)
+    private IEnumerator Transition(float duration, float beginRadius, float endRadius, Action onComplete)
     {
-        StartCoroutine(LoadLevelCoroutine(levelToLoad, positionToLoad));
-    }
+        var time = 0f;
+        var mat = blackScreen.material;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            var t = time / duration;
+            var radius = Mathf.Lerp(beginRadius, endRadius, t);
 
-    IEnumerator LoadLevelCoroutine(string sceneName, Vector3 positionToLoad)
-    {
-        _isStarting = true; // Set the loading flag to true
-        yield return new WaitForSeconds(transitionTime);
-        DataPersistenceManager.Instance.SaveGame();
-        SceneManager.LoadSceneAsync(sceneName);
-        _isStarting = false;
+            mat.SetFloat(RADIUS, radius);
+
+            yield return null;
+        }
+
+        // Invoke the onComplete callback when the transition is complete
+        onComplete?.Invoke();
     }
 }
