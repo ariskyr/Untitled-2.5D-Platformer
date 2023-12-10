@@ -10,15 +10,20 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
     [Header("DEV Debugging")]
     [SerializeField] private bool initializeDataIfNull = false;
     [SerializeField] private bool disableDataPersistence = false;
+    [SerializeField] private bool disableAutoSave = false;
 
     [Header("File Storage Config")]
     [SerializeField] private string fileName;
     [SerializeField] private bool useEncryption;
 
+    [Header("Auto Saving config")]
+    [SerializeField] private float autoSaveTimeSeconds = 60f;
+
     private GameData gameData;
     private List<IDataPersistence> dataPersistenceObjects;
     private FileDataHandler dataHandler;
     private string selectedProfileID = "";
+    private Coroutine autoSaveCoroutine;
 
     protected override void Awake()
     {
@@ -46,7 +51,21 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         dataPersistenceObjects = FindAllDataPersistenceObjects();
+
+        //return if on main menu
+        if (scene.name == "MainMenu") return;
+
         LoadGame();
+
+        //DEV
+        if (disableAutoSave) return;
+
+        //start up the auto saving coroutine
+        if (autoSaveCoroutine != null)
+        {
+            StopCoroutine(autoSaveCoroutine);
+        }
+        autoSaveCoroutine = StartCoroutine(AutoSave());
     }
 
     public void ChangeSelectedProfileID(string newProfileID)
@@ -65,10 +84,7 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
     public void LoadGame()
     {
         //DEBUG
-        if (disableDataPersistence)
-        {
-            return;
-        }
+        if (disableDataPersistence) return;
 
         gameData = dataHandler.Load(selectedProfileID);
 
@@ -94,10 +110,7 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
     public void SaveGame()
     {
         //DEBUG
-        if (disableDataPersistence)
-        {
-            return;
-        }
+        if (disableDataPersistence) return;
 
         if (this.gameData == null)
         {
@@ -141,5 +154,15 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
     public Dictionary<string, GameData> GetAllProfilesGameData()
     {
         return dataHandler.LoadAllProfiles();
+    }
+
+    private IEnumerator AutoSave()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(autoSaveTimeSeconds);
+            SaveGame();
+            Debug.Log("Auto Saved Game!");
+        }
     }
 }

@@ -3,6 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+public class SceneData
+{
+    public Vector3 playerPos;
+    public Vector3 camPos;
+}
+
+[System.Serializable]
+public class SerializableSceneDictionary: SerializableDictionary<string, SceneData> { }
+
+[System.Serializable]
 public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
 {
     [SerializeField] private List<TKey> keys = new();

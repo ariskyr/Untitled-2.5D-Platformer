@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -9,6 +10,7 @@ public class SaveSlotsUI : MonoBehaviour
 {
     [Header("Menu Navigation")]
     [SerializeField] private MainMenuUI mainMenuUI;
+    [SerializeField] private ConfirmationPopupMenuUI confirmationPopupMenuUI;
 
     [Header("Menu Buttons")]
     [SerializeField] private Button backButton;
@@ -28,7 +30,7 @@ public class SaveSlotsUI : MonoBehaviour
 
         DataPersistenceManager.Instance.ChangeSelectedProfileID(saveSlot.GetProfileID());
 
-        if (!saveSlot.GetDataExistence())
+        if (!saveSlot.hasData)
         {
             //make new game
             DataPersistenceManager.Instance.NewGame();
@@ -39,16 +41,31 @@ public class SaveSlotsUI : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadSceneAsync(GameManager.Instance.currentScene);
+            //before loading scenes, save game needs to be called
+            DataPersistenceManager.Instance.SaveGame();
+            SceneManager.LoadSceneAsync(GameManager.Instance.CurrentScene);
         }
     }
 
     public void OnDeleteClicked()
-    {   
+    {
+        DisableMenuButtons();
         if (currentlyHoveredProfileId != null)
         {
-            DataPersistenceManager.Instance.DeleteProfileData(currentlyHoveredProfileId);
-            ActivateMenu();
+            confirmationPopupMenuUI.ActivateMenu(
+            "Are you sure you want to delete save slot " + currentlyHoveredProfileId + "?",
+            //function when yes is clicked
+            () =>
+            {
+                DataPersistenceManager.Instance.DeleteProfileData(currentlyHoveredProfileId);
+                ActivateMenu();
+            },
+            //function when no is clicked
+            () =>
+            {
+                ActivateMenu();
+            }
+        );
         }
     }
 
@@ -61,6 +78,7 @@ public class SaveSlotsUI : MonoBehaviour
     public void ActivateMenu()
     {
         this.gameObject.SetActive(true);
+        backButton.interactable = true;
 
         Dictionary<string, GameData> profilesGameData = DataPersistenceManager.Instance.GetAllProfilesGameData();
 
@@ -68,6 +86,7 @@ public class SaveSlotsUI : MonoBehaviour
         {
             profilesGameData.TryGetValue(saveSlot.GetProfileID(), out GameData profileData);
             saveSlot.SetData(profileData);
+            saveSlot.SetInteractable(true);
         }
     }
 

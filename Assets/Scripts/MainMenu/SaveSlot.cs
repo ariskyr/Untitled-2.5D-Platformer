@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -18,8 +19,9 @@ public class SaveSlot : MonoBehaviour, IPointerEnterHandler
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI buttonPressesText;
 
+    public bool hasData { get; private set; } = false;
+
     private Button saveSlotButton;
-    private bool dataExistence = false;
 
     private void Awake()
     {
@@ -33,14 +35,14 @@ public class SaveSlot : MonoBehaviour, IPointerEnterHandler
         if (data == null)
         {
             //theres no data for this slot
-            dataExistence = false;
+            hasData = false;
             noDataContent.SetActive(true);
             hasDataContent.SetActive(false);
         }
         else
         {
             //there is data for this slot
-            dataExistence = true;
+            hasData = true;
             noDataContent.SetActive(false);
             hasDataContent.SetActive(true);
 
@@ -59,11 +61,6 @@ public class SaveSlot : MonoBehaviour, IPointerEnterHandler
         return this.profileID;
     }
 
-    public bool GetDataExistence()
-    {
-        return this.dataExistence;
-    }
-
     public void SetInteractable(bool interactable)
     {
         saveSlotButton.interactable = interactable;
@@ -72,6 +69,10 @@ public class SaveSlot : MonoBehaviour, IPointerEnterHandler
     //this is called everytime a save slot is hovered
     public void OnPointerEnter(PointerEventData eventData)
     {
+        //disable hover if button is not interactable
+        if (!saveSlotButton.interactable) return;
+
+        //get hovered id if button is hovered
         slotsUI.currentlyHoveredProfileId = this.profileID;
     }
 }
