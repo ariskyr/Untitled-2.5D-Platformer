@@ -25,8 +25,9 @@ public class CameraManager : GenericSingleton<CameraManager>, IDataPersistence
         base.Awake();
         playerCamera = Camera.main;
         defaultCameraFOV = playerCamera.fieldOfView;
-        defaultCameraPos = playerCamera.transform.position;
-        defaultCameraRot = playerCamera.transform.rotation;
+        //set the default pos and rot before zoom in
+        defaultCameraPos = transform.position;
+        defaultCameraRot = transform.rotation;
     }
 
     public void LoadData(GameData data)
@@ -74,6 +75,9 @@ public class CameraManager : GenericSingleton<CameraManager>, IDataPersistence
     public void CameraZoomIn(float zoomDuration, Vector3 positionOffset, Vector3 rotationOffset, float fovOffset)
     {
         StopZoomCoroutine();
+        //set the default pos and rot before zoom in
+        defaultCameraPos = transform.position;
+        defaultCameraRot = transform.rotation;
         zoomCoroutine = StartCoroutine(CameraZoom(true, zoomDuration, positionOffset, rotationOffset, fovOffset));
     }
 
@@ -97,10 +101,10 @@ public class CameraManager : GenericSingleton<CameraManager>, IDataPersistence
     {
         zoomingIn = true;
         float timer = 0;
-        float targetFOV = defaultCameraFOV / fovOffset;
+        float targetFOV = isZooming ? defaultCameraFOV / fovOffset : defaultCameraFOV;
         float currentFOV = playerCamera.fieldOfView;
-        Vector3 initialCamPos = playerCamera.transform.position;
-        Quaternion initialCamRot = playerCamera.transform.rotation;
+        Vector3 currentCamPos = playerCamera.transform.position;
+        Quaternion currentCamRot = playerCamera.transform.rotation;
 
         while (timer <= zoomDuration)
         {
@@ -109,18 +113,19 @@ public class CameraManager : GenericSingleton<CameraManager>, IDataPersistence
             // Zooming in effect
             if (isZooming)
             {
-                Quaternion targetRot = Quaternion.Euler(rotationOffset) * initialCamRot;
+                Quaternion targetRot = Quaternion.Euler(rotationOffset) * currentCamRot;
 
                 playerCamera.fieldOfView = Mathf.Lerp(defaultCameraFOV, targetFOV, t);
-                playerCamera.transform.SetPositionAndRotation(Vector3.Lerp(initialCamPos, initialCamPos + positionOffset, t),
-                                                         Quaternion.Lerp(initialCamRot, targetRot, t));
+                playerCamera.transform.SetPositionAndRotation(Vector3.Lerp(currentCamPos, currentCamPos + positionOffset, t),
+                                                         Quaternion.Lerp(currentCamRot, targetRot, t));
             }
             // Zooming out effect
             else
             {
+
                 playerCamera.fieldOfView = Mathf.Lerp(currentFOV, defaultCameraFOV, t);
-                playerCamera.transform.SetPositionAndRotation(Vector3.Lerp(initialCamPos, defaultCameraPos, t),
-                                                         Quaternion.Lerp(initialCamRot, defaultCameraRot, t));
+                playerCamera.transform.SetPositionAndRotation(Vector3.Lerp(currentCamPos, target.position + offset, t),
+                                                         Quaternion.Lerp(currentCamRot, defaultCameraRot, t));
             }
             timer += Time.deltaTime;
             yield return null;
