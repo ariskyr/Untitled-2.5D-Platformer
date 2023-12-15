@@ -14,13 +14,9 @@ public class CircleWipeTransition : MonoBehaviour
     private Image blackScreen;
 
     private Vector2 playerCanvasPos;
-    private Coroutine transitionCoroutine;
     private static readonly int RADIUS = Shader.PropertyToID("_Radius");
     private static readonly int CENTER_X = Shader.PropertyToID("_CenterX");
     private static readonly int CENTER_Y = Shader.PropertyToID("_CenterY");
-
-    //event to signal the end of the transition
-    public event Action OnTransitionComplete;
 
     private void Awake()
     {
@@ -30,33 +26,24 @@ public class CircleWipeTransition : MonoBehaviour
 
     private void Start()
     {
+        blackScreen.material.SetFloat(RADIUS, 1);
         DrawBlackScreen();
     }
 
-    public void OpenBlackScreen()
+    public void LoadSceneTransition(string sceneName, Vector3 positionToLoad)
     {
-        if (transitionCoroutine != null)
-        {
-            StopCoroutine(transitionCoroutine);
-        }
-        transitionCoroutine = StartCoroutine(Transition(transitionDuration, 0, 1, () => 
-            {
-            OnTransitionComplete?.Invoke();
-            }
-        ));
+        StartCoroutine(LoadSceneCoroutine(sceneName, positionToLoad));
     }
 
-    public void CloseBlackScreen()
+    private IEnumerator LoadSceneCoroutine(string sceneName, Vector3 positionToLoad)
     {
-        if (transitionCoroutine != null)
-        {
-            StopCoroutine(transitionCoroutine);
-        }
-        transitionCoroutine = StartCoroutine(Transition(transitionDuration, 1, 0, () => 
-            { 
-            OnTransitionComplete?.Invoke(); 
-            }
-        ));
+        //start the closing transition
+        yield return StartCoroutine(Transition(transitionDuration, 1, 0));
+        //load scene
+        GameManager.Instance.LoadScene(sceneName, positionToLoad);
+
+        // Start the opening transition
+        yield return StartCoroutine(Transition(transitionDuration, 0, 1));
     }
 
     private void DrawBlackScreen()
@@ -101,7 +88,7 @@ public class CircleWipeTransition : MonoBehaviour
         blackScreen.rectTransform.sizeDelta = new Vector2(squareValue, squareValue);
     }
 
-    private IEnumerator Transition(float duration, float beginRadius, float endRadius, Action onComplete)
+    private IEnumerator Transition(float duration, float beginRadius, float endRadius)
     {
         var time = 0f;
         var mat = blackScreen.material;
@@ -115,8 +102,5 @@ public class CircleWipeTransition : MonoBehaviour
 
             yield return null;
         }
-
-        // Invoke the onComplete callback when the transition is complete
-        onComplete?.Invoke();
     }
 }

@@ -33,12 +33,16 @@ public class SaveSlotsUI : MonoBehaviour
         if (!saveSlot.hasData)
         {
             //make new game
-            string defaultScene = DataPersistenceManager.Instance.NewGame();
-            GameManager.Instance.LoadScene(defaultScene);
+            var (defaultScene, playerPosition) = DataPersistenceManager.Instance.NewGame();
+
+            GameManager.Instance.LoadScene(defaultScene, playerPosition);
         }
         else
         {
-            GameManager.Instance.LoadScene(GameManager.Instance.LastScene);
+            //load the game and then the scene
+            var(lastScene, lastPlayerPosition) = DataPersistenceManager.Instance.LoadGame();
+            // and then the scene
+            GameManager.Instance.LoadScene(lastScene, lastPlayerPosition);
         }
     }
 

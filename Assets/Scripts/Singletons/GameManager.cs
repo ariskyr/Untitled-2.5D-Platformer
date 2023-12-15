@@ -6,10 +6,11 @@ using UnityEngine.SceneManagement;
 //DERIVE FROM GENERIC SINGLETON
 public class GameManager : GenericSingleton<GameManager>, IDataPersistence
 {
-    public string CurrentScene { get; private set; }
-    public string LastScene { get; private set; }
+    private float elapsedTime = 0;
+    private string currentScene;
+    private PlayerMovement playerMovement;
 
-    private void OnEnable()
+        private void OnEnable()
     {
         //subscribe to sceneloaded event
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -21,55 +22,78 @@ public class GameManager : GenericSingleton<GameManager>, IDataPersistence
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void Start()
     {
-        CurrentScene = scene.name;
-        Debug.Log("Scene loaded: " + CurrentScene);
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            playerMovement = player.GetComponent<PlayerMovement>();
+        }
+        else
+        {
+            Debug.LogError("Player not found, teleporting him to appropriate levels will not work!");
+        }
     }
 
-    public void LoadScene(string sceneName)
+    private void Update()
     {
-        //before loading scenes, save game needs to be called
-        DataPersistenceManager.Instance.SaveGame();
-        //DEFAULT SCENE TO BE LOADED ON NEW GAME
-        SceneManager.LoadSceneAsync(sceneName);
+        Timer();
+    }
+
+    //trigger everytime a scene is loaded
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        currentScene = scene.name;
+        Debug.Log("Scene loaded: " + currentScene);
     }
 
     public void LoadData(GameData data)
     {
-        Debug.Log("loaded");
+        elapsedTime = data.timer;
     }
 
     public void SaveData(GameData data)
     {
-        Debug.Log("saved");
+        data.timer = elapsedTime;
+        data.lastScene = currentScene;
     }
 
-    //public void LoadData(GameData data)
-    //{
-    //    if (test != "MainMenu")
-    //    {
-    //        currentScene = test;
-    //        Debug.Log("here1" + currentScene);
-    //    }
-    //    else
-    //    {
-    //        currentScene = data.currentScene;
-    //        Debug.Log("here2" + currentScene);
-    //    }
-    //}
+    public void LoadScene(string sceneName, Vector3 positionToLoad)
+    {
+        //we need to save game to file FIRST, before loading any scene
+        DataPersistenceManager.Instance.SaveGame();
+        //start the scene loading
+        StartCoroutine(LoadSceneCoroutine(sceneName, positionToLoad));
+    }
 
-    //public void SaveData(GameData data)
-    //{
-    //    if (test == null)
-    //    {
-    //        data.currentScene = "MAGITIS_DevScene";
-    //        Debug.Log("here3" + data.currentScene);
-    //    }
-    //    else
-    //    {
-    //        data.currentScene = currentScene;
-    //        Debug.Log("here4" + data.currentScene);
-    //    }
-    //}
+    public IEnumerator LoadSceneCoroutine(string sceneName, Vector3 positionToLoad)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        asyncLoad.allowSceneActivation = false;
+        // Wait until the next scene is loaded
+        while (!asyncLoad.isDone)
+        {
+            Debug.Log($"Loading progress: {asyncLoad.progress}, isDone: {asyncLoad.isDone}");
+            if (asyncLoad.progress >= 0.9f)
+            {
+                asyncLoad.allowSceneActivation = true;
+            }
+            yield return null;
+        }
+        playerMovement.TeleportPlayer(positionToLoad);
+        asyncLoad.allowSceneActivation = true;
+        // Enable the next scene
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+    }
+
+    private void Timer()
+    {
+        // the ticking time
+        elapsedTime += Time.deltaTime;
+
+        System.TimeSpan timeSpan = System.TimeSpan.FromSeconds(elapsedTime);
+
+        string formattedTime = string.Format("{0:D2}:{1:D2}:{2:D2}",
+            timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+    }
 }

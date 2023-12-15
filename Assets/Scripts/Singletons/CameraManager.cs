@@ -60,6 +60,14 @@ public class CameraManager : GenericSingleton<CameraManager>, IDataPersistence
     public void FollowTarget(Transform target, float smoothing)
     {
         Vector3 targetCamPos = target.position + offset;
+
+        //Check distance between cam pos and player pos
+        float distance = Vector3.Distance(transform.position, targetCamPos);
+        if (distance > 10f)
+        {
+            transform.position = targetCamPos;
+        }
+
         transform.position = Vector3.Lerp(transform.position, targetCamPos, smoothing * Time.deltaTime);
     }
 

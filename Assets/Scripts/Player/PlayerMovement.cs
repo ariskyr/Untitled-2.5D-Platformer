@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
     public enum PlayerStates 
     {
@@ -65,6 +65,21 @@ public class PlayerMovement : MonoBehaviour
     private bool canMove = true;            // if true, character can move
     private Animator animator;
     private PlayerStates currentState;
+    public void LoadData(GameData data)
+    {
+        transform.position = data.playerPosition;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.playerPosition = transform.position;
+    }
+
+    //maybe we need to change public property of this method
+    public void TeleportPlayer(Vector3 position)
+    {
+        transform.position = position;
+    }
 
     private void Start()
     {

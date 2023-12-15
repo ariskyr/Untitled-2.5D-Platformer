@@ -17,7 +17,7 @@ public class SaveSlot : MonoBehaviour, IPointerEnterHandler
     [SerializeField] private GameObject hasDataContent;
     [SerializeField] private TextMeshProUGUI slotNameText;
     [SerializeField] private TextMeshProUGUI timerText;
-    [SerializeField] private TextMeshProUGUI buttonPressesText;
+    [SerializeField] private TextMeshProUGUI sceneText;
 
     public bool hasData { get; private set; } = false;
 
@@ -52,7 +52,7 @@ public class SaveSlot : MonoBehaviour, IPointerEnterHandler
                 timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
 
             timerText.text = formattedTime;
-            buttonPressesText.text = "Button presses: " + data.buttonPresses;
+            sceneText.text = "Scene: " + data.lastScene;
         }
     }
 

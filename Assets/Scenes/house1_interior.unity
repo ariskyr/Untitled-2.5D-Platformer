@@ -673,8 +673,8 @@ MonoBehaviour:
   timeToOpen: 0.1
   RotationAmount: 0
   ForwardDirection: 0
-  levelToLoad: DevScene
-  positionToLoad: {x: 5, y: 0.49, z: 2}
+  levelToLoad: MAGITIS_DevScene
+  positionToLoad: {x: 100, y: 0.49, z: 0}
   IsOpen: 0
 --- !u!65 &337743279
 BoxCollider:

@@ -50,6 +50,7 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+
         dataPersistenceObjects = FindAllDataPersistenceObjects();
 
         //return if on main menu
@@ -72,20 +73,18 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
     {
         //update selected slot
         this.selectedProfileID = newProfileID;
-        //Load game using the newly selected profile
-        LoadGame();
     }
 
-    public string NewGame()
+    public (string, Vector3 playerPosition) NewGame()
     {
         gameData = new GameData();
-        return gameData.lastScene;
+        return (gameData.lastScene, gameData.playerPosition);
     }
 
-    public void LoadGame()
+    public (string sceneName, Vector3 playerPosition) LoadGame()
     {
         //DEBUG
-        if (disableDataPersistence) return;
+        if (disableDataPersistence) return default;
 
         gameData = dataHandler.Load(selectedProfileID);
 
@@ -98,7 +97,7 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
         if (gameData == null)
         {
             Debug.Log("No data was found. A new game needs to be started before data can be loaded.");
-            return;
+            return default;
         }
 
         //push the loaded data to all scripts that need it
@@ -106,6 +105,7 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
         {
             dataObj.LoadData(gameData);
         }
+        return (gameData.lastScene, gameData.playerPosition);
     }
 
     public void SaveGame()
