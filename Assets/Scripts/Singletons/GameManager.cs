@@ -68,20 +68,22 @@ public class GameManager : GenericSingleton<GameManager>, IDataPersistence
 
     public IEnumerator LoadSceneCoroutine(string sceneName, Vector3 positionToLoad)
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-        asyncLoad.allowSceneActivation = false;
-        // Wait until the next scene is loaded
-        while (!asyncLoad.isDone)
+        yield return null;
+
+        //Begin to load the Scene you specify
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName);
+        //Don't let the Scene activate until you allow it to
+        asyncOperation.allowSceneActivation = false;
+        //When the load is still in progress, output the Text and progress bar
+        while (!asyncOperation.isDone)
         {
-            Debug.Log($"Loading progress: {asyncLoad.progress}, isDone: {asyncLoad.isDone}");
-            if (asyncLoad.progress >= 0.9f)
-            {
-                asyncLoad.allowSceneActivation = true;
-            }
+            //Output the current progress
+            Debug.Log("Loading progress: " + (asyncOperation.progress * 100) + "%");
+            asyncOperation.allowSceneActivation = true;
+
             yield return null;
         }
         playerMovement.TeleportPlayer(positionToLoad);
-        asyncLoad.allowSceneActivation = true;
         // Enable the next scene
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
     }
@@ -90,10 +92,5 @@ public class GameManager : GenericSingleton<GameManager>, IDataPersistence
     {
         // the ticking time
         elapsedTime += Time.deltaTime;
-
-        System.TimeSpan timeSpan = System.TimeSpan.FromSeconds(elapsedTime);
-
-        string formattedTime = string.Format("{0:D2}:{1:D2}:{2:D2}",
-            timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
     }
 }

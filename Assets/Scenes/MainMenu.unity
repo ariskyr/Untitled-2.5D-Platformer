@@ -1681,7 +1681,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 858704136}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1402653890}
+        m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
+        m_MethodName: OnQuitGameClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &858704136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2809,6 +2821,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveSlotsMenu: {fileID: 2052357424}
+  confirmationPopupMenuUI: {fileID: 1407179805}
   startGameButton: {fileID: 1524735917}
   optionsGameButton: {fileID: 1539794250}
   exitGameButton: {fileID: 858704135}
@@ -3586,7 +3599,7 @@ PrefabInstance:
     - target: {fileID: 8052904489594506447, guid: 73844611c8c001b45856f9c05f1bd692,
         type: 3}
       propertyPath: autoSaveTimeSeconds
-      value: 5
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8168397222453433961, guid: 73844611c8c001b45856f9c05f1bd692,
         type: 3}

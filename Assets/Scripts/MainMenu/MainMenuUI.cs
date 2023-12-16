@@ -8,6 +8,7 @@ public class MainMenuUI : MonoBehaviour
 {
     [Header("Menu Navigation")]
     [SerializeField] private SaveSlotsUI saveSlotsMenu;
+    [SerializeField] private ConfirmationPopupMenuUI confirmationPopupMenuUI;
 
     [Header("Menu Buttons")]
     [SerializeField] private Button startGameButton;
@@ -21,6 +22,28 @@ public class MainMenuUI : MonoBehaviour
         this.DeactivateMenu();
     }
 
+    public void OnQuitGameClicked()
+    {
+        DeactivateButtons();
+        confirmationPopupMenuUI.ActivateMenu(
+            "Are you sure you want to close the game?",
+            //function when yes is clicked
+            () =>
+            {
+                //quit the game
+                Debug.Log("Game has quitted! (not working in editor)");
+                Application.Quit();
+            },
+            //function when no is clicked
+            () =>
+            {
+                saveSlotsMenu.DeactivateMenu();
+                ActivateButtons();
+                ActivateMenu();
+            }
+            );
+    }
+
     public void ActivateMenu()
     {
         this.gameObject.SetActive(true);
@@ -29,5 +52,19 @@ public class MainMenuUI : MonoBehaviour
     public void DeactivateMenu()
     {
         this.gameObject.SetActive(false);
+    }
+
+    private void DeactivateButtons()
+    {
+        startGameButton.interactable = false;
+        optionsGameButton.interactable = false;
+        exitGameButton.interactable = false;
+    }
+
+    private void ActivateButtons()
+    {
+        startGameButton.interactable = true;
+        optionsGameButton.interactable = true;
+        exitGameButton.interactable = true;
     }
 }
