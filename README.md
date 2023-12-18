@@ -111,10 +111,23 @@ For now:
 
  [Placeholder: will see]
 
+## User Interface (UI)
+
+1. <u>Main Menu</u>: Main Menu is the first scene to be loaded when the game is started. It has 3 buttons:
+    * Start Game: this button transitions to another menu which is called the save slot menu, it contains 3 possible save slot that a new game can be created or an already existing one can be loaded. If the save slot is occupied, it contains some information about the point where the game was saved. It also contains a delete button to delete the last hovered save slot, prompting the user via a confirmation popup.
+    * Options: contains options to change some aspects about the game quality, sound and video settings (possible to change keybindings in the future)
+    * Exit Game: create a confirmation popup to ask the user if he really wants to quit the game or not.
+2. <u>Pause Menu</u>: //TODO
+
 ## System Explanation
 
-* **Main Camera**:
-    1. <u>CameraFollow.cs</u> -> camera follows the player at a fixed point
+* **SINGLETONS**:
+    1. <u>GenericSingleton.cs</u>: the generic singleton class that all singletons should derive from. It just makes sure that only 1 instance exists and if accessible globally.
+    2. <u>CameraManager.cs</u>: manager script that should contain any methods that manipulate the camera position and attributes
+    3. <u>DialogueManager.cs</u>: explained in the dialogue section
+    4. <u>InputManager.cs</u>: contains all input events in the form of C# functions that are then mapped to the Player Input and contain methods to get the input values.
+    5. <u>GameManager.cs</u>: contains a LoadScene() method that should be used when loading a scene. It's important to use this method so that the data persistence doesn't break. Also contains a Timer() method that keeps how much time the game has been played.
+    6. <u>DataPersistenceManager</u>: explained in the data persistence section
 
 * **Player**:
     1. <u>PlayerController.cs</u> -> controls how the player falls, what is ground etc.. (Brackeys)
@@ -132,15 +145,24 @@ implement the interactable interface to get the prompt texts and the action.
 * **Dialogue**:
     * How to Setup a new NPC:
     get the NPC prefab, inside the DialogueTrigger script, put an ink JSON (compiled) file that includes the story of an NPC. Example of an ink file:
-    ![Example Ink](docs\example_ink.jpg)
+    ![Example Ink](docs/example_ink.jpg)
         * choices are made with + symbol (inside [] the text of the choice)
         * tags can be place with #key: value
         * color can be placed with rich text like"<color=\\#FF0000>test<\/color> (this will make the test word red.)
         * portraits should be placed as an animation inside the PortraitAnimator (just place the image in the first frame of an animation with the same name as the one in the ink tag )
         * more layouts can be made if needed
         * audio can be made using a new Audio Scriptable Object. The important part is to have the id be the same name as the audio tag. The SO object should also be placed in a list in Dialogue Manager under Audio. Example SO looks like this:
-        ![Example Audio SO](docs\example_audio_SO.jpg)
+        ![Example Audio SO](docs/example_audio_SO.jpg)
 
     * How the Dialogue system is made:
         1. <u>DialogueManager.cs</u> - **SINGLETON CLASS** -> handles how the story of a specific npc is parsed with methods like DisplayLine(), ContinueStory(), HandleTags() etc that when used together can parse an ink JSON file that contains the story of an npc.
         2. <u>DialogueVariables.cs</u> -> handles global variables that can be set and used by multiple npcs. the variables are stored inside the globals.ink file that is included in other ink files that need to use it. The variables are saved in PlayerPrefs for now (TODO: needs to change)
+
+* **Data Persistence**:
+    This section explains how the loading/saving of the game works.
+        1. <u>DataPersistenceManager.cs</u> - **SINGLETON CLASS** -> handles how and when data needs to be persisted to the file system. The base methods are NewGame() which creates a new GameData object, LoadGame() which loads a game by specifying a profile ID and SaveGame() which saves the game to the path: *C:\Users\{user}\AppData\LocalLow\{companyName}\{projectName}\{profileID}\data.json*
+        for windows platform. In this directory a backup of the game data also exists in case of corruption. There is also an enumerator that auto saves the game every x seconds that can be configured and game is also saved OnApplicationQuit()
+        2. <u>FileDataHandler.cs</u> -> an abstraction layer that handles the saving and loading to and from file system. It contains all functions that interface with a file system. Works for PC platforms but if for example you wanted to make the game for mobile, you would need to create a CloudDataHandler in order to save to cloud. Implements the methods: Save, Load, Delete, EncryptDecrypt, AttemptRollaback (names are self-explanatory)
+        3. <u>IDataPersistence</u> -> interface that contains a SaveData and LoadData methods that all classes that implement the interface need to call.
+        4. <u>GameData</u> -> Base class that holds the data for the game that need to be saved/loaded. It has the default values that are saved when a new GameData object is made.
+        5. <u>SerializableDictionary</u> -> contains an extension of the default C# Dictionary class that can be serialized using JSON.utility in order for dictionary objects to be persisted on disk.

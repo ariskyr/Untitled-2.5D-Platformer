@@ -41,10 +41,11 @@ public class Door : MonoBehaviour, IInteractable
     //Interact with the object
     public bool Interact(Interactor interactor)
     {
-        //start coroutine to open door
         bool isOpened = Open(interactor.transform.position);
-        //load the next level
-        transition.StartTransition(levelToLoad, positionToLoad);
+
+        //handle how the transition between levels should happen
+        transition.LoadSceneTransition(levelToLoad, positionToLoad);
+
         return isOpened;
     }
 

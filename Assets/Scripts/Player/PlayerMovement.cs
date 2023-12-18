@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
     public enum PlayerStates 
     {
@@ -48,7 +48,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public static PlayerMovement Instance { get; private set; }
+    //the player position
+    public Vector3 playerPosition;
 
     public PlayerController controller;
     public Transform attackPoint;
@@ -58,22 +59,28 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movementInput;
     private float HorizontalMove = 0f;
     private float VerticalMove = 0f;
-    private bool interact = false;
     private bool jump = false;
-    private bool crouch = false;
+    private bool interact = false;
     private bool stateLock = false;         // if true, animation state shouldn't change
     private bool canMove = true;            // if true, character can move
     private Animator animator;
     private PlayerStates currentState;
     private CharacterCombat playerCombat;
-
-    private void Awake()
+    
+    public void LoadData(GameData data)
     {
-        if (Instance != null)
-        {
-            Debug.LogWarning("More than 1 player movement was found");
-        }
-        Instance = this;
+        transform.position = data.playerPosition;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.playerPosition = transform.position;
+    }
+
+    //maybe we need to change public property of this method
+    public void TeleportPlayer(Vector3 position)
+    {
+        transform.position = position;
     }
 
     private void Start()
@@ -83,9 +90,16 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        playerPosition = transform.position;
+    }
+
     // Update is called once per frame
     private void FixedUpdate()
     {
+        //movementInput = InputManager.Instance.GetMovePressed();
+
         // flag to lock movement if attacking, I don't like something about how it feels
         // revisit later
         if (!canMove)
@@ -94,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
         }
             HorizontalMove = movementInput.x * moveSpeed * Time.fixedDeltaTime;
             VerticalMove = movementInput.y * moveSpeed * Time.fixedDeltaTime;
-            controller.Move(HorizontalMove, VerticalMove, crouch, jump);
+            controller.Move(HorizontalMove, VerticalMove, InputManager.Instance.GetCrouchPressed(), jump);
             jump = false;
         
     }
@@ -147,19 +161,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void OnCrouch(InputAction.CallbackContext context)
-    {
-        if (context.started && !context.performed)
-        {
-            CurrentState = PlayerStates.CROUCH;
-            crouch = true;
-        } else if (context.canceled && !context.performed)
-        {
-            CurrentState = PlayerStates.IDLE;
-            crouch = false;
-        }
-    }
-
     public void OnAttack(InputAction.CallbackContext context)
     {
 
@@ -179,25 +180,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void OnInteract(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            interact = true;
-        }
-        else if (context.canceled)
-        {
-            interact = false;
-        }
-    }
-
-    public bool GetInteractPressed()
-    {
-        bool result = interact;
-        interact = false;
-        return result;
-    }
-
     public void OnAttackFinished()
     {
         stateLock = false;
@@ -210,5 +192,23 @@ public class PlayerMovement : MonoBehaviour
         if(attackPoint == null)
             return;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            interact = true;
+        }
+        else if (context.canceled)
+        {
+            interact = false;
+        }
+    }
+    public bool GetInteractPressed()
+    {
+        bool result = interact;
+        interact = false;
+        return result;
     }
 }
