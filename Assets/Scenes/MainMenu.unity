@@ -2469,6 +2469,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SaveSlot3
       objectReference: {fileID: 0}
+    - target: {fileID: 2279788446972790236, guid: 8eeab6bea221ee840ad532e640843660,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3995633355506894255, guid: 8eeab6bea221ee840ad532e640843660,
         type: 3}
       propertyPath: m_text
