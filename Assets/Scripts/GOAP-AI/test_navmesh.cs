@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,6 +8,7 @@ public class test_navmesh : MonoBehaviour
 {
     private NavMeshAgent agent;
     [SerializeField] private GameObject target;
+    [SerializeField] private TextMeshProUGUI movingText;
 
     // Start is called before the first frame update
     void Start()
@@ -27,11 +29,11 @@ public class test_navmesh : MonoBehaviour
             // Horizontal movement (left or right)
             if (velocity.x > 0)
             {
-                Debug.Log("Moving right");
+                movingText.text = "Moving RIGHT with velocity " + velocity;
             }
             else
             {
-                Debug.Log("Moving left");
+                movingText.text = "Moving LEFT with velocity " + velocity;
             }
         }
         else
@@ -39,11 +41,11 @@ public class test_navmesh : MonoBehaviour
             // Vertical movement (up or down)
             if (velocity.z > 0)
             {
-                Debug.Log("Moving up");
+                movingText.text = "Moving UP with velocity " + velocity;
             }
             else
             {
-                Debug.Log("Moving down");
+                movingText.text = "Moving DOWN with velocity " + velocity;
             }
         }
     }
