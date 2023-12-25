@@ -29,11 +29,11 @@ public class test_navmesh : MonoBehaviour
             // Horizontal movement (left or right)
             if (velocity.x > 0)
             {
-                movingText.text = "Moving RIGHT with velocity " + velocity;
+                movingText.text = "Moving RIGHT";
             }
             else
             {
-                movingText.text = "Moving LEFT with velocity " + velocity;
+                movingText.text = "Moving LEFT";
             }
         }
         else
@@ -41,11 +41,11 @@ public class test_navmesh : MonoBehaviour
             // Vertical movement (up or down)
             if (velocity.z > 0)
             {
-                movingText.text = "Moving UP with velocity " + velocity;
+                movingText.text = "Moving UP";
             }
             else
             {
-                movingText.text = "Moving DOWN with velocity " + velocity;
+                movingText.text = "Moving DOWN";
             }
         }
     }
