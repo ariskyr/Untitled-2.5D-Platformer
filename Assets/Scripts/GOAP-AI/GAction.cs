@@ -13,7 +13,7 @@ public abstract class GAction : MonoBehaviour
     //target location that the navmesh agent will go
     public GameObject target;
     //sometimes tag is used instead of an explicit target
-    public GameObject targetTag;
+    public string targetTag;
     //duration of the action, example: how much should we stay at a waypoint
     public float duration = 0;
     //what are the conditions for this action to be taken

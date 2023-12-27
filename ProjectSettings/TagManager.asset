@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - door
+  - reception
+  - waitingarea
   layers:
   - Default
   - TransparentFX
