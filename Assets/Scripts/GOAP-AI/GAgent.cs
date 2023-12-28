@@ -23,12 +23,6 @@ public class SubGoal
 
 public class GAgent : MonoBehaviour
 {
-    [SerializeField] private bool debugMode = false;
-    [SerializeField] private GameObject debugUI;
-    [Header("Debug Stuff")]
-    [SerializeField] private TextMeshProUGUI debugDirectionText;
-    [SerializeField] private TextMeshProUGUI debugAgentNameText;
-
     [Header("Actions")]
     public List<GAction> actions = new List<GAction>();
     public Dictionary<SubGoal, int> goals = new Dictionary<SubGoal, int>();
@@ -42,17 +36,17 @@ public class GAgent : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        if (debugMode)
-        {
-            debugUI.SetActive(true);
-            debugAgentNameText.text = "Agent: " + gameObject.name;
-        }
-
         GAction[] acts = this.GetComponents<GAction>();
         foreach (GAction action in acts)
         {
             actions.Add(action);
         }
+    }
+
+    //debug purposes
+    public Queue<GAction> GetActionQueue()
+    {
+        return actionQueue;
     }
 
     void CompleteAction()
@@ -67,13 +61,11 @@ public class GAgent : MonoBehaviour
     {
         if (currentAction != null && currentAction.running)
         {
-            //debug mode
-            if (debugMode)
+
+            // continuously update the destination while the action is running
+            if (currentAction.target != null)
             {
-                Vector3 velocity = currentAction.agent.velocity;
-                debugDirectionText.text = Mathf.Abs(velocity.x) > Mathf.Abs(velocity.z) ?
-                    (velocity.x > 0 ? "Moving RIGHT" : "Moving LEFT") :
-                    (velocity.z > 0 ? "Moving UP" : "Moving DOWN");
+                currentAction.agent.SetDestination(currentAction.target.transform.position);
             }
 
             //navmesh agent
@@ -130,6 +122,7 @@ public class GAgent : MonoBehaviour
                 if (currentAction.target != null)
                 {
                     currentAction.running = true;
+                    //original setting of destination
                     currentAction.agent.SetDestination(currentAction.target.transform.position);
                 }
             }

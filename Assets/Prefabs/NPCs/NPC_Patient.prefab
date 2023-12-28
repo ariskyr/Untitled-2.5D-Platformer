@@ -407,6 +407,7 @@ GameObject:
   - component: {fileID: 7080323084494256636}
   - component: {fileID: 2113816342619468266}
   - component: {fileID: 984544792376472358}
+  - component: {fileID: 518434482648694805}
   m_Layer: 6
   m_Name: NPC_Patient
   m_TagString: Untagged
@@ -538,10 +539,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28eb5dc20678668459776fe5b74012c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugMode: 0
-  debugUI: {fileID: 5080870608829236572}
-  debugDirectionText: {fileID: 4405639630429448331}
-  debugAgentNameText: {fileID: 35812989395071962}
   actions: []
   currentAction: {fileID: 0}
 --- !u!114 &7080323084494256636
@@ -617,6 +614,19 @@ MonoBehaviour:
     value: 0
   agent: {fileID: 0}
   running: 0
+--- !u!114 &518434482648694805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7028809608872258598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d403541dea338594996040941cfaf1b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisAgent: {fileID: 5733300085956639844}
 --- !u!1 &7841922377719890700
 GameObject:
   m_ObjectHideFlags: 0

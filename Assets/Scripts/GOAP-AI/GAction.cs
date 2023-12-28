@@ -6,7 +6,7 @@ using UnityEngine.AI;
 //this class is not actually used by anyone, but every action derives from it
 public abstract class GAction : MonoBehaviour
 {
-    public string actionName = "Action";
+    public string actionName = typeof(GAction).Name;
     //very important, since the Planner will make a plan based on the lowest cost,
     //if that plan is possible (all preconditions are met)
     public float cost = 1.0f;
