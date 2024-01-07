@@ -29,6 +29,10 @@ public abstract class GAction : MonoBehaviour
 
     //what the agent knows to be true
     public WorldStates agentBeliefs;
+
+    //the agent's invetory
+    public GInventory inventory;
+
     //if this action is actively being performed atm
     public bool running = false;
 
@@ -57,6 +61,9 @@ public abstract class GAction : MonoBehaviour
                 aftereffects.Add(w.key, w.value);
             }
         }
+
+        inventory = this.GetComponent<GAgent>().inventory;
+        agentBeliefs = this.GetComponent<GAgent>().beliefs;
     }
 
     public bool isAchievable()

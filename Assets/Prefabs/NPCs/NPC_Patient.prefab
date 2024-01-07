@@ -407,6 +407,8 @@ GameObject:
   - component: {fileID: 7080323084494256636}
   - component: {fileID: 2113816342619468266}
   - component: {fileID: 984544792376472358}
+  - component: {fileID: 3004691071910133190}
+  - component: {fileID: 8669323280478503522}
   - component: {fileID: 518434482648694805}
   m_Layer: 6
   m_Name: NPC_Patient
@@ -429,7 +431,7 @@ Transform:
   m_Children:
   - {fileID: 563588773715373541}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3202382865993791815
 SpriteRenderer:
@@ -557,7 +559,7 @@ MonoBehaviour:
   cost: 1
   target: {fileID: 0}
   targetTag: door
-  duration: 2
+  duration: 1
   preConditions: []
   afterEffects:
   - key: hasArrived
@@ -580,7 +582,7 @@ MonoBehaviour:
   cost: 1
   target: {fileID: 0}
   targetTag: waitingarea
-  duration: 5
+  duration: 2
   preConditions:
   - key: hasRegistered
     value: 0
@@ -611,6 +613,56 @@ MonoBehaviour:
     value: 0
   afterEffects:
   - key: hasRegistered
+    value: 0
+  agent: {fileID: 0}
+  running: 0
+--- !u!114 &3004691071910133190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7028809608872258598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a03459b84c9917748b375c514c219711, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionName: GetTreated
+  cost: 1
+  target: {fileID: 0}
+  targetTag: 
+  duration: 5
+  preConditions:
+  - key: atHospital
+    value: 0
+  afterEffects:
+  - key: isTreated
+    value: 0
+  agent: {fileID: 0}
+  running: 0
+--- !u!114 &8669323280478503522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7028809608872258598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9bff3a88195b141b23daa6b8bb4a96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionName: GoHome
+  cost: 1
+  target: {fileID: 0}
+  targetTag: home
+  duration: 10
+  preConditions:
+  - key: isCured
+    value: 0
+  afterEffects:
+  - key: isHome
     value: 0
   agent: {fileID: 0}
   running: 0

@@ -8,6 +8,8 @@ TagManager:
   - door
   - reception
   - waitingarea
+  - cubicle
+  - home
   layers:
   - Default
   - TransparentFX

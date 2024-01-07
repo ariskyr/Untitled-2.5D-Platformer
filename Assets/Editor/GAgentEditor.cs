@@ -26,7 +26,6 @@ public class GAgentDebugEditor : Editor
                     (velocity.x > 0 ? "Moving RIGHT" : "Moving LEFT") :
                     (velocity.z > 0 ? "Moving UP" : "Moving DOWN");
         GUILayout.Label("Direction: " + direction);
-        GUILayout.Label("Current Action: " + agent.gameObject.GetComponent<GAgent>().currentAction);
         GUILayout.Label("Actions: ");
         foreach (GAction a in agent.gameObject.GetComponent<GAgent>().actions)
         {
@@ -38,20 +37,26 @@ public class GAgentDebugEditor : Editor
             foreach (KeyValuePair<string, int> e in a.aftereffects)
                 eff += e.Key + ", ";
 
-            GUILayout.Label("====  " + a.actionName + "(" + pre + ")(" + eff + ")");
+            GUILayout.Label("====  " + a.actionName + " \nPRE: (" + pre + ") \nAFTER: (" + eff + ")");
         }
         GUILayout.Label("Goals: ");
         foreach (KeyValuePair<SubGoal, int> g in agent.gameObject.GetComponent<GAgent>().goals)
         {
             GUILayout.Label("---: ");
             foreach (KeyValuePair<string, int> sg in g.Key.sgoals)
-                GUILayout.Label("=====  " + sg.Key);
+                GUILayout.Label("--->  " + sg.Key + ". Importance: " + g.Value);
         }
-        GUILayout.Label("Plan: ");
-        foreach (GAction a in agent.gameObject.GetComponent<GAgent>().GetActionQueue())
+        GUILayout.Label("Current Action: " + agent.gameObject.GetComponent<GAgent>().currentAction);
+        if (agent.gameObject.GetComponent<GAgent>().GetActionQueue() != null)
         {
-            GUILayout.Label("==== " + a.actionName);
+            GUILayout.Label("Plan: "); 
+            foreach (GAction a in agent.gameObject.GetComponent<GAgent>().GetActionQueue())
+            {
+                GUILayout.Label("==== " + a.actionName);
+            }
+
         }
+        
         serializedObject.ApplyModifiedProperties();
     }
 }

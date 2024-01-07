@@ -13,6 +13,10 @@ GameObject:
   - component: {fileID: 2881520044701000152}
   - component: {fileID: 5358862003615218319}
   - component: {fileID: 8044772508686118150}
+  - component: {fileID: 665257919077622703}
+  - component: {fileID: 5969138525465060891}
+  - component: {fileID: 6026113163610207405}
+  - component: {fileID: 38896591592546599}
   m_Layer: 6
   m_Name: NPC_Nurse
   m_TagString: Untagged
@@ -33,7 +37,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3942327907520633265
 SpriteRenderer:
@@ -78,7 +82,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -2735075395936164667, guid: 14a75870c0f711c4eab1a47af210355d,
     type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -149,3 +153,82 @@ NavMeshAgent:
   m_BaseOffset: 1.53125
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &665257919077622703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4550407416158656936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5349f00ad1e311f4f9645c03bac6b350, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions: []
+  currentAction: {fileID: 0}
+--- !u!114 &5969138525465060891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4550407416158656936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d389766c9ddf17540b3aea5fafbd893b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionName: GetPatient
+  cost: 1
+  target: {fileID: 0}
+  targetTag: 
+  duration: 0
+  preConditions:
+  - key: patientWaiting
+    value: 0
+  - key: freeCubicle
+    value: 0
+  afterEffects:
+  - key: patientPickedUp
+    value: 0
+  agent: {fileID: 0}
+  running: 0
+--- !u!114 &6026113163610207405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4550407416158656936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb3cad016a3c9c742917796287fb42a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionName: GAction
+  cost: 1
+  target: {fileID: 0}
+  targetTag: 
+  duration: 8
+  preConditions:
+  - key: patientPickedUp
+    value: 0
+  afterEffects:
+  - key: treatPatient
+    value: 0
+  agent: {fileID: 0}
+  running: 0
+--- !u!114 &38896591592546599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4550407416158656936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d403541dea338594996040941cfaf1b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisAgent: {fileID: 0}
