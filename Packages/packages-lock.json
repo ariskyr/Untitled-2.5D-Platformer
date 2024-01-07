@@ -282,6 +282,12 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
+    "com.unity.ui.builder": {
+      "version": "2.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
     "com.unity.visualeffectgraph": {
       "version": "14.0.8",
       "depth": 1,
