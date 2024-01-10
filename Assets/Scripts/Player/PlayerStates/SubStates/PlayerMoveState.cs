@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class PlayerMoveState : PlayerGroundedState
 {
-    private Vector3 workspace;
+    private Vector2 movementVelocity;
+    private Quaternion toRotation;
 
     public PlayerMoveState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
@@ -19,10 +20,6 @@ public class PlayerMoveState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        /*DoChecks();
-        player.Animator.SetBool(animBoolName, true);
-        startTime = Time.time;
-        Debug.Log(animBoolName);*/
     }
 
     public override void Exit()
@@ -34,12 +31,13 @@ public class PlayerMoveState : PlayerGroundedState
     {
         base.LogicUpdate();
 
-        player.CheckIfShouldFlip(input.x);
+        //Moving player
+        player.CheckIfShouldFlip(moveInput.x);
 
-        workspace = playerData.movementVelocity * input;
-        player.setVelocityXZ(workspace.x, workspace.z);
+        movementVelocity = playerData.movementVelocity * moveInput;
+        player.SetVelocityXZ(movementVelocity);
 
-        if (input.Equals(Vector3.zero))
+        if (moveInput.Equals(Vector2.zero))
         {
             stateMachine.ChangeState(player.IdleState);
         }

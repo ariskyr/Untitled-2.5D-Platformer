@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class InputManager : GenericSingleton<InputManager>
 {
-    private Vector3 move = Vector3.zero;
+    private Vector2 move = Vector2.zero;
     private bool attack = false;
     private bool jump = false;
     private bool crouch = false;
@@ -14,10 +14,10 @@ public class InputManager : GenericSingleton<InputManager>
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        move = context.ReadValue<Vector3>();
+        move = context.ReadValue<Vector2>();
     }
 
-    public Vector3 GetMovePressed()
+    public Vector2 GetMovePressed()
     {
         return move;
     }

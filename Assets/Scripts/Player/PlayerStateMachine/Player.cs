@@ -8,20 +8,30 @@ public class Player : MonoBehaviour
 
     public PlayerIdleState IdleState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
+    public PlayerJumpState JumpState { get; private set; }
+    public PlayerInAirState InAirState { get; private set; }
+    public PlayerLandState LandState { get; private set; }
 
     public Animator Animator { get; private set; }
     public Rigidbody RB { get; private set; }
     [SerializeField] private PlayerData playerData;
 
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private Transform facing;
+
     public Vector3 CurrentVelocity { get; private set; }
     private bool facingRight = true;
     private Vector3 workspace;
+    private Quaternion toRotation;
 
     private void Awake()
     {
         StateMachine = new PlayerStateMachine();
         IdleState = new PlayerIdleState(this, StateMachine, playerData, "idle");
         MoveState = new PlayerMoveState(this, StateMachine, playerData, "move");
+        JumpState = new PlayerJumpState(this, StateMachine, playerData, "inAir");
+        InAirState = new PlayerInAirState(this, StateMachine, playerData, "inAir");
+        LandState = new PlayerLandState(this, StateMachine, playerData, "land");
     }
 
     private void Start()
@@ -39,14 +49,33 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        StateMachine.CurrentState.LogicUpdate();
+        StateMachine.CurrentState.PhysicsUpdate();
     }
 
-    public void setVelocityXZ(float velocityX, float velocityZ)
+    public void SetVelocityXZ(Vector2 movementVelocity)
     {
-        workspace.Set(velocityX, CurrentVelocity.y, velocityZ);
+        workspace.Set(movementVelocity.x, CurrentVelocity.y, movementVelocity.y); //movementVelocity.y is in z axis
         RB.velocity = workspace;
         CurrentVelocity = workspace;
+
+        //Also rotate the facing while moving
+        toRotation = Quaternion.LookRotation(CurrentVelocity) * Quaternion.AngleAxis(-90, Vector3.up);
+        if (!movementVelocity.Equals(Vector2.zero))
+        {
+            facing.rotation = toRotation;
+        }
+    }
+
+    public void SetVelocityY(float velocityY)
+    {
+        workspace.Set(CurrentVelocity.x, velocityY, CurrentVelocity.z);
+        RB.velocity = workspace;
+        CurrentVelocity = workspace;
+    }
+
+    public bool CheckIfGrounded()
+    {
+        return Physics.CheckSphere(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
     }
 
     public void CheckIfShouldFlip(float xInput)
@@ -60,6 +89,17 @@ public class Player : MonoBehaviour
             Flip();
         }
     }
+
+    private void AnimationTrigger()
+    {
+        StateMachine.CurrentState.AnimationTrigger();
+    }
+
+    private void AnimationFinishedTrigger()
+    {
+        StateMachine.CurrentState.AnimationFinishedTrigger();
+    }
+
     private void Flip()
     {
         facingRight = !facingRight;
@@ -72,9 +112,9 @@ public class Player : MonoBehaviour
         {
             Animator.SetFloat("direction", -1f);
         }
-
-
-        //Flip the position of the attack point to be always in front of the player
-        //m_AttackPoint.RotateAround(transform.position, Vector3.up, 180);
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(groundCheck.position, playerData.groundCheckRadius);
     }
 }
