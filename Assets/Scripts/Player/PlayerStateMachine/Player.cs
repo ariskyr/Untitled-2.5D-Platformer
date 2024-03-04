@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : GenericSingleton<Player>, IDataPersistence
 {
     public PlayerStateMachine StateMachine { get; private set; }
 
@@ -22,13 +22,14 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform facing;
 
     public Vector3 CurrentVelocity { get; private set; }
-    private bool facingRight = true;
+    public bool facingRight { get; private set; } = true;
     private Vector3 workspace;
     private Quaternion toRotation;
     private BoxCollider topCollider;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         StateMachine = new PlayerStateMachine();
         IdleState = new PlayerIdleState(this, StateMachine, playerData, "idle");
         MoveState = new PlayerMoveState(this, StateMachine, playerData, "move");
@@ -128,6 +129,20 @@ public class Player : MonoBehaviour
         {
             Animator.SetFloat("direction", -1f);
         }
+    }
+    public void TeleportPlayer(Vector3 position)
+    {
+        transform.position = position;
+    }
+
+    public void LoadData(GameData data)
+    {
+        transform.position = data.playerPosition;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.playerPosition = transform.position;
     }
     private void OnDrawGizmosSelected()
     {

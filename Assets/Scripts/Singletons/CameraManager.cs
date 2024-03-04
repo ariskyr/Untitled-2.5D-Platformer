@@ -50,7 +50,7 @@ public class CameraManager : GenericSingleton<CameraManager>, IDataPersistence
         offset = transform.position - target.position;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (canFollow)
         {
@@ -70,7 +70,7 @@ public class CameraManager : GenericSingleton<CameraManager>, IDataPersistence
             transform.position = targetCamPos;
         }
 
-        transform.position = Vector3.Lerp(transform.position, targetCamPos, smoothing * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, targetCamPos, smoothing * Time.fixedDeltaTime);
     }
 
     public void CameraZoomIn(float zoomDuration, Vector3 positionOffset, Vector3 rotationOffset, float fovOffset)

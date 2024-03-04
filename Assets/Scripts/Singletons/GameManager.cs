@@ -8,7 +8,7 @@ public class GameManager : GenericSingleton<GameManager>, IDataPersistence
 {
     private float elapsedTime = 0;
     private string currentScene;
-    private PlayerMovement playerMovement;
+    private Player player;
 
         private void OnEnable()
     {
@@ -24,10 +24,10 @@ public class GameManager : GenericSingleton<GameManager>, IDataPersistence
 
     private void Start()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        GameObject playerGO = GameObject.FindGameObjectWithTag("Player");
+        if (playerGO != null)
         {
-            playerMovement = player.GetComponent<PlayerMovement>();
+            player = playerGO.GetComponent<Player>();
         }
         else
         {
@@ -83,7 +83,7 @@ public class GameManager : GenericSingleton<GameManager>, IDataPersistence
 
             yield return null;
         }
-        playerMovement.TeleportPlayer(positionToLoad);
+        player.TeleportPlayer(positionToLoad);
         // Enable the next scene
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
     }

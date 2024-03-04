@@ -14,7 +14,7 @@ public class InteractionPromptUI : MonoBehaviour
     [SerializeField] private float transitionDuration = 1.0f;
 
     public bool IsDisplayed = false;
-    private PlayerController _playerController;
+    private Player _playerController;
     private Coroutine currentTransition;
     private bool IsTransitioning = false;
     private bool allowPositionUpdate = true;
@@ -26,7 +26,7 @@ public class InteractionPromptUI : MonoBehaviour
 
     private void Start()
     {
-        _playerController = GetComponentInParent<PlayerController>();
+        _playerController = GetComponentInParent<Player>();
 
         _mainCam = Camera.main;
         _canvasGroup.alpha = 0;
@@ -36,7 +36,7 @@ public class InteractionPromptUI : MonoBehaviour
     {
         if (allowPositionUpdate)
         {
-            playerDirection = _playerController.m_Directionright;
+            playerDirection = _playerController.facingRight;
             if (playerDirection)
             {
                 gameObject.transform.localPosition = initialPositionRight;
