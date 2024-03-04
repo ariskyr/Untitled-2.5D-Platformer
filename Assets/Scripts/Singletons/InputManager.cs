@@ -74,7 +74,6 @@ public class InputManager : GenericSingleton<InputManager>
     public bool GetCrouchPressed()
     {
         bool result = crouch;
-        crouch = false;
         return result;
     }
 

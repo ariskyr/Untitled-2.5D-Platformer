@@ -12,6 +12,7 @@ public class CharacterStats : MonoBehaviour
 
     public Stat attackDamage;
     public Stat attackSpeed;
+    public Stat attackDelay;
 
 
     private void Awake()

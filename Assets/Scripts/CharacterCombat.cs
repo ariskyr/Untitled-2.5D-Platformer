@@ -21,8 +21,15 @@ public class CharacterCombat : MonoBehaviour
     {
         if (myStats.attackCooldown <= 0)
         {
-            targetStats.TakeDamage(myStats.attackDamage.GetValue());
+            StartCoroutine(DoDamage(targetStats));
             myStats.attackCooldown = 1 / myStats.attackSpeed.GetValue();
         }
+    }
+
+    IEnumerator DoDamage(CharacterStats stats)
+    {
+        yield return new WaitForSeconds(myStats.attackDelay.GetValue());
+
+        stats.TakeDamage(myStats.attackDamage.GetValue());
     }
 }
