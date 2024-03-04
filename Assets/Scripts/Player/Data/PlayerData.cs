@@ -11,6 +11,11 @@ public class PlayerData : ScriptableObject
     [Header("Jump State")]
     public float jumpVelocity = 5f;
 
+    [Header("Crouch States")]
+    public float crouchMovementVelocity = 3f;
+    public float crouchColliderHeight = 0.15f;
+    public float standColliderHeight = 0.35f;
+
     [Header("Check Variables")]
     public float groundCheckRadius = 0.2f;
     public LayerMask whatIsGround;

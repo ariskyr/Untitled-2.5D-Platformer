@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     public PlayerJumpState JumpState { get; private set; }
     public PlayerInAirState InAirState { get; private set; }
     public PlayerLandState LandState { get; private set; }
+    public PlayerCrouchIdleState CrouchIdleState { get; private set; }
+    public PlayerCrouchMoveState CrouchMoveState { get; private set; }
 
     public Animator Animator { get; private set; }
     public Rigidbody RB { get; private set; }
@@ -23,6 +25,7 @@ public class Player : MonoBehaviour
     private bool facingRight = true;
     private Vector3 workspace;
     private Quaternion toRotation;
+    private BoxCollider topCollider;
 
     private void Awake()
     {
@@ -32,12 +35,15 @@ public class Player : MonoBehaviour
         JumpState = new PlayerJumpState(this, StateMachine, playerData, "inAir");
         InAirState = new PlayerInAirState(this, StateMachine, playerData, "inAir");
         LandState = new PlayerLandState(this, StateMachine, playerData, "land");
+        CrouchIdleState = new PlayerCrouchIdleState(this, StateMachine, playerData, "crouchIdle");
+        CrouchMoveState = new PlayerCrouchMoveState(this, StateMachine, playerData, "crouchMove");
     }
 
     private void Start()
     {
         Animator = GetComponent<Animator>();
         RB = GetComponent<Rigidbody>();
+        topCollider = GetComponent<BoxCollider>();
         StateMachine.Initialize(IdleState);
     }
 
@@ -71,6 +77,16 @@ public class Player : MonoBehaviour
         workspace.Set(CurrentVelocity.x, velocityY, CurrentVelocity.z);
         RB.velocity = workspace;
         CurrentVelocity = workspace;
+    }
+
+    public void SetTopColliderHeight(float height)
+    {
+        Vector3 center = topCollider.center;
+        workspace.Set(topCollider.size.x, height, topCollider.size.z);
+        center.y -= (topCollider.size.y - height) / 2;
+
+        topCollider.size = workspace;
+        topCollider.center = center;
     }
 
     public bool CheckIfGrounded()
