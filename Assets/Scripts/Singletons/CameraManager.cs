@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
+using Pixelplacement;
 
 public class CameraManager : GenericSingleton<CameraManager>, IDataPersistence
 {
@@ -88,6 +89,12 @@ public class CameraManager : GenericSingleton<CameraManager>, IDataPersistence
         zoomCoroutine = StartCoroutine(CameraZoom(false, zoomDuration, positionOffset, rotationOffset, fovOffset));
     }
 
+
+    public void CameraShake(float strength, float duration = 1.0f)
+    {
+        Tween.Shake(transform, transform.localPosition, new Vector3(strength, strength, 0), duration, 0);
+    }
+
     public void StopZoomCoroutine()
     {
         if (zoomCoroutine != null)
@@ -132,4 +139,5 @@ public class CameraManager : GenericSingleton<CameraManager>, IDataPersistence
         }
         zoomingIn = false;
     }
+
 }

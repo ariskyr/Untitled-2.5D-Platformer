@@ -215,6 +215,8 @@ GameObject:
   - component: {fileID: 5852657446621556495}
   - component: {fileID: 5793284991986140716}
   - component: {fileID: 7567103523514241178}
+  - component: {fileID: 4242638197241522581}
+  - component: {fileID: 8274920151772604550}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -613,6 +615,39 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _interactionPromptUI: {fileID: 3902626860677554889}
+--- !u!114 &4242638197241522581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2557069414317964516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cbc5784ee9d9d34989af528ff4f7263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8274920151772604550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2557069414317964516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e5f7ede5abe1af4d8b50c75db703d15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitType: 3
+  disableHitEffect: 0
+  spriteParent: {fileID: 8463271733987666591}
+  customHitEffect: {fileID: 5857856430146468901, guid: b999265037167514cae7c917354492d5,
+    type: 3}
+  customHitSound: {fileID: 8300000, guid: 27a70f862866d364da74fcf3ca863e42, type: 3}
+  hideWhenDead: 0
+  hitMaterial: {fileID: 2100000, guid: 597a34cae1a10de4199a39cb8b8be68b, type: 2}
+  health: 40
 --- !u!1 &4547689995017772944
 GameObject:
   m_ObjectHideFlags: 0

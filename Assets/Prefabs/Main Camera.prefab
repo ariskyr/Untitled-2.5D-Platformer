@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5887167862290933394}
   - component: {fileID: 2390271524706687360}
   - component: {fileID: 3226692982533496391}
-  - component: {fileID: 8335578945894984151}
+  - component: {fileID: 2595830548946937074}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -33,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 34, y: 0, z: 0}
 --- !u!20 &5887167862290933394
 Camera:
@@ -138,7 +138,7 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!114 &8335578945894984151
+--- !u!114 &2595830548946937074
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -152,3 +152,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   smoothing: 5
+  zoomingIn: 0
+  canFollow: 1

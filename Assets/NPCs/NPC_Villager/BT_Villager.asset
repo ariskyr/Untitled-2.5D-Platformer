@@ -1,0 +1,527 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8866654724156608139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: c50e71758c9a5a04cacdc15e442d30bb
+  position: {x: 467.9579, y: -171.64583}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: 'Default: Randomly move to a position in VillagerBounds box'
+  drawGizmos: 0
+  children:
+  - {fileID: 5195550132062543490}
+  - {fileID: 4449458250739233395}
+  - {fileID: 7255664585365512783}
+  - {fileID: -6363889774963569862}
+  - {fileID: -3679781776276153223}
+--- !u!114 &-7286093460018116880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: ebbfaef00f9f5544f970991fb3f30868
+  position: {x: -1041.8268, y: -72.313065}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: If player triggers dialogue with him, wait until the dialogue is finished
+  drawGizmos: 0
+  children:
+  - {fileID: 4783577301734351138}
+  - {fileID: -399398446263932890}
+  - {fileID: 4827187074767365030}
+--- !u!114 &-6802640942076231077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3926cfa19a85ba24ea5383cc69651f17, type: 3}
+  m_Name: MoveToClosestPositionInBoundsAnimator
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: bcb93cc6531a7d44b963d5dab1b61e1f
+  position: {x: -220.059, y: 128.2951}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: 
+  drawGizmos: 0
+  speed: 7
+  stoppingDistance: 0.1
+  updateRotation: 1
+  acceleration: 7
+  tolerance: 1
+  offset: 0.3
+--- !u!114 &-6363889774963569862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e40c28f054b9fbe41a05e28c490e080b, type: 3}
+  m_Name: ToggleAnimParam
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: a752d5f01c01ca4488e18f1d4598b681
+  position: {x: 689.77264, y: 107.967514}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: 
+  drawGizmos: 0
+  _idle: 0
+  _move: 1
+--- !u!114 &-5262002265092059126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 911cd7e1f2c5f974cbcf12ff3bb3b8da
+  position: {x: -377, y: -38.417492}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: If villager finds himself out of bounds, sprint back inside
+  drawGizmos: 0
+  children:
+  - {fileID: -2787009288057234989}
+  - {fileID: 131950267269835558}
+  - {fileID: -6802640942076231077}
+--- !u!114 &-4442067014681796540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7bf77e26564daa41815cba042a730aa, type: 3}
+  m_Name: InterruptSelector
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 02b3966e355a9ef409534177ef88424e
+  position: {x: -1040.8268, y: -212.31305}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: -7286093460018116880}
+--- !u!114 &-3679781776276153223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1874036697bbc8b4f8bcc2973294bcd5, type: 3}
+  m_Name: MoveToPositionAnimator
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 8cb82e844797ae341924eece6035b8c7
+  position: {x: 874.4462, y: 89.775024}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: Node that Moves to the chosen blackboard position, while updating
+    animator
+  drawGizmos: 0
+  speed: 2
+  stoppingDistance: 0.1
+  updateRotation: 1
+  acceleration: 1.5
+  tolerance: 1
+--- !u!114 &-2787726455408008707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 163c147d123e4a945b688eddc64e3ea5, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 9bd8143573e25e84e8d4b9574c12aa9c
+  position: {x: -43.741047, y: -575.3533}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: 
+  drawGizmos: 0
+  child: {fileID: -1181737639545261532}
+--- !u!114 &-2787009288057234989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f4dd99c4b0998d4dbdb6f3c24de582a, type: 3}
+  m_Name: IsOutOfBounds
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 97d127425d760634c866614ab9f4aa29
+  position: {x: -572.059, y: 121.29495}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: Conditional that checks if NPC is out of blackboard specified bounds
+  drawGizmos: 0
+--- !u!114 &-1984619795711084325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7bf77e26564daa41815cba042a730aa, type: 3}
+  m_Name: InterruptSelector
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 5cba6d6e011f6e64ea4115568bcae6ce
+  position: {x: -371.35797, y: -192}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: -5262002265092059126}
+--- !u!114 &-1925785607326018991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7bf77e26564daa41815cba042a730aa, type: 3}
+  m_Name: InterruptSelector
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 8aedd978f3f5f984eb36aa5dd122e649
+  position: {x: -52.05901, y: -326.05905}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: -4442067014681796540}
+  - {fileID: -1984619795711084325}
+  - {fileID: -8866654724156608139}
+--- !u!114 &-1181737639545261532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb5496e8cd973748a10b3e3ef436ebd, type: 3}
+  m_Name: Repeat
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 9755ef73008cbef47b0b0cbcdd4e8fd1
+  position: {x: -49.741035, y: -467.15964}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: 
+  drawGizmos: 0
+  child: {fileID: -1925785607326018991}
+  restartOnSuccess: 1
+  restartOnFailure: 0
+  repeatCount: 1
+--- !u!114 &-399398446263932890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e40c28f054b9fbe41a05e28c490e080b, type: 3}
+  m_Name: ToggleAnimParam
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: edaca37de301c8e4e9c30b5a80442d90
+  position: {x: -1117.2603, y: 105.24031}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: 
+  drawGizmos: 0
+  _idle: 1
+  _move: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d285eb63c2cdd74180de7cfceaa96ad, type: 3}
+  m_Name: BT_Villager
+  m_EditorClassIdentifier: 
+  rootNode: {fileID: -2787726455408008707}
+  treeState: 0
+  nodes:
+  - {fileID: -2787726455408008707}
+  - {fileID: -1181737639545261532}
+  - {fileID: 4449458250739233395}
+  - {fileID: -8866654724156608139}
+  - {fileID: -3679781776276153223}
+  - {fileID: -6363889774963569862}
+  - {fileID: 5195550132062543490}
+  - {fileID: -1925785607326018991}
+  - {fileID: -399398446263932890}
+  - {fileID: -1984619795711084325}
+  - {fileID: -5262002265092059126}
+  - {fileID: -2787009288057234989}
+  - {fileID: 131950267269835558}
+  - {fileID: 7255664585365512783}
+  - {fileID: -6802640942076231077}
+  - {fileID: 4827187074767365030}
+  - {fileID: 4783577301734351138}
+  - {fileID: -4442067014681796540}
+  - {fileID: -7286093460018116880}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+--- !u!114 &131950267269835558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e40c28f054b9fbe41a05e28c490e080b, type: 3}
+  m_Name: ToggleAnimParam
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 4bd29a0eef3f2ca46ae0eaf26e62140e
+  position: {x: -379.06085, y: 125.00004}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: 
+  drawGizmos: 0
+  _idle: 0
+  _move: 1
+--- !u!114 &4449458250739233395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 2b70121a9416c6044ba809ba57de2292
+  position: {x: 338, y: 112}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: 
+  drawGizmos: 0
+  duration: 5
+--- !u!114 &4783577301734351138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc7d800efdb799f4db82242dd4b1c482, type: 3}
+  m_Name: IsDialogueTriggered
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 553b8a03951eb9642b434737aaa24684
+  position: {x: -1278.2604, y: 113.24034}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: 
+  drawGizmos: 0
+--- !u!114 &4827187074767365030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: eb9ec19b580b9c74faa234e6a5eac0fe
+  position: {x: -931.9165, y: 99.49801}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: 
+  drawGizmos: 0
+  duration: 2
+--- !u!114 &5195550132062543490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e40c28f054b9fbe41a05e28c490e080b, type: 3}
+  m_Name: ToggleAnimParam
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 7eedba10ed7c42b42932497143a23f02
+  position: {x: 176.95796, y: 108.354195}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: 
+  drawGizmos: 0
+  _idle: 1
+  _move: 0
+--- !u!114 &7255664585365512783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d222e8130aca7b4f893250a9c007ca6, type: 3}
+  m_Name: RandomPositionInBounds
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 8700465b988395a4f8904471505c1c98
+  position: {x: 492.84253, y: 108.00751}
+  blackboard:
+    target: {x: 0, y: 0, z: 0}
+    tag: 
+    pointOfInterest: {fileID: 0}
+    wasChasing: 0
+  description: Picks a position inside the blackboard bounds
+  drawGizmos: 0
