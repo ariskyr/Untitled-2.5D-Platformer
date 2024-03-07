@@ -27,6 +27,11 @@ public class Player : GenericSingleton<Player>, IDataPersistence
     private Quaternion toRotation;
     private BoxCollider topCollider;
 
+    public int CurrentHealth { get; private set; }
+    public int CurrentLevel { get; private set; }
+    public int CurrentExperience { get; private set; }
+    public int CurrentGold { get; private set; }
+
     protected override void Awake()
     {
         base.Awake();
@@ -38,6 +43,11 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         LandState = new PlayerLandState(this, StateMachine, playerData, "land");
         CrouchIdleState = new PlayerCrouchIdleState(this, StateMachine, playerData, "crouchIdle");
         CrouchMoveState = new PlayerCrouchMoveState(this, StateMachine, playerData, "crouchMove");
+
+        CurrentHealth = playerData.maxHealth;
+        CurrentLevel = playerData.startingLevel;
+        CurrentExperience = playerData.startingExperience;
+        CurrentGold = playerData.startingGold;
     }
 
     private void Start()
@@ -46,6 +56,10 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         RB = GetComponent<Rigidbody>();
         topCollider = GetComponent<BoxCollider>();
         StateMachine.Initialize(IdleState);
+
+        GameEventsManager.Instance.playerEvents.LevelUp(CurrentLevel);
+        GameEventsManager.Instance.playerEvents.ExperienceGained(CurrentExperience);
+
     }
 
     private void Update()

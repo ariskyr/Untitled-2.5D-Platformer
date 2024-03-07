@@ -19,4 +19,10 @@ public class PlayerData : ScriptableObject
     [Header("Check Variables")]
     public float groundCheckRadius = 0.2f;
     public LayerMask whatIsGround;
+
+    [Header("Misc")]
+    public int maxHealth = 100;
+    public int startingLevel = 1;
+    public int startingExperience = 0;
+    public int startingGold = 5;
 }
