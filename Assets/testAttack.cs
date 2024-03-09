@@ -20,6 +20,8 @@ public class testAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //test attack
+
         if (InputManager.Instance.GetTestPressed())
         {
             foreach (Destructable t in targets)
@@ -27,6 +29,18 @@ public class testAttack : MonoBehaviour
                 t.OnAttackHit(t.transform.position, new(4.0f, 4.0f), 5);
             }
         }
-
+        //test experience
+        /*        
+        if (InputManager.Instance.GetTestPressed())
+        {
+            GameEventsManager.Instance.playerEvents.ExperienceGained(10);
+        }*/
+        //test gold
+        /*
+        if (InputManager.Instance.GetTestPressed())
+        {
+            GameEventsManager.Instance.playerEvents.GoldGained(10);
+        }
+        */
     }
 }

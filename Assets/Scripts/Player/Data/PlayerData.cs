@@ -25,4 +25,6 @@ public class PlayerData : ScriptableObject
     public int startingLevel = 1;
     public int startingExperience = 0;
     public int startingGold = 5;
+    //maybe this needs to scale
+    public int experienceToNextLevel = 100;
 }

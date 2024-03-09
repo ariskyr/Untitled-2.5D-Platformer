@@ -50,6 +50,22 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         CurrentGold = playerData.startingGold;
     }
 
+    private void OnEnable()
+    {
+        GameEventsManager.Instance.playerEvents.onHealthGained += HealthGained;
+        GameEventsManager.Instance.playerEvents.onHealthLost += HealthLost;
+        GameEventsManager.Instance.playerEvents.onExperienceGained += ExperienceGained;
+        GameEventsManager.Instance.playerEvents.onGoldGained += GoldGained;
+    }
+
+    private void OnDisable()
+    {
+        GameEventsManager.Instance.playerEvents.onHealthGained -= HealthGained;
+        GameEventsManager.Instance.playerEvents.onHealthLost -= HealthLost;
+        GameEventsManager.Instance.playerEvents.onExperienceGained -= ExperienceGained;
+        GameEventsManager.Instance.playerEvents.onGoldGained -= GoldGained;
+    }
+
     private void Start()
     {
         Animator = GetComponent<Animator>();
@@ -57,8 +73,10 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         topCollider = GetComponent<BoxCollider>();
         StateMachine.Initialize(IdleState);
 
-        GameEventsManager.Instance.playerEvents.LevelUp(CurrentLevel);
-        GameEventsManager.Instance.playerEvents.ExperienceGained(CurrentExperience);
+        GameEventsManager.Instance.playerEvents.PlayerHealthChange(CurrentHealth);
+        GameEventsManager.Instance.playerEvents.PlayerLevelChange(CurrentLevel);
+        GameEventsManager.Instance.playerEvents.PlayerExperienceChange(CurrentExperience);
+        GameEventsManager.Instance.playerEvents.GoldChange(CurrentGold);
 
     }
 
@@ -71,6 +89,46 @@ public class Player : GenericSingleton<Player>, IDataPersistence
     private void FixedUpdate()
     {
         StateMachine.CurrentState.PhysicsUpdate();
+    }
+
+    private void HealthGained(int health)
+    {
+        CurrentHealth += health;
+        if (CurrentHealth > playerData.maxHealth)
+        {
+            CurrentHealth = playerData.maxHealth;
+        }
+        GameEventsManager.Instance.playerEvents.PlayerHealthChange(CurrentHealth);
+    }
+
+    private void HealthLost(int health)
+    {
+        CurrentHealth -= health;
+        if (CurrentHealth <= 0)
+        {
+            CurrentHealth = 0;
+            //player died
+        }
+        GameEventsManager.Instance.playerEvents.PlayerHealthChange(CurrentHealth);
+    }
+
+    private void GoldGained(int gold)
+    {
+        CurrentGold += gold;
+        GameEventsManager.Instance.playerEvents.GoldChange(CurrentGold);
+    }
+
+    private void ExperienceGained(int experience)
+    {
+        CurrentExperience += experience;
+        //check if player can level up
+        while (CurrentExperience >= playerData.experienceToNextLevel)
+        {
+            CurrentExperience -= playerData.experienceToNextLevel;
+            CurrentLevel++;
+            GameEventsManager.Instance.playerEvents.PlayerLevelChange(CurrentLevel);
+        }
+        GameEventsManager.Instance.playerEvents.PlayerExperienceChange(CurrentExperience);
     }
 
     public void SetVelocityXZ(Vector2 movementVelocity)
