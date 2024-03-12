@@ -6,6 +6,7 @@ public class GameEventsManager : GenericSingleton<GameEventsManager>
 {
     public PlayerEvents playerEvents;
     public MiscEvents miscEvents;
+    public QuestEvents questEvents;
 
     protected override void Awake()
     {
@@ -13,5 +14,6 @@ public class GameEventsManager : GenericSingleton<GameEventsManager>
         //init
         playerEvents = new PlayerEvents();
         miscEvents = new MiscEvents();
+        questEvents = new QuestEvents();
     }
 }
