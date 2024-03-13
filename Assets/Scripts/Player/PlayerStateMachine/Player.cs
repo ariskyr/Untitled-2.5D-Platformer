@@ -210,11 +210,19 @@ public class Player : GenericSingleton<Player>, IDataPersistence
     public void LoadData(GameData data)
     {
         transform.position = data.playerPosition;
+        CurrentExperience = data.playerExperience;
+        CurrentLevel = data.playerLevel;
+        CurrentHealth = data.playerHealth;
+        CurrentGold = data.playerGold;
     }
 
     public void SaveData(GameData data)
     {
         data.playerPosition = transform.position;
+        data.playerExperience = CurrentExperience;
+        data.playerLevel = CurrentLevel;
+        data.playerHealth = CurrentHealth;
+        data.playerGold = CurrentGold;
     }
     private void OnDrawGizmosSelected()
     {

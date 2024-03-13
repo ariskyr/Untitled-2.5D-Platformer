@@ -10,12 +10,33 @@ public class Quest
     // state info
     public QuestState state;
     private int currentQuestStepIndex;
+    private QuestStepState[] questStepStates;
 
     public Quest(QuestInfoSO questInfo)
     {
         info = questInfo;
         state = QuestState.REQUIREMENTS_NOT_MET;
         currentQuestStepIndex = 0;
+        questStepStates = new QuestStepState[info.questStepPrefabs.Length];
+        for (int i = 0; i < questStepStates.Length; i++)
+        {
+            questStepStates[i] = new QuestStepState();
+        }
+    }
+
+    public Quest(QuestInfoSO questInfo, QuestState questState, int currentQuestStepIndex, QuestStepState[] questStepStates)
+    {
+        info = questInfo;
+        state = questState;
+        this.currentQuestStepIndex = currentQuestStepIndex;
+        this.questStepStates = questStepStates;
+
+        if (this.questStepStates.Length != info.questStepPrefabs.Length)
+        {
+            Debug.LogWarning("Quest step states length does not match " +
+                "quest step prefabs length for quest " + info.id + ". This can happen" +
+                "if the QuestInfo changed and the saved data is now out of sync. reset the saved data.");
+        }
     }
 
     public void MoveToNextStep()
@@ -33,7 +54,9 @@ public class Quest
         GameObject questStepPrefab = GetCurrentQuestStepPrefab();
         if (questStepPrefab != null)
         {
-            Object.Instantiate<GameObject>(questStepPrefab, parentTransform);
+            QuestStep questStep = Object.Instantiate<GameObject>(questStepPrefab, parentTransform)
+                .GetComponent<QuestStep>();
+            questStep.InitializeQuestStep(info.id, currentQuestStepIndex, questStepStates[currentQuestStepIndex].state);
         }
     }
 
@@ -50,5 +73,23 @@ public class Quest
                 "there's no current step: QuestID=" + info.id + ", stepIndex=" + currentQuestStepIndex);
         }
         return questStepPrefab;
+    }
+
+    public void StoreQuestStepState(QuestStepState questStepState, int stepIndex)
+    {
+        if (stepIndex < questStepStates.Length)
+        {
+            questStepStates[stepIndex].state = questStepState.state;
+        }
+        else
+        {
+            Debug.LogWarning("Tried to store quest step state, but stepIndex was out of range: QuestID=" + info.id +
+                               ", stepIndex=" + stepIndex);
+        }
+    }
+
+    public QuestData GetQuestData()
+    {
+        return new QuestData(state, currentQuestStepIndex, questStepStates);
     }
 }
