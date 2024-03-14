@@ -66,11 +66,15 @@ public class DialogueManager : GenericSingleton<DialogueManager>, IDataPersisten
     public void SaveData(GameData data)
     {
         data.dialogueVars.Clear();
-        foreach (string variableKey in dialogueVariables.Variables.Keys)
+        if (dialogueVariables != null)
         {
-            StringValue variableValue = (StringValue)GetVariableState(variableKey);
-            data.dialogueVars.Add(variableKey, variableValue.ToString());
+            foreach (string variableKey in dialogueVariables.Variables.Keys)
+            {
+                StringValue variableValue = (StringValue)GetVariableState(variableKey);
+                data.dialogueVars.Add(variableKey, variableValue.ToString());
+            }
         }
+
     }
 
     protected override void Awake()

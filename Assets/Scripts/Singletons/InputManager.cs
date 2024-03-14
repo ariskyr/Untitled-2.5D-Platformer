@@ -11,6 +11,7 @@ public class InputManager : GenericSingleton<InputManager>
     private bool crouch = false;
     private bool interact = false;
     private bool test = false;
+    private bool questToggle = false;
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -92,6 +93,25 @@ public class InputManager : GenericSingleton<InputManager>
     {
         bool result = interact;
         interact = false;
+        return result;
+    }
+
+    public void OnQuestToggle(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            questToggle = true;
+        }
+        else if (context.canceled)
+        {
+            questToggle = false;
+        }
+    }
+
+    public bool GetQuestTogglePressed()
+    {
+        bool result = questToggle;
+        questToggle = false;
         return result;
     }
 

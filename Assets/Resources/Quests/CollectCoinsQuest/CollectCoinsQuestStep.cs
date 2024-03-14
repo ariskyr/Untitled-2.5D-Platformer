@@ -17,6 +17,11 @@ public class CollectCoinsQuestStep : QuestStep
         GameEventsManager.Instance.miscEvents.onCoinCollected -= CoinCollected;
     }
 
+    private void Start()
+    {
+        UpdateState();
+    }
+
     private void CoinCollected()
     {
         if (coinsCollected < coinsToCollect)
@@ -34,7 +39,8 @@ public class CollectCoinsQuestStep : QuestStep
     private void UpdateState()
     {
         string state = coinsCollected.ToString();
-        ChangeState(state);
+        string status = "Collected " + coinsCollected + " / " + coinsToCollect + " coins.";
+        ChangeState(state, status);
     }
 
     protected override void SetQuestStepState(string state)

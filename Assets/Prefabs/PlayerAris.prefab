@@ -429,7 +429,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1920}
+  m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &759065470861869412
 CanvasRenderer:
@@ -698,7 +698,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7105618736474454704}
-  m_LocalRotation: {x: 0, y: 0, z: 0.0000000037252894, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.827431, y: 0.46601957, z: 2.2180321}
   m_LocalScale: {x: 1.92, y: 1.864078, z: 1.864078}
   m_ConstrainProportionsScale: 0
@@ -709,7 +709,7 @@ Transform:
   - {fileID: 4264607419475047869}
   - {fileID: 2553830135686176327}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1960140945333213350
 MonoBehaviour:
@@ -760,7 +760,7 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
         m_MethodName: OnAttack
         m_Mode: 0
         m_Arguments:
@@ -877,8 +877,24 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f97b9165-0804-4864-af6d-2d982b28d317
     m_ActionName: Player/Test[/Keyboard/o]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: OnQuestToggle
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b067b6a7-940b-4845-89b1-c1ecb9b0be7f
+    m_ActionName: Player/ToggleQuestLog[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
   m_SplitScreenIndex: 0
   m_Camera: {fileID: 0}
@@ -1091,4 +1107,3 @@ MonoBehaviour:
   customHitSound: {fileID: 8300000, guid: 27a70f862866d364da74fcf3ca863e42, type: 3}
   hideWhenDead: 0
   hitMaterial: {fileID: 2100000, guid: 597a34cae1a10de4199a39cb8b8be68b, type: 2}
-  health: 40
