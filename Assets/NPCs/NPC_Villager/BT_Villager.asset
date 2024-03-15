@@ -110,6 +110,7 @@ MonoBehaviour:
   drawGizmos: 0
   _idle: 0
   _move: 1
+  _attack: 0
 --- !u!114 &-5262002265092059126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,6 +343,7 @@ MonoBehaviour:
   drawGizmos: 0
   _idle: 1
   _move: 0
+  _attack: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,6 +408,7 @@ MonoBehaviour:
   drawGizmos: 0
   _idle: 0
   _move: 1
+  _attack: 0
 --- !u!114 &4449458250739233395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,6 +505,7 @@ MonoBehaviour:
   drawGizmos: 0
   _idle: 1
   _move: 0
+  _attack: 0
 --- !u!114 &7255664585365512783
 MonoBehaviour:
   m_ObjectHideFlags: 0

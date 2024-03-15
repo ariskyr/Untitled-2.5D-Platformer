@@ -75,7 +75,7 @@ public class Hittable : MonoBehaviour
         {
             if (customHitEffect != null)
             {
-                EffectManager.Instance.PlayOneShot(customHitEffect, position);
+                EffectManager.Instance.PlayOneShot(customHitEffect, transform.position);
             }
             CameraManager.Instance.CameraShake(0.03f, 0.5f);
 

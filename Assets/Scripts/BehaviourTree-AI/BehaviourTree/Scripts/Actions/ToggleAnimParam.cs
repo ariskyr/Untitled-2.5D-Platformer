@@ -10,8 +10,10 @@ public class ToggleAnimParam : ActionNode
     private bool _idle = true;
     [SerializeField]
     private  bool _move = false;
+    [SerializeField]
+    private bool _attack  = false;
 
-    private readonly Dictionary<bool, string> parameterMapping = new();
+    private readonly Dictionary<string, bool> parameterMapping = new();
 
     protected override void OnStart() {
 
@@ -28,8 +30,9 @@ public class ToggleAnimParam : ActionNode
         //TODO: probably there exists a better implementation of this
         //but I am too dumb
         parameterMapping.Clear();
-        parameterMapping.Add(_idle, "Idle");
-        parameterMapping.Add(_move, "Move");
+        parameterMapping.Add("Idle", _idle);
+        parameterMapping.Add("Move", _move);
+        parameterMapping.Add("Attack", _attack);
     }
 
     protected override void OnStop() {
@@ -37,17 +40,17 @@ public class ToggleAnimParam : ActionNode
 
     protected override State OnUpdate() {
 
-        if (SanityCheck(_idle, _move) != 1)
+        if (SanityCheck(_idle, _move, _attack) != 1)
         {
             Debug.LogWarning("Tried to set more than one bool as true");
             return State.Failure;
         }
-        //set the chosen one to trrue
+        //set the chosen one to true
         foreach (var kvp in parameterMapping)
         {
-            if (kvp.Key)
+            if (kvp.Value)
             {
-                context.animator.SetBool(kvp.Value, true);
+                context.animator.SetBool(kvp.Key, true);
                 break;
             }
         }
