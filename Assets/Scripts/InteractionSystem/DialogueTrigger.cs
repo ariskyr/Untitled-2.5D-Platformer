@@ -15,13 +15,17 @@ public class DialogueTrigger : MonoBehaviour, IInteractable
 
     [Header("Ink JSON")]
     [SerializeField] private TextAsset inkJson;
+
+    [Header("Quest Point")]
+    [SerializeField] private QuestPoint _questPoint;
+
     public bool Interact(Interactor interactor)
     {
         //zoom in camera
         CameraManager.Instance.canFollow = false;
         CameraManager.Instance.CameraZoomIn(zoomDuration, positionOffset, rotationOffset, fovOffset);
         //enter dialogue
-        DialogueManager.Instance.EnterDialogueMode(inkJson);
+        DialogueManager.Instance.EnterDialogueMode(inkJson, _questPoint);
         return true;
     }
 }

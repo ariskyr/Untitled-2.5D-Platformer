@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SphereCollider))]
+//[RequireComponent(typeof(SphereCollider))]
 public class QuestPoint : MonoBehaviour
 {
     [Header("Quest")]
@@ -12,7 +12,7 @@ public class QuestPoint : MonoBehaviour
     [SerializeField] private bool startPoint = true;
     [SerializeField] private bool finishPoint = true;
 
-    private bool playerIsNear = false;
+    //private bool playerIsNear = false;
     private string questId;
     private QuestState currentQuestState;
 
@@ -44,7 +44,21 @@ public class QuestPoint : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void TriggerQuestPoint()
+    {
+        //start a quest
+        if (currentQuestState.Equals(QuestState.CAN_START) && startPoint)
+        {
+            GameEventsManager.Instance.questEvents.StartQuest(questId);
+        }
+        //finish a quest
+        else if (currentQuestState.Equals(QuestState.CAN_FINISH) && finishPoint)
+        {
+            GameEventsManager.Instance.questEvents.FinishQuest(questId);
+        }
+    }
+
+/*    private void Update()
     {
         if (!playerIsNear) return;
 
@@ -77,5 +91,5 @@ public class QuestPoint : MonoBehaviour
         {
             playerIsNear = false;
         }
-    }
+    }*/
 }

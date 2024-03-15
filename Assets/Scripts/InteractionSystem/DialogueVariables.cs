@@ -47,4 +47,18 @@ public class DialogueVariables
             story.variablesState.SetGlobal(variable.Key, variable.Value);
         }
     }
+
+    public void SetQuestVariable(string name, QuestState state)
+    {
+        if (Variables.ContainsKey(name))
+        {
+            Variables.Remove(name);
+
+            string enumValueString = state.ToString();
+
+            globalVariablesStory.variablesState[name] = enumValueString;
+            Variables.Add(name, new Ink.Runtime.StringValue(enumValueString));
+        }
+    }
+
 }
