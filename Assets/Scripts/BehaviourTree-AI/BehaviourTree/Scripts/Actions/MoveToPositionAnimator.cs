@@ -21,16 +21,18 @@ public class MoveToPositionAnimator : MoveToPosition
     protected override State OnUpdate()
     {
 
+        direction = context.agent.velocity.normalized;
         //set eye direction
-        if(context.sensorStats)
+        if (context.sensorStats)
         {
-            direction = context.agent.velocity.normalized;
+            
             context.sensorStats.EyeDirection = direction;
         }
 
         //set animation
         context.animator.SetFloat("DirectionX", direction.x);
         context.animator.SetFloat("DirectionY", direction.z);
+
         return base.OnUpdate();
     }
 }

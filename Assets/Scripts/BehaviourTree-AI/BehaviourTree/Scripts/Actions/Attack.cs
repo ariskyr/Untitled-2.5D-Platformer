@@ -23,7 +23,7 @@ public class Attack : ActionNode
             direction = context.agent.velocity.normalized;
             context.sensorStats.EyeDirection = direction;
         }
-        
+
         //set animation
         context.animator.SetFloat("DirectionX", direction.x);
         context.animator.SetFloat("DirectionY", direction.z);

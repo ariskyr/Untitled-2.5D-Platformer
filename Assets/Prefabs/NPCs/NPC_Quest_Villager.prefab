@@ -29,7 +29,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1280344867543532493}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -17.44, y: 0.5, z: -6.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -37,7 +37,7 @@ Transform:
   - {fileID: 4966020704129539903}
   - {fileID: 7056912159454404377}
   m_Father: {fileID: 0}
-  m_RootOrder: 30
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &3608717539475615872
 BoxCollider:
@@ -139,7 +139,7 @@ MonoBehaviour:
   positionOffset: {x: 0, y: -1, z: 0}
   rotationOffset: {x: -15, y: 0, z: 0}
   fovOffset: 2
-  inkJson: {fileID: 4900000, guid: 5cc1b89b4de1603498ace240bbaa7a84, type: 3}
+  inkJson: {fileID: 4900000, guid: 2ae9d67c48e948c4ba27be7c1ab52230, type: 3}
   _questPoint: {fileID: 6347916465874072515}
 --- !u!114 &6347916465874072515
 MonoBehaviour:
@@ -230,7 +230,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -72371060, guid: e6d2003dafd5245418109dcc66484fd2, type: 3}
+  m_Sprite: {fileID: 1629756689, guid: 15e49d00ad3537349914fd6a5f5702d9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -251,7 +251,7 @@ Animator:
   m_GameObject: {fileID: 7868759818294779081}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e01249b82f353874191ab2f08531dda3, type: 2}
+  m_Controller: {fileID: 9100000, guid: b0262483e3c956d49b1440d175a2ec37, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -288,7 +288,7 @@ PrefabInstance:
     - target: {fileID: 2285949348617046843, guid: 49252a6a0d92ffb4d803225af36ec94a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.6
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 2285949348617046843, guid: 49252a6a0d92ffb4d803225af36ec94a,
         type: 3}
