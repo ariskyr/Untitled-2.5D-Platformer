@@ -13,6 +13,7 @@ public class Player : GenericSingleton<Player>, IDataPersistence
     public PlayerLandState LandState { get; private set; }
     public PlayerCrouchIdleState CrouchIdleState { get; private set; }
     public PlayerCrouchMoveState CrouchMoveState { get; private set; }
+    public PlayerAttackState AttackState { get; private set; }
 
     public Animator Animator { get; private set; }
     public Rigidbody RB { get; private set; }
@@ -38,6 +39,7 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         LandState = new PlayerLandState(this, StateMachine, playerData, "land");
         CrouchIdleState = new PlayerCrouchIdleState(this, StateMachine, playerData, "crouchIdle");
         CrouchMoveState = new PlayerCrouchMoveState(this, StateMachine, playerData, "crouchMove");
+        AttackState = new PlayerAttackState(this, StateMachine, playerData, "attack");
     }
 
     private void Start()

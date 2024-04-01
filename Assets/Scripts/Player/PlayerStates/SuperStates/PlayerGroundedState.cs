@@ -7,6 +7,7 @@ public class PlayerGroundedState : PlayerState
     protected Vector2 moveInput;
     private bool jumpInput;
     protected bool crouchInput;
+    protected bool attackInput;
 
     private bool isGrounded;
 
@@ -37,8 +38,12 @@ public class PlayerGroundedState : PlayerState
         moveInput = InputManager.Instance.GetMovePressed();
         jumpInput = InputManager.Instance.GetJumpPressed();
         crouchInput = InputManager.Instance.GetCrouchPressed();
+        attackInput = InputManager.Instance.GetAttackPressed();
 
-        if (jumpInput)
+        if (attackInput)
+        {
+            stateMachine.ChangeState(player.AttackState);
+        } else if (jumpInput)
         {
             stateMachine.ChangeState(player.JumpState);
         } else if (!isGrounded)

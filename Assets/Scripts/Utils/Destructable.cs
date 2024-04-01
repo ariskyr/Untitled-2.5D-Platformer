@@ -14,7 +14,7 @@ public class Destructable : Hittable
 
     private void Update()
     {
-        Debug.Log("current health: " + CurrentHealth);
+        //Debug.Log("current health: " + CurrentHealth);
     }
 
     protected override void Awake()
