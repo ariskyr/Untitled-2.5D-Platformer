@@ -28,6 +28,11 @@ public class Player : GenericSingleton<Player>, IDataPersistence
     private Quaternion toRotation;
     private BoxCollider topCollider;
 
+    public int CurrentHealth { get; private set; }
+    public int CurrentLevel { get; private set; }
+    public int CurrentExperience { get; private set; }
+    public int CurrentGold { get; private set; }
+
     protected override void Awake()
     {
         base.Awake();
@@ -40,6 +45,27 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         CrouchIdleState = new PlayerCrouchIdleState(this, StateMachine, playerData, "crouchIdle");
         CrouchMoveState = new PlayerCrouchMoveState(this, StateMachine, playerData, "crouchMove");
         AttackState = new PlayerAttackState(this, StateMachine, playerData, "attack");
+
+        CurrentHealth = playerData.maxHealth;
+        CurrentLevel = playerData.startingLevel;
+        CurrentExperience = playerData.startingExperience;
+        CurrentGold = playerData.startingGold;
+    }
+
+    private void OnEnable()
+    {
+        GameEventsManager.Instance.playerEvents.onHealthGained += HealthGained;
+        GameEventsManager.Instance.playerEvents.onHealthLost += HealthLost;
+        GameEventsManager.Instance.playerEvents.onExperienceGained += ExperienceGained;
+        GameEventsManager.Instance.playerEvents.onGoldGained += GoldGained;
+    }
+
+    private void OnDisable()
+    {
+        GameEventsManager.Instance.playerEvents.onHealthGained -= HealthGained;
+        GameEventsManager.Instance.playerEvents.onHealthLost -= HealthLost;
+        GameEventsManager.Instance.playerEvents.onExperienceGained -= ExperienceGained;
+        GameEventsManager.Instance.playerEvents.onGoldGained -= GoldGained;
     }
 
     private void Start()
@@ -48,6 +74,12 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         RB = GetComponent<Rigidbody>();
         topCollider = GetComponent<BoxCollider>();
         StateMachine.Initialize(IdleState);
+
+        GameEventsManager.Instance.playerEvents.PlayerHealthChange(CurrentHealth);
+        GameEventsManager.Instance.playerEvents.PlayerLevelChange(CurrentLevel);
+        GameEventsManager.Instance.playerEvents.PlayerExperienceChange(CurrentExperience);
+        GameEventsManager.Instance.playerEvents.GoldChange(CurrentGold);
+
     }
 
     private void Update()
@@ -59,6 +91,46 @@ public class Player : GenericSingleton<Player>, IDataPersistence
     private void FixedUpdate()
     {
         StateMachine.CurrentState.PhysicsUpdate();
+    }
+
+    private void HealthGained(int health)
+    {
+        CurrentHealth += health;
+        if (CurrentHealth > playerData.maxHealth)
+        {
+            CurrentHealth = playerData.maxHealth;
+        }
+        GameEventsManager.Instance.playerEvents.PlayerHealthChange(CurrentHealth);
+    }
+
+    private void HealthLost(int health)
+    {
+        CurrentHealth -= health;
+        if (CurrentHealth <= 0)
+        {
+            CurrentHealth = 0;
+            //player died
+        }
+        GameEventsManager.Instance.playerEvents.PlayerHealthChange(CurrentHealth);
+    }
+
+    private void GoldGained(int gold)
+    {
+        CurrentGold += gold;
+        GameEventsManager.Instance.playerEvents.GoldChange(CurrentGold);
+    }
+
+    private void ExperienceGained(int experience)
+    {
+        CurrentExperience += experience;
+        //check if player can level up
+        while (CurrentExperience >= playerData.experienceToNextLevel)
+        {
+            CurrentExperience -= playerData.experienceToNextLevel;
+            CurrentLevel++;
+            GameEventsManager.Instance.playerEvents.PlayerLevelChange(CurrentLevel);
+        }
+        GameEventsManager.Instance.playerEvents.PlayerExperienceChange(CurrentExperience);
     }
 
     public void SetVelocityXZ(Vector2 movementVelocity)
@@ -140,11 +212,19 @@ public class Player : GenericSingleton<Player>, IDataPersistence
     public void LoadData(GameData data)
     {
         transform.position = data.playerPosition;
+        CurrentExperience = data.playerExperience;
+        CurrentLevel = data.playerLevel;
+        CurrentHealth = data.playerHealth;
+        CurrentGold = data.playerGold;
     }
 
     public void SaveData(GameData data)
     {
         data.playerPosition = transform.position;
+        data.playerExperience = CurrentExperience;
+        data.playerLevel = CurrentLevel;
+        data.playerHealth = CurrentHealth;
+        data.playerGold = CurrentGold;
     }
     private void OnDrawGizmosSelected()
     {

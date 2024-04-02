@@ -5,9 +5,8 @@ using UnityEngine;
 
 public class Destructable : Hittable
 {
-    public int health = 10;
-
-    public int CurrentHealth { get; set; }
+   
+    //this variable should be in the player class as well
     public bool Invincible { get; set; }
 
     public event Action OnDestroyed;
@@ -20,13 +19,12 @@ public class Destructable : Hittable
     protected override void Awake()
     {
         base.Awake();
-        CurrentHealth = health;
         Invincible = false;
     }
 
     public override void OnAttackHit(Vector2 position, Vector2 force, int damage)
     {
-        if (CurrentHealth <= 0 || Invincible)
+        if (Player.Instance.CurrentHealth <= 0 || Invincible)
             return;
 
         DealDamage(damage);
@@ -36,15 +34,11 @@ public class Destructable : Hittable
 
     public void DealDamage(int damage)
     {
-        CurrentHealth -= damage;
-        if (CurrentHealth <= 0)
+        GameEventsManager.Instance.playerEvents.HealthLost(damage);
+        //this should probably be in the player class?
+        if (Player.Instance.CurrentHealth <= 0)
         {
             OnDestroyed?.Invoke();
         }
-    }
-
-    public void Revive()
-    {
-        CurrentHealth = health;
     }
 }

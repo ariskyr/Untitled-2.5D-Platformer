@@ -13,7 +13,7 @@ GameObject:
   m_Layer: 0
   m_Name: DataPersistenceManager
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8168397222453433961}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.41371655, y: 1.822339, z: -2.3117642}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd43c203f72c63b48a04224b3ac014ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initializeDataIfNull: 0
+  initializeDataIfNull: 1
   disableDataPersistence: 0
   disableAutoSave: 0
   fileName: data.json
   useEncryption: 0
-  autoSaveTimeSeconds: 60
+  autoSaveTimeSeconds: 30

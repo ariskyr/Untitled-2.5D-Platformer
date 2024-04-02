@@ -66,11 +66,15 @@ public class DialogueManager : GenericSingleton<DialogueManager>, IDataPersisten
     public void SaveData(GameData data)
     {
         data.dialogueVars.Clear();
-        foreach (string variableKey in dialogueVariables.Variables.Keys)
+        if (dialogueVariables != null)
         {
-            StringValue variableValue = (StringValue)GetVariableState(variableKey);
-            data.dialogueVars.Add(variableKey, variableValue.ToString());
+            foreach (string variableKey in dialogueVariables.Variables.Keys)
+            {
+                StringValue variableValue = (StringValue)GetVariableState(variableKey);
+                data.dialogueVars.Add(variableKey, variableValue.ToString());
+            }
         }
+
     }
 
     protected override void Awake()
@@ -80,6 +84,24 @@ public class DialogueManager : GenericSingleton<DialogueManager>, IDataPersisten
         //the rest of the instantiation
         audioSource = gameObject.AddComponent<AudioSource>();
         currentAudioInfo = defaultAudioInfo;
+    }
+
+    private void OnEnable()
+    {
+        GameEventsManager.Instance.questEvents.onQuestStateChange += QuestStateChange;
+    }
+
+    private void OnDisable()
+    {
+        GameEventsManager.Instance.questEvents.onQuestStateChange -= QuestStateChange;
+    }
+
+    private void QuestStateChange(Quest quest)
+    {
+        if (dialogueVariables != null)
+        {
+            dialogueVariables.SetQuestVariable(quest.info.id, quest.state);
+        }
     }
 
     private void Start()
@@ -143,7 +165,7 @@ public class DialogueManager : GenericSingleton<DialogueManager>, IDataPersisten
     }
 
 
-    public void EnterDialogueMode(TextAsset inkJSON)
+    public void EnterDialogueMode(TextAsset inkJSON, QuestPoint questPoint)
     {
         currentStory = new Story(inkJSON.text);
         DialogueIsPlaying = true;
@@ -151,6 +173,18 @@ public class DialogueManager : GenericSingleton<DialogueManager>, IDataPersisten
 
         //var listener
         dialogueVariables.StartListening(currentStory);
+        
+        //dialogueVariables.UpdateQuestVariables(currentStory);
+
+        //Bind a function
+        currentStory.BindExternalFunction("triggerQuest", () =>
+        {
+            //only if specific npc has a questPoint
+            if (questPoint != null)
+            {
+                questPoint.TriggerQuestPoint();
+            }
+        });
 
         //reset tag defaults
         displayNameText.text = "???";
@@ -171,14 +205,15 @@ public class DialogueManager : GenericSingleton<DialogueManager>, IDataPersisten
         if (currentStory != null)
         {
             dialogueVariables.StopListening(currentStory);
+            currentStory.UnbindExternalFunction("triggerQuest");
         }
-
         DialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
 
         //go back to default audio config
         SetCurrentAudioInfo(defaultAudioInfo.id);
+        currentStory = null;
     }
 
     private void ContinueStory()
