@@ -10,31 +10,31 @@ EXTERNAL triggerQuest()
  }
 
 ==can_start_quest==
-Hey #speaker: Liolios #portrait: liolios_default #layout: left
+Hey #speaker: Quest Giver 1 #layout: left #audio: aris1
 Thes <color=\#5B81FF>quest</color>?
 + [ne]
     ~triggerQuest()
-    trava mazepse 5 coins #portrait: liolios_ee
+    trava mazepse 5 coins #portrait: npc_default
     -> END
 + [oxi]
     bye
     -> END
 
 ==in_progress==
-akoma na ta mazepseis? #speaker: Liolios #portrait: liolios_default #layout: left
+akoma na ta mazepseis? #speaker: Quest Giver 1 #layout: left #audio: aris1
 -> END
 
 ==can_finish_quest==
-bravo re maga #speaker: Liolios #portrait: liolios_default #layout: left
+bravo re #speaker: Quest Giver 1 #layout: left #audio: aris1
 dwwsta twra edw
 + [ne]
     ~triggerQuest()
     euxaristw Poly
     -> END
 + [no]
-    re fyge apo dw
+    fyge apo dw
     -> END
 
 ==finished_quest==
-trava vres allou quest
+enas filos mou eipe oti exei ena quest gia sena #speaker: Quest Giver 1 #layout: left #audio: aris1
 -> END

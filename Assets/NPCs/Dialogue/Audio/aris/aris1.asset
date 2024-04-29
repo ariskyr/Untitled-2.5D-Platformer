@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39d8d3c729c174545bc91fbdf143d3fb, type: 3}
+  m_Name: aris1
+  m_EditorClassIdentifier: 
+  id: aris1
+  dialogueTypingSoundClips:
+  - {fileID: 8300000, guid: 6be48d4ac2b36dd43bf12e73a4c76dee, type: 3}
+  - {fileID: 8300000, guid: 8ad54bff7e324ce4d91fea3ec15ae359, type: 3}
+  - {fileID: 8300000, guid: f9ab8efcf26ea9348b223b5e550926f1, type: 3}
+  - {fileID: 8300000, guid: 3476cc3f59870ac4c9d3e7365a13839e, type: 3}
+  - {fileID: 8300000, guid: 37ef0e77c2ac80b419f1f9f0f1f8e604, type: 3}
+  stopAudioSource: 1
+  frequencyLevel: 2
+  minPitch: 0.37
+  maxPitch: 0.97
