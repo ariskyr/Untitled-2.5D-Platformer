@@ -21,6 +21,7 @@ public class Player : GenericSingleton<Player>, IDataPersistence
 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform facing;
+    [SerializeField] public Transform attackPoint;
 
     public Vector3 CurrentVelocity { get; private set; }
     public bool facingRight { get; private set; } = true;
@@ -229,5 +230,6 @@ public class Player : GenericSingleton<Player>, IDataPersistence
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(groundCheck.position, playerData.groundCheckRadius);
+        Gizmos.DrawWireSphere(attackPoint.position, playerData.attackRange);
     }
 }

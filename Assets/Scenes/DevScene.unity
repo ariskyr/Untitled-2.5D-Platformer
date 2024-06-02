@@ -131,6 +131,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3764069271558161419}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &322240042 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6247257820759271812, guid: 8bf24adb4e424b74d9374f9250b44036,
+    type: 3}
+  m_PrefabInstance: {fileID: 1906188471}
+  m_PrefabAsset: {fileID: 0}
 --- !u!20 &330585545 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 5887167862290933394, guid: 61c6b74821ff3584882cab8755006bf4,
@@ -852,6 +858,7 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: a1ed196087884f347a55b253dc5acae0, type: 2}
   groundCheck: {fileID: 1383534137}
   facing: {fileID: 548857980}
+  attackPoint: {fileID: 0}
 --- !u!114 &1163468868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1309,6 +1316,25 @@ MonoBehaviour:
     value: 1
   attackDelay:
     value: 1
+--- !u!114 &1236813054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236813022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e5f7ede5abe1af4d8b50c75db703d15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitType: 3
+  disableHitEffect: 0
+  spriteParent: {fileID: 0}
+  customHitEffect: {fileID: 0}
+  customHitSound: {fileID: 0}
+  hideWhenDead: 0
+  hitMaterial: {fileID: 0}
 --- !u!1 &1252340786
 GameObject:
   m_ObjectHideFlags: 0
@@ -1699,6 +1725,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1673598974336960037, guid: 8bf24adb4e424b74d9374f9250b44036,
+        type: 3}
+      propertyPath: attackPoint
+      value: 
+      objectReference: {fileID: 322240042}
     - target: {fileID: 1960140945333213350, guid: 8bf24adb4e424b74d9374f9250b44036,
         type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1784,10 +1815,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6247257820759271812, guid: 8bf24adb4e424b74d9374f9250b44036,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.18
+      objectReference: {fileID: 0}
     - target: {fileID: 7105618736474454704, guid: 8bf24adb4e424b74d9374f9250b44036,
         type: 3}
       propertyPath: m_Name
       value: PlayerBoozee
+      objectReference: {fileID: 0}
+    - target: {fileID: 7105618736474454704, guid: 8bf24adb4e424b74d9374f9250b44036,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1907,6 +1948,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1236813048}
+    - targetCorrespondingSourceObject: {fileID: 3873645033270606874, guid: e58b8127bb69a76479c6b27188dee0c8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1236813054}
   m_SourcePrefab: {fileID: 100100000, guid: e58b8127bb69a76479c6b27188dee0c8, type: 3}
 --- !u!1 &1983997960
 GameObject:

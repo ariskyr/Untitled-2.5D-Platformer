@@ -16,6 +16,9 @@ public class PlayerData : ScriptableObject
     public float crouchColliderHeight = 0.15f;
     public float standColliderHeight = 0.35f;
 
+    [Header("Attack State")]
+    public float attackRange = 0.5f;
+
     [Header("Check Variables")]
     public float groundCheckRadius = 0.2f;
     public LayerMask whatIsGround;

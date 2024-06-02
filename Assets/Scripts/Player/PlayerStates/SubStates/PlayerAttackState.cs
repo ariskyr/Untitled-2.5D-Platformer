@@ -31,4 +31,17 @@ public class PlayerAttackState : PlayerAbilityState
 
         isAbilityDone = true;
     }
+
+   /* public void Attacking()
+    {
+        Collider[] hitcolliders = Physics.OverlapSphere(player.attackPoint.position, playerData.attackRange);
+        foreach (Collider enemy in hitcolliders)
+        {
+            if (enemy.gameObject.tag == "Enemy" && enemy.GetComponent<CharacterStats>() != null)
+            {
+                //playerCombat item contains the stats of the player (attack damage etc) and reduces the stats of the enemy (currentHealth)
+                //playerCombat.Attack(enemy.GetComponent<CharacterStats>());
+            }
+        }
+    }*/
 }
