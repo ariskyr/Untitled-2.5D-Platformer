@@ -27,6 +27,7 @@ public class Player : GenericSingleton<Player>, IDataPersistence
     private Vector3 workspace;
     private Quaternion toRotation;
     private BoxCollider topCollider;
+    private float dir = 1f;
 
     public int CurrentHealth { get; private set; }
     public int CurrentLevel { get; private set; }
@@ -171,13 +172,10 @@ public class Player : GenericSingleton<Player>, IDataPersistence
 
     public void CheckIfShouldFlip(float xInput)
     {
-        if (xInput > 0 && !facingRight)
+        if (xInput * Animator.GetFloat("direction") < 0)
         {
-            Flip();
-        }
-        else if (xInput < 0 && facingRight)
-        {
-            Flip();
+            dir = Animator.GetFloat("direction");
+            Animator.SetFloat("direction", dir * -1f);
         }
     }
 
@@ -191,19 +189,6 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         StateMachine.CurrentState.AnimationFinishedTrigger();
     }
 
-    private void Flip()
-    {
-        facingRight = !facingRight;
-
-        if (facingRight)
-        {
-            Animator.SetFloat("direction", 1f);
-        }
-        else
-        {
-            Animator.SetFloat("direction", -1f);
-        }
-    }
     public void TeleportPlayer(Vector3 position)
     {
         transform.position = position;
