@@ -10,24 +10,24 @@ EXTERNAL triggerQuest()
 }
 
 ==can_start_quest==
-Twra pou ekanes to prwto quest, thes kiallo?
+Twra pou ekanes to prwto quest, thes kiallo? #audio: aris1
 + [ne]
     ~triggerQuest()
-    pigaine episkepsou ta 3 koutia me ti swsti seira
+    pigaine episkepsou ta 3 koutia me ti swsti seira #audio: aris1
     -> END
 + [oxi]
-    krima
+    krima #audio: aris1
     -> END
 
 ==in_progress==
-eisai sigouros oti ta episkeftikes ola me ti swsti seira?
+eisai sigouros oti ta episkeftikes ola me ti swsti seira? #audio: aris1
 -> END
 
 ==can_finish_quest==
 ~triggerQuest()
-bravo
+bravo #audio: aris1
 -> END
 
 ==finished_quest==
-paei to quest mou
+paei to quest mou #audio: aris1
 -> END

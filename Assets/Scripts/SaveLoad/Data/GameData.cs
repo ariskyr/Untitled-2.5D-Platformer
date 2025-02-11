@@ -20,12 +20,12 @@ public class GameData
     public GameData()
     {
         timer = 0;
-        playerPosition = new Vector3((float)-0.26, (float)0.59, (float)-1.65);
+        playerPosition = new Vector3((float)0, (float)0.47, (float)0);
         playerExperience = 0;
         playerLevel = 1;
         playerHealth = 100;
         playerGold = 0;
-        cameraPosition = new Vector3(0, 2, (float)-3.5);
+        cameraPosition = new Vector3(0, 2, (float)-5.0);
         dialogueVars = new SerializableDictionary<string, string>();
         questData = new SerializableDictionary<string, QuestData>(); 
         lastScene = "MAGITIS_DevScene";

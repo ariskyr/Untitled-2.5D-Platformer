@@ -103,7 +103,7 @@ public class SensorStatsEditorr : Editor
 
         if (!sensor.DebugMode)
             return;
-
+        
         //Draw the detection range
         Handles.color = sensor.ProximityDetectionColour;
         Handles.DrawSolidDisc(sensor.transform.position, Vector3.up, sensor.ProximityDetectionRange);
