@@ -321,6 +321,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7201692215476383849, guid: ac0848db693db704fbe05f20f1f6be7a,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.15686275
+      objectReference: {fileID: 0}
+    - target: {fileID: 7201692215476383849, guid: ac0848db693db704fbe05f20f1f6be7a,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.72379196
+      objectReference: {fileID: 0}
+    - target: {fileID: 7201692215476383849, guid: ac0848db693db704fbe05f20f1f6be7a,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.83844167
+      objectReference: {fileID: 0}
+    - target: {fileID: 7201692215476383849, guid: ac0848db693db704fbe05f20f1f6be7a,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.88699996
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

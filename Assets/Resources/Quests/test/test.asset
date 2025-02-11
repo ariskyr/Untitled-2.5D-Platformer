@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: test
   m_EditorClassIdentifier: 
   <id>k__BackingField: test
-  questName: feakfeakl
+  questName: Bandits around town!
   levelRequirement: 7
   questPrerequisites:
   - {fileID: 11400000, guid: e89d3a0c207424247a00ae27a88fb6e4, type: 2}

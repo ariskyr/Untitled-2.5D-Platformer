@@ -85,6 +85,7 @@ public class Player : GenericSingleton<Player>, IDataPersistence
     private void Update()
     {
         CurrentVelocity = RB.velocity;
+        //DEATH HERE
         StateMachine.CurrentState.LogicUpdate();
     }
 

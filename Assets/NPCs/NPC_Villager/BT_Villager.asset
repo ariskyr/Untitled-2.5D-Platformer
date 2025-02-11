@@ -153,7 +153,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 02b3966e355a9ef409534177ef88424e
-  position: {x: -1040.8268, y: -212.31305}
+  position: {x: -1043.0111, y: -211.99998}
   blackboard:
     target: {x: 0, y: 0, z: 0}
     tag: 
