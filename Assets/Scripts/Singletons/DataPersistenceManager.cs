@@ -41,11 +41,13 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        GameEventsManager.Instance.playerEvents.onPlayerDeath += StopAutoSave;
     }
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        GameEventsManager.Instance.playerEvents.onPlayerDeath -= StopAutoSave;
     }
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -155,6 +157,16 @@ public class DataPersistenceManager : GenericSingleton<DataPersistenceManager>
     public Dictionary<string, GameData> GetAllProfilesGameData()
     {
         return dataHandler.LoadAllProfiles();
+    }
+
+    private void StopAutoSave()
+    {
+        if (autoSaveCoroutine != null)
+        {
+            StopCoroutine(autoSaveCoroutine);
+            autoSaveCoroutine = null;
+            Debug.Log("Auto-save stopped due to player death");
+        }
     }
 
     private IEnumerator AutoSave()

@@ -9,11 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 30f6a99fdb2182849b5e04182e30b92c
   - enabled: 1
-    path: Assets/Scenes/MAGITIS_DevScene.unity
-    guid: 53f82adbbbb37da4e94fcababa69a129
-  - enabled: 1
-    path: Assets/Scenes/DevScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/MainScene.unity
+    guid: c732593fe76e5a84197f9cd13963f706
   - enabled: 1
     path: Assets/Scenes/house1_interior.unity
     guid: c691db5e23edba94dba919450c651625

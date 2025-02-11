@@ -11,6 +11,7 @@ public class InputManager : GenericSingleton<InputManager>
     private bool crouch = false;
     private bool interact = false;
     private bool test = false;
+    private bool pause = false;
     private bool questToggle = false;
 
     public void OnMove(InputAction.CallbackContext context)
@@ -132,4 +133,22 @@ public class InputManager : GenericSingleton<InputManager>
         test = false;
         return result;
     }
+
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            pause = true;
+        } else if (context.canceled)
+        {
+            pause = false;
+        }
+    }
+
+    public bool GetPausePressed()
+    {
+        bool result = pause;
+        pause = false;
+        return result;
+    } 
 }

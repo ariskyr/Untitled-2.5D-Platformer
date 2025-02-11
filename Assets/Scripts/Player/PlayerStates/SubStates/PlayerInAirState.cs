@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class PlayerInAirState : PlayerState
@@ -37,6 +38,10 @@ public class PlayerInAirState : PlayerState
         if (isGrounded && player.CurrentVelocity.y <= 0f)
         {
             stateMachine.ChangeState(player.LandState);
+        }
+        else if (isGrounded && Math.Abs(player.CurrentVelocity.y) > 0.000001f)
+        {
+            stateMachine.ChangeState(player.IdleState);
         }
         else
         {

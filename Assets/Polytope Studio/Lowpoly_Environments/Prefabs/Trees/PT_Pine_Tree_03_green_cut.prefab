@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 5705539758440290059}
   - component: {fileID: 8683500536680192174}
   - component: {fileID: 6873912444871011428}
-  m_Layer: 0
+  - component: {fileID: 8153034186707905258}
+  m_Layer: 8
   m_Name: PT_Pine_Tree_03_green_cut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,3 +85,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &8153034186707905258
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4928616408704863665}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.40122062, y: 8.015888, z: 0.34003848}
+  m_Center: {x: -0.06988004, y: 4.6329184, z: -0.03165272}

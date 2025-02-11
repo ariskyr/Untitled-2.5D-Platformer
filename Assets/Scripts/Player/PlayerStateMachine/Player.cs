@@ -15,6 +15,8 @@ public class Player : GenericSingleton<Player>, IDataPersistence
     public PlayerCrouchMoveState CrouchMoveState { get; private set; }
     public PlayerAttackState AttackState { get; private set; }
 
+    public PlayerDeadState DeadState { get; private set; }
+
     public Animator Animator { get; private set; }
     public Rigidbody RB { get; private set; }
     [SerializeField] private PlayerData playerData;
@@ -46,6 +48,7 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         CrouchIdleState = new PlayerCrouchIdleState(this, StateMachine, playerData, "crouchIdle");
         CrouchMoveState = new PlayerCrouchMoveState(this, StateMachine, playerData, "crouchMove");
         AttackState = new PlayerAttackState(this, StateMachine, playerData, "attack");
+        DeadState = new PlayerDeadState(this, StateMachine, playerData, "dead");
 
         CurrentHealth = playerData.maxHealth;
         CurrentLevel = playerData.startingLevel;
@@ -86,7 +89,6 @@ public class Player : GenericSingleton<Player>, IDataPersistence
     private void Update()
     {
         CurrentVelocity = RB.velocity;
-        //DEATH HERE
         StateMachine.CurrentState.LogicUpdate();
     }
 
@@ -111,9 +113,15 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         if (CurrentHealth <= 0)
         {
             CurrentHealth = 0;
-            //player died
+            Die();
         }
         GameEventsManager.Instance.playerEvents.PlayerHealthChange(CurrentHealth);
+    }
+
+    private void Die()
+    {
+        StateMachine.ChangeState(DeadState);
+        GameEventsManager.Instance.playerEvents.PlayerDeath();
     }
 
     private void GoldGained(int gold)
@@ -202,6 +210,11 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         CurrentLevel = data.playerLevel;
         CurrentHealth = data.playerHealth;
         CurrentGold = data.playerGold;
+
+        CurrentHealth = data.playerHealth > 0 ? data.playerHealth : playerData.maxHealth;
+        StateMachine.ChangeState(IdleState);
+        GameEventsManager.Instance.playerEvents.PlayerHealthChange(CurrentHealth);
+        RB.isKinematic = false;
     }
 
     public void SaveData(GameData data)

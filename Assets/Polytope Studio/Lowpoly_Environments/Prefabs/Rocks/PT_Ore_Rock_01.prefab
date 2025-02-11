@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1324489145511453036}
   - component: {fileID: 6069612551507580445}
-  m_Layer: 0
+  - component: {fileID: 3991492800563234821}
+  m_Layer: 8
   m_Name: PT_Ore_Rock_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,6 +63,27 @@ LODGroup:
     renderers:
     - renderer: {fileID: 2694475635295835367}
   m_Enabled: 1
+--- !u!65 &3991492800563234821
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1813357942169304022}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.6406462, y: 0.486207, z: 0.5346829}
+  m_Center: {x: 0.079392076, y: 0.21994823, z: 0.009814352}
 --- !u!1 &3513244448727352474
 GameObject:
   m_ObjectHideFlags: 0
@@ -73,7 +95,7 @@ GameObject:
   - component: {fileID: 7590004035371127843}
   - component: {fileID: 5372809370267672496}
   - component: {fileID: 1379613089519791155}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PT_Ore_Rock_01_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +178,7 @@ GameObject:
   - component: {fileID: 7242429511255371538}
   - component: {fileID: 3205999890399626831}
   - component: {fileID: 2787052077589203084}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PT_Ore_Rock_01_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +261,7 @@ GameObject:
   - component: {fileID: 3436814540042673796}
   - component: {fileID: 1307666015099571769}
   - component: {fileID: 2694475635295835367}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PT_Ore_Rock_01_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

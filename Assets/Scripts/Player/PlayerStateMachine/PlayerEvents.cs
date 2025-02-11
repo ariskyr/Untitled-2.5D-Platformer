@@ -76,4 +76,22 @@ public class PlayerEvents
             onHealthLost(health);
         }
     }
+
+    public event Action onPlayerDeath;
+    public void PlayerDeath()
+    {
+        if (onPlayerDeath != null)
+        {
+            onPlayerDeath();
+        }
+    }
+
+    public event Action onPlayerRespawn;
+    public void PlayerRespawn()
+    {
+        if (onPlayerRespawn != null)
+        {
+            onPlayerRespawn();
+        }
+    }
 }

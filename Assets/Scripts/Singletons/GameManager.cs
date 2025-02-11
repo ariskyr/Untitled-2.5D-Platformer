@@ -55,6 +55,9 @@ public class GameManager : GenericSingleton<GameManager>, IDataPersistence
     public void SaveData(GameData data)
     {
         data.timer = elapsedTime;
+
+        //dont save if we are on the main menu
+        if (currentScene == "MainMenu") return;
         data.lastScene = currentScene;
     }
 
@@ -86,6 +89,7 @@ public class GameManager : GenericSingleton<GameManager>, IDataPersistence
         player.TeleportPlayer(positionToLoad);
         // Enable the next scene
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+        DataPersistenceManager.Instance.SaveGame();
     }
 
     private void Timer()

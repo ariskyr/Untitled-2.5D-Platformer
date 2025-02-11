@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8254891333303301210}
   - component: {fileID: 8222655170643054932}
   - component: {fileID: 1414196137617344592}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PT_Fruit_Tree_01_plums_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7929462325123785727}
   - component: {fileID: 2905107983372784782}
-  m_Layer: 0
+  - component: {fileID: 751473142474760697}
+  m_Layer: 8
   m_Name: PT_Fruit_Tree_01_plums
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,6 +147,27 @@ LODGroup:
     renderers:
     - renderer: {fileID: 6140726643089354878}
   m_Enabled: 1
+--- !u!65 &751473142474760697
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7296054959696050501}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.3542581, y: 4.6966066, z: 7.0223866}
+  m_Center: {x: -0.03850627, y: 0.9703587, z: -0.30034924}
 --- !u!1 &7389196695646074697
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,7 +179,7 @@ GameObject:
   - component: {fileID: 3661800321207667961}
   - component: {fileID: 9204582415525613151}
   - component: {fileID: 1987643193280244065}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PT_Fruit_Tree_01_plums_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +263,7 @@ GameObject:
   - component: {fileID: 6965208583826785942}
   - component: {fileID: 4352938707021388631}
   - component: {fileID: 6140726643089354878}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PT_Fruit_Tree_01_plums_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
