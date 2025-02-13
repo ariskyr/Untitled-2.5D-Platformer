@@ -16,7 +16,8 @@ namespace BehaviourTree {
         public Rigidbody physics;
         public NavMeshAgent agent;
         public BoxCollider boxCollider;
-        public SphereCollider attackCollider;
+        public AttackPoint attackPoint;
+        public Damageable damageable;
         public CharacterController characterController;
         public AI_BoundingBox boundingBox;
         public SensorStats sensorStats;
@@ -33,7 +34,8 @@ namespace BehaviourTree {
                 physics = gameObject.GetComponent<Rigidbody>(),
                 agent = gameObject.GetComponent<NavMeshAgent>(),
                 boxCollider = gameObject.GetComponent<BoxCollider>(),
-                attackCollider = gameObject.GetComponentInChildren<SphereCollider>(),
+                attackPoint = gameObject.GetComponentInChildren<AttackPoint>(),
+                damageable = gameObject.GetComponent<Damageable>(),
                 characterController = gameObject.GetComponent<CharacterController>(),
                 boundingBox = Object.FindObjectOfType<AI_BoundingBox>(),
                 sensorStats = gameObject.GetComponent<SensorStats>(),

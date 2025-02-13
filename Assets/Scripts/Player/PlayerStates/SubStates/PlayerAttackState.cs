@@ -12,6 +12,7 @@ public class PlayerAttackState : PlayerAbilityState
     {
         base.Enter();
         player.SetVelocityXZ(Vector2.zero);
+        player.attackPoint.Attack();
     }
 
     public override void Exit()

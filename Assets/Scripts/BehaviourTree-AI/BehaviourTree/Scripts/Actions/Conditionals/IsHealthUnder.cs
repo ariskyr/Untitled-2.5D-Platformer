@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BehaviourTree;
 
-public class IsHealthUnder : ActionNode
+public class IsHealthUnder : Conditional
 {
     [SerializeField] private float healthThreshold = 10f;
 
@@ -14,6 +14,8 @@ public class IsHealthUnder : ActionNode
     }
 
     protected override State OnUpdate() {
-        return State.Success;
+        _isTriggered = context.damageable.CurrentHealth <= healthThreshold;
+
+        return base.OnUpdate();
     }
 }

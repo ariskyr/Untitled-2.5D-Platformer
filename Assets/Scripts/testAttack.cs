@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class testAttack : MonoBehaviour
 {
-    Destructable[] targets;
+    [SerializeField]
+    [EnumFlags] // Show as bitmask in Inspector
+    private FactionMask testAttackerFactions = FactionMask.Player;
+
+    Damageable[] targets;
 
     private void Awake()
     {
 
-        targets = FindObjectsOfType<Destructable>();
+        targets = FindObjectsOfType<Damageable>();
     }
     // Start is called before the first frame update
     void Start()
@@ -24,9 +28,11 @@ public class testAttack : MonoBehaviour
 
         if (InputManager.Instance.GetTestPressed())
         {
-            foreach (Destructable t in targets)
+            Debug.Log($"Testing attack as faction: {testAttackerFactions}");
+
+            foreach (Damageable t in targets)
             {
-                t.OnAttackHit(t.transform.position, new(4.0f, 4.0f), 5);
+                //t.OnAttackHit(t.transform.position, new(4.0f, 4.0f), 5, testAttackerFactions);
             }
         }
         //test experience

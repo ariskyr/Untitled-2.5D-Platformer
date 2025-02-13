@@ -12,6 +12,8 @@ public class ToggleAnimParam : ActionNode
     private  bool _move = false;
     [SerializeField]
     private bool _attack  = false;
+    [SerializeField] 
+    private bool _dead = false;
 
     private readonly Dictionary<string, bool> parameterMapping = new();
 
@@ -33,6 +35,7 @@ public class ToggleAnimParam : ActionNode
         parameterMapping.Add("Idle", _idle);
         parameterMapping.Add("Move", _move);
         parameterMapping.Add("Attack", _attack);
+        parameterMapping.Add("Dead", _dead);
     }
 
     protected override void OnStop() {
@@ -40,7 +43,7 @@ public class ToggleAnimParam : ActionNode
 
     protected override State OnUpdate() {
 
-        if (SanityCheck(_idle, _move, _attack) != 1)
+        if (SanityCheck(_idle, _move, _attack, _dead) != 1)
         {
             Debug.LogWarning("Tried to set more than one bool as true");
             return State.Failure;

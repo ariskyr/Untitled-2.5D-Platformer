@@ -17,7 +17,7 @@ namespace BehaviourTree
 
         protected override State OnUpdate()
         {
-            Debug.Log("Log node: "+ DialogueManager.Instance.DialogueIsPlaying);
+            Debug.Log("Log node: "+ context.damageable.CurrentHealth);
             return State.Success;
         }
     }

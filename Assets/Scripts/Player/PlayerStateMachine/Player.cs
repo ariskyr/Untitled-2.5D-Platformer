@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : GenericSingleton<Player>, IDataPersistence
@@ -19,10 +20,14 @@ public class Player : GenericSingleton<Player>, IDataPersistence
 
     public Animator Animator { get; private set; }
     public Rigidbody RB { get; private set; }
+    [Header("Data")]
     [SerializeField] private PlayerData playerData;
-
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform facing;
+
+    [Header("Combat")]
+    [SerializeField] private Damageable damageable;
+    [SerializeField] public AttackPoint attackPoint { get; private set; }
 
     public Vector3 CurrentVelocity { get; private set; }
     public bool facingRight { get; private set; } = true;
@@ -31,7 +36,6 @@ public class Player : GenericSingleton<Player>, IDataPersistence
     private BoxCollider topCollider;
     private float dir = 1f;
 
-    public int CurrentHealth { get; private set; }
     public int CurrentLevel { get; private set; }
     public int CurrentExperience { get; private set; }
     public int CurrentGold { get; private set; }
@@ -50,24 +54,33 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         AttackState = new PlayerAttackState(this, StateMachine, playerData, "attack");
         DeadState = new PlayerDeadState(this, StateMachine, playerData, "dead");
 
-        CurrentHealth = playerData.maxHealth;
+        damageable = GetComponent<Damageable>();
+        attackPoint = GetComponentInChildren<AttackPoint>();
+
+
+        damageable.Initialize(playerData.maxHealth);
+
         CurrentLevel = playerData.startingLevel;
         CurrentExperience = playerData.startingExperience;
         CurrentGold = playerData.startingGold;
+
+
     }
 
     private void OnEnable()
     {
-        GameEventsManager.Instance.playerEvents.onHealthGained += HealthGained;
-        GameEventsManager.Instance.playerEvents.onHealthLost += HealthLost;
+        // Initialize damageable events
+        damageable.OnHealthChanged += HandleHealthChanged;
+        damageable.OnDeath += HandleDeath;
         GameEventsManager.Instance.playerEvents.onExperienceGained += ExperienceGained;
         GameEventsManager.Instance.playerEvents.onGoldGained += GoldGained;
     }
 
     private void OnDisable()
     {
-        GameEventsManager.Instance.playerEvents.onHealthGained -= HealthGained;
-        GameEventsManager.Instance.playerEvents.onHealthLost -= HealthLost;
+        // Unregister damageable events
+        damageable.OnHealthChanged -= HandleHealthChanged;
+        damageable.OnDeath -= HandleDeath;
         GameEventsManager.Instance.playerEvents.onExperienceGained -= ExperienceGained;
         GameEventsManager.Instance.playerEvents.onGoldGained -= GoldGained;
     }
@@ -79,7 +92,6 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         topCollider = GetComponent<BoxCollider>();
         StateMachine.Initialize(IdleState);
 
-        GameEventsManager.Instance.playerEvents.PlayerHealthChange(CurrentHealth);
         GameEventsManager.Instance.playerEvents.PlayerLevelChange(CurrentLevel);
         GameEventsManager.Instance.playerEvents.PlayerExperienceChange(CurrentExperience);
         GameEventsManager.Instance.playerEvents.GoldChange(CurrentGold);
@@ -97,28 +109,12 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         StateMachine.CurrentState.PhysicsUpdate();
     }
 
-    private void HealthGained(int health)
+    private void HandleHealthChanged(int newHealth)
     {
-        CurrentHealth += health;
-        if (CurrentHealth > playerData.maxHealth)
-        {
-            CurrentHealth = playerData.maxHealth;
-        }
-        GameEventsManager.Instance.playerEvents.PlayerHealthChange(CurrentHealth);
+        GameEventsManager.Instance.playerEvents.PlayerHealthChange(newHealth);
     }
 
-    private void HealthLost(int health)
-    {
-        CurrentHealth -= health;
-        if (CurrentHealth <= 0)
-        {
-            CurrentHealth = 0;
-            Die();
-        }
-        GameEventsManager.Instance.playerEvents.PlayerHealthChange(CurrentHealth);
-    }
-
-    private void Die()
+    private void HandleDeath(GameObject killer)
     {
         StateMachine.ChangeState(DeadState);
         GameEventsManager.Instance.playerEvents.PlayerDeath();
@@ -138,6 +134,7 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         {
             CurrentExperience -= playerData.experienceToNextLevel;
             CurrentLevel++;
+            damageable.Heal(playerData.maxHealth); // Full heal on level up
             GameEventsManager.Instance.playerEvents.PlayerLevelChange(CurrentLevel);
         }
         GameEventsManager.Instance.playerEvents.PlayerExperienceChange(CurrentExperience);
@@ -176,7 +173,9 @@ public class Player : GenericSingleton<Player>, IDataPersistence
 
     public bool CheckIfGrounded()
     {
-        return Physics.CheckSphere(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
+        Vector3 groundStart = groundCheck.position - Vector3.right * 2.5f * playerData.groundCheckRadius;
+        Vector3 groundEnd = groundCheck.position + Vector3.right * 2.5f * playerData.groundCheckRadius;
+        return Physics.CheckCapsule(groundStart, groundEnd, playerData.groundCheckRadius, playerData.whatIsGround);
     }
 
     public void CheckIfShouldFlip(float xInput)
@@ -208,12 +207,12 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         transform.position = data.playerPosition;
         CurrentExperience = data.playerExperience;
         CurrentLevel = data.playerLevel;
-        CurrentHealth = data.playerHealth;
         CurrentGold = data.playerGold;
 
-        CurrentHealth = data.playerHealth > 0 ? data.playerHealth : playerData.maxHealth;
+        damageable.Initialize(data.playerHealth > 0 ? data.playerHealth : playerData.maxHealth);
+
         StateMachine.ChangeState(IdleState);
-        GameEventsManager.Instance.playerEvents.PlayerHealthChange(CurrentHealth);
+        GameEventsManager.Instance.playerEvents.PlayerHealthChange(damageable.CurrentHealth);
         RB.isKinematic = false;
     }
 
@@ -222,11 +221,21 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         data.playerPosition = transform.position;
         data.playerExperience = CurrentExperience;
         data.playerLevel = CurrentLevel;
-        data.playerHealth = CurrentHealth;
+        data.playerHealth = damageable.CurrentHealth;
         data.playerGold = CurrentGold;
     }
+
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireSphere(groundCheck.position, playerData.groundCheckRadius);
+        Vector3 groundStart = groundCheck.position - Vector3.right * 2.5f * playerData.groundCheckRadius;
+        Vector3 groundEnd = groundCheck.position + Vector3.right * 2.5f * playerData.groundCheckRadius;
+
+        // Draw approximate capsule visualization
+        Gizmos.DrawWireSphere(groundStart, playerData.groundCheckRadius);
+        Gizmos.DrawWireSphere(groundEnd, playerData.groundCheckRadius);
+        Gizmos.DrawLine(groundStart + Vector3.up * playerData.groundCheckRadius, groundEnd + Vector3.up * playerData.groundCheckRadius);
+        Gizmos.DrawLine(groundStart + Vector3.down * playerData.groundCheckRadius, groundEnd + Vector3.down * playerData.groundCheckRadius);
+        Gizmos.DrawLine(groundStart + Vector3.forward * playerData.groundCheckRadius, groundEnd + Vector3.forward * playerData.groundCheckRadius);
+        Gizmos.DrawLine(groundStart + Vector3.back * playerData.groundCheckRadius, groundEnd + Vector3.back * playerData.groundCheckRadius);
     }
 }
