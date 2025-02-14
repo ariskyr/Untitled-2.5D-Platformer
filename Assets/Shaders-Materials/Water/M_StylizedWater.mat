@@ -168,10 +168,10 @@ Material:
     - _EnableFogOnTransparent: 1
     - _EnableGeometricSpecularAA: 0
     - _EnergyConservingSpecularColor: 1
-    - _FoamAmount: 1.89
-    - _FoamCutoff: 4.35
-    - _FoamScale: 700
-    - _FoamSpeed: 0.41
+    - _FoamAmount: 4.17
+    - _FoamCutoff: 7.25
+    - _FoamScale: 704.26
+    - _FoamSpeed: 2.08
     - _HeightAmplitude: 0.02
     - _HeightCenter: 0.5
     - _HeightMapParametrization: 0
@@ -244,7 +244,7 @@ Material:
     - _UVEmissive: 0
     - _UseEmissiveIntensity: 0
     - _UseShadowThreshold: 0
-    - _WaterDepth: 2.2
+    - _WaterDepth: 0.8
     - _ZTestDepthEqualForOpaque: 3
     - _ZTestGBuffer: 4
     - _ZTestTransparent: 4
@@ -253,16 +253,16 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DeepWater: {r: 0.11035948, g: 0.11035948, b: 0.75471693, a: 0.5019608}
+    - _DeepWater: {r: 0.26321647, g: 0.26321647, b: 0.8584906, a: 0.62352943}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
-    - _FoamColor: {r: 0.9811321, g: 0.9811321, b: 0.9811321, a: 0.9019608}
+    - _FoamColor: {r: 0.9811321, g: 0.9811321, b: 0.9811321, a: 0.89411765}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
-    - _ShallowWater: {r: 0.056692705, g: 0.8915625, b: 0.9245283, a: 0.2509804}
+    - _ShallowWater: {r: 0.04160734, g: 0.7710649, b: 0.8018868, a: 0.2509804}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _TransmittanceColor: {r: 1, g: 1, b: 1, a: 1}

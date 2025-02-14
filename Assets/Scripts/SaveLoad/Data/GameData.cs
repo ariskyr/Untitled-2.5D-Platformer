@@ -20,7 +20,7 @@ public class GameData
     public GameData()
     {
         timer = 0;
-        playerPosition = new Vector3(62, (float)3.5, 61);
+        playerPosition = new Vector3((float)1.5, 5, 66);
         playerExperience = 0;
         playerLevel = 1;
         playerHealth = 100;

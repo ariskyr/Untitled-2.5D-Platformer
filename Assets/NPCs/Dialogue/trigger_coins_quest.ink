@@ -10,7 +10,7 @@ EXTERNAL triggerQuest()
  }
 
 ==can_start_quest==
-Hey #speaker: Quest Giver 1 #layout: left #audio: aris1
+Hey #portrait: npc_default #speaker: Quest Giver 1 #layout: left #audio: aris1
 Do you want a <color=\#5B81FF>quest</color>?
 + [yes]
     ~triggerQuest()

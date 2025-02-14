@@ -35,7 +35,7 @@ Transform:
   m_Children:
   - {fileID: 2469423268546121232}
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &877328159592832021
 BoxCollider:
@@ -137,7 +137,7 @@ MonoBehaviour:
   positionOffset: {x: 0, y: -1, z: 0}
   rotationOffset: {x: -15, y: 0, z: 0}
   fovOffset: 2
-  inkJson: {fileID: 4900000, guid: b955d888823b3a44cbe37e9640643781, type: 3}
+  inkJson: {fileID: 4900000, guid: 6bd3c808eda13fe418c3477c30997281, type: 3}
   _questPoint: {fileID: 0}
 --- !u!1 &8622965378123918919
 GameObject:

@@ -658,7 +658,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7093770285621973689}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.255, z: 0}
+  m_LocalPosition: {x: 0, y: -0.23, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -682,8 +682,7 @@ GameObject:
   - component: {fileID: 1119714024072180600}
   - component: {fileID: 7882680842162135986}
   - component: {fileID: 9133333952092087771}
-  - component: {fileID: 6375467192561103723}
-  - component: {fileID: 5480288232526886700}
+  - component: {fileID: 477757929758373633}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -701,7 +700,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.827431, y: 0.46601957, z: 2.2180321}
   m_LocalScale: {x: 1.92, y: 1.864078, z: 1.864078}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3254730852363022666}
   - {fileID: 1281536593729239422}
@@ -710,7 +709,7 @@ Transform:
   - {fileID: 2553830135686176327}
   - {fileID: 1421439443010531040}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1960140945333213350
 MonoBehaviour:
@@ -930,7 +929,7 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: a1ed196087884f347a55b253dc5acae0, type: 2}
   groundCheck: {fileID: 3254730852363022666}
   facing: {fileID: 1281536593729239422}
-  attackPoint: {fileID: 6522549835056637860}
+  damageable: {fileID: 477757929758373633}
 --- !u!212 &466191336535861244
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1093,7 +1092,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _interactionPromptUI: {fileID: 2386125803245065674}
---- !u!114 &6375467192561103723
+--- !u!114 &477757929758373633
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1102,32 +1101,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 7105618736474454704}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cbc5784ee9d9d34989af528ff4f7263, type: 3}
+  m_Script: {fileID: 11500000, guid: cf3971ec2a51dc048bcdadb9fe32cd79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5480288232526886700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7105618736474454704}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e5f7ede5abe1af4d8b50c75db703d15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  maxHealth: 100
+  invincible: 0
+  damageCooldown: 0.2
   factions: 2
   hostileFactions: 12
-  hitType: 3
-  disableHitEffect: 0
-  spriteParent: {fileID: 0}
-  customHitEffect: {fileID: 5857856430146468901, guid: b999265037167514cae7c917354492d5,
+  allowFriendlyFire: 0
+  hitEffect: {fileID: 5857856430146468901, guid: b999265037167514cae7c917354492d5,
     type: 3}
-  customHitSound: {fileID: 0}
-  hideWhenDead: 0
+  hitSound: {fileID: 0}
   hitMaterial: {fileID: 2100000, guid: 597a34cae1a10de4199a39cb8b8be68b, type: 2}
-  canAttackSameFaction: 0
+  hitFlashDuration: 0.1
 --- !u!1001 &7889109909012160513
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1217,15 +1204,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7889109909012160513}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6522549835056637860 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4035083625165375397, guid: 413df8f795fff5e40ac8ef397b9b253b,
-    type: 3}
-  m_PrefabInstance: {fileID: 7889109909012160513}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25a94167aa8a7824db9c37e299e31fa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

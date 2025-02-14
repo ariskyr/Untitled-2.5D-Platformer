@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 39d8d3c729c174545bc91fbdf143d3fb, type: 3}
-  m_Name: aris
+  m_Name: allVowelDefault
   m_EditorClassIdentifier: 
-  id: aris
+  id: allVowelDefault
   dialogueTypingSoundClips:
   - {fileID: 8300000, guid: 6be48d4ac2b36dd43bf12e73a4c76dee, type: 3}
   - {fileID: 8300000, guid: 8ad54bff7e324ce4d91fea3ec15ae359, type: 3}
