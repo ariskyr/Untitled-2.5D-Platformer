@@ -12,6 +12,8 @@ public class PauseRestartUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI statusText;
     [SerializeField] private Button reloadButton;
     [SerializeField] private Button mainMenuButton;
+    [SerializeField] private Button saveGameButton;
+    [SerializeField] private Button quitButton;
 
     private bool isPaused = false;
 
@@ -20,6 +22,8 @@ public class PauseRestartUI : MonoBehaviour
         pauseMenu.SetActive(false);
         reloadButton.onClick.AddListener(OnReloadClicked);
         mainMenuButton.onClick.AddListener(OnMainMenuClicked);
+        saveGameButton.onClick.AddListener(OnSaveGameClicked);
+        quitButton.onClick.AddListener(OnExitClicked);
     }
 
     private void OnEnable()
@@ -79,6 +83,24 @@ public class PauseRestartUI : MonoBehaviour
         Time.timeScale = 1f;
         GameManager.Instance.LoadScene("MainMenu", new Vector3(0, (float)0.49, 0));
         ToggleUI(false);
+    }
+
+    public void OnSaveGameClicked()
+    {
+        DataPersistenceManager.Instance.SaveGame();
+        Debug.Log("Game saved successfully!");
+    }
+
+    public void OnExitClicked()
+    {
+        // Save before exiting
+        DataPersistenceManager.Instance.SaveGame();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
     }
 
 }

@@ -683,6 +683,7 @@ GameObject:
   - component: {fileID: 7882680842162135986}
   - component: {fileID: 9133333952092087771}
   - component: {fileID: 477757929758373633}
+  - component: {fileID: 3007985663326351054}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -778,7 +779,19 @@ MonoBehaviour:
     m_ActionId: 3b2cd26c-30ea-4975-a119-963ca6fdffbf
     m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: OnInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: b72a7a0f-00dc-47c7-b27d-77ebc0f00cb6
     m_ActionName: UI/Submit[/Keyboard/enter]
   - m_PersistentCalls:
@@ -1115,6 +1128,18 @@ MonoBehaviour:
   hitSound: {fileID: 0}
   hitMaterial: {fileID: 2100000, guid: 597a34cae1a10de4199a39cb8b8be68b, type: 2}
   hitFlashDuration: 0.1
+--- !u!114 &3007985663326351054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7105618736474454704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cbc5784ee9d9d34989af528ff4f7263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7889109909012160513
 PrefabInstance:
   m_ObjectHideFlags: 0

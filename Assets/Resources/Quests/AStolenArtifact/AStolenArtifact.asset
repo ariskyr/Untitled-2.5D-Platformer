@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3969423c9beabc345a9b465550d78f56, type: 3}
-  m_Name: CollectCoinsQuest
+  m_Name: AStolenArtifact
   m_EditorClassIdentifier: 
-  <id>k__BackingField: CollectCoinsQuest
-  questName: Collect the coins!
-  levelRequirement: 1
-  questPrerequisites: []
-  questStepPrefabs:
-  - {fileID: 819454073057873115, guid: e12f09503f8addf4cacfbc6f458a95e9, type: 3}
+  <id>k__BackingField: AStolenArtifact
+  questName: A stolen artifact
+  levelRequirement: 2
+  questPrerequisites:
+  - {fileID: 11400000, guid: e89d3a0c207424247a00ae27a88fb6e4, type: 2}
+  questStepPrefabs: []
   goldReward: 50
-  expReward: 250
+  expReward: 150
