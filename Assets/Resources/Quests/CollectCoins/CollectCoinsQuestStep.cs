@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class CollectCoinsQuestStep : QuestStep
 {
-    private int coinsCollected = 0;
+    public int coinsCollected = 0;
     public int coinsToCollect = 5;
+
 
     private void OnEnable()
     {
@@ -21,6 +22,7 @@ public class CollectCoinsQuestStep : QuestStep
     {
         UpdateState();
     }
+
 
     private void CoinCollected()
     {

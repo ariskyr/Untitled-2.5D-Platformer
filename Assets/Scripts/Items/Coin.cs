@@ -21,6 +21,7 @@ public class Coin : MonoBehaviour
         visual.gameObject.SetActive(false);
         GameEventsManager.Instance.playerEvents.GoldGained(goldGained);
         GameEventsManager.Instance.miscEvents.CoinCollected();
+        Destroy(gameObject, 1f);
     }
 
     private void OnTriggerEnter(Collider other)

@@ -58,7 +58,7 @@ public class DialogueManager : GenericSingleton<DialogueManager>, IDataPersisten
             {
                 StringValue variableValue = new(data.dialogueVars[variable.Key]);
                 dialogueVariables.VariableChanged(variable.Key, variableValue);
-                Debug.Log("Initialized dialogue global variable: " + variable.Key + " = " + variableValue);
+                //Debug.Log("Loaded dialogue global variable: " + variable.Key + " = " + variableValue);
             }
         }
     }
@@ -84,6 +84,13 @@ public class DialogueManager : GenericSingleton<DialogueManager>, IDataPersisten
         //the rest of the instantiation
         audioSource = gameObject.AddComponent<AudioSource>();
         currentAudioInfo = defaultAudioInfo;
+        //init dialogue vars
+        dialogueVariables = new DialogueVariables(loadGlobalsJSON);
+        foreach (var variable in dialogueVariables.Variables)
+        {
+            //Debug.Log("Dialogue global variable: " + variable.Key + " = " + variable.Value);
+        }
+
     }
 
     private void OnEnable()
@@ -122,7 +129,6 @@ public class DialogueManager : GenericSingleton<DialogueManager>, IDataPersisten
         InitializeAudioInfoDictionary();
     }
 
-
     private void InitializeAudioInfoDictionary()
     {
         //initialize it with the default
@@ -152,6 +158,7 @@ public class DialogueManager : GenericSingleton<DialogueManager>, IDataPersisten
 
     private void Update()
     {
+
         if (!DialogueIsPlaying)
         {
             return;
@@ -162,6 +169,8 @@ public class DialogueManager : GenericSingleton<DialogueManager>, IDataPersisten
         {
             ContinueStory();
         }
+
+   
     }
 
 

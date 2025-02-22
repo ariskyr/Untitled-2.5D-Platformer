@@ -212,6 +212,8 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         damageable.Initialize(data.playerHealth > 0 ? data.playerHealth : playerData.maxHealth);
 
         StateMachine.ChangeState(IdleState);
+
+
         GameEventsManager.Instance.playerEvents.PlayerHealthChange(damageable.CurrentHealth);
         RB.isKinematic = false;
     }

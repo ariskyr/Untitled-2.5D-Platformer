@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: AStolenArtifact
   m_EditorClassIdentifier: 
   <id>k__BackingField: AStolenArtifact
-  questName: A stolen artifact
+  questName: A Stolen Artifact
   levelRequirement: 2
   questPrerequisites:
   - {fileID: 11400000, guid: e89d3a0c207424247a00ae27a88fb6e4, type: 2}
-  questStepPrefabs: []
+  questStepPrefabs:
+  - {fileID: 9206005054154465372, guid: c999495aefd7ed0448de3042a11b398a, type: 3}
+  - {fileID: 3694722250710158977, guid: 1b47d28831b19e844b270d087d74287e, type: 3}
   goldReward: 50
-  expReward: 150
+  expReward: 300

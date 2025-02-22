@@ -190,6 +190,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 251c4125c7d9b744bb202d8003ecb335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  artifactSpawnPoint: {fileID: 0}
+  artifactPrefab: {fileID: 0}
   _prompt: Open Chest
   minGold: 5
   maxGold: 10

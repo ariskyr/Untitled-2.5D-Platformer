@@ -40,6 +40,12 @@ public class QuestManager : GenericSingleton<QuestManager>, IDataPersistence
     {
         List<string> questIDs = new List<string>(questMap.Keys);
 
+        // Clear existing quest steps before loading new ones
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+
         foreach (string questID in questIDs)
         {
             try
@@ -70,7 +76,7 @@ public class QuestManager : GenericSingleton<QuestManager>, IDataPersistence
         }
 
         //broadcast the initial state of all quests
-        foreach (Quest quest in questMap.Values)
+        foreach (Quest quest in GetAllQuests())
         {
             //initialize any loaded quest steps
             if (quest.state == QuestState.IN_PROGRESS)
@@ -85,7 +91,7 @@ public class QuestManager : GenericSingleton<QuestManager>, IDataPersistence
     public void SaveData(GameData data)
     {
         data.questData.Clear();
-        foreach (Quest quest in questMap.Values)
+        foreach (Quest quest in GetAllQuests())
         {
             try
             {
@@ -130,7 +136,7 @@ public class QuestManager : GenericSingleton<QuestManager>, IDataPersistence
 
     private void Update()
     {
-        foreach (Quest quest in questMap.Values)
+        foreach (Quest quest in GetAllQuests())
         {
             if (quest.state == QuestState.REQUIREMENTS_NOT_MET && CheckRequirementsMet(quest))
             {
@@ -138,6 +144,12 @@ public class QuestManager : GenericSingleton<QuestManager>, IDataPersistence
             }
         }
     }
+
+    public IEnumerable<Quest> GetAllQuests()
+    {
+        return questMap.Values;
+    }
+
 
     private void ChangeQuestState(string id, QuestState state)
     {
@@ -204,6 +216,7 @@ public class QuestManager : GenericSingleton<QuestManager>, IDataPersistence
                 Debug.LogWarning("Duplicate quest id found: " + questInfo.id);
             }
             idToQuestMap.Add(questInfo.id, new Quest(questInfo));
+            Debug.Log("Added quest: " + questInfo.id);
         }
         return idToQuestMap;
     }

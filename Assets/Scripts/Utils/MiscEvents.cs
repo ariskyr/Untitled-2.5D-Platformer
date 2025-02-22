@@ -13,4 +13,22 @@ public class MiscEvents
             onCoinCollected();
         }
     }
+
+    public event Action<string> onKnightKilled;
+    public void KnightKilled(string knightGUID)
+    {
+        if (onKnightKilled != null)
+        {
+            onKnightKilled(knightGUID);
+        }
+    }
+
+    public event Action onArtifactCollected;
+    public void ArtifactCollected()
+    {
+        if (onArtifactCollected != null)
+        {
+            onArtifactCollected();
+        }
+    }
 }

@@ -24,6 +24,11 @@ public class Death : ActionNode
         // Wait for death animation to finish
         if (context.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
+            // Award experience
+            GameEventsManager.Instance.playerEvents.ExperienceGained(100);
+            //Trigger death event
+            GameEventsManager.Instance.miscEvents.KnightKilled(context.gameObject.name);
+
             Destroy(context.gameObject, 2f); // Optional delay before destruction
             return State.Success;
         }

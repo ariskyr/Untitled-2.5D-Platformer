@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Chest : MonoBehaviour, IInteractable
 {
+    [Header("Artifact")]
+    [SerializeField] private GameObject artifactPrefab;
+
     [SerializeField] private string _prompt = "Open Chest";
 
     [Header("Loot")]
@@ -29,10 +32,26 @@ public class Chest : MonoBehaviour, IInteractable
 
     private void OpenChest()
     {
+
         _isOpened = true;
         int goldGained = Random.Range(minGold, maxGold + 1);
         GameEventsManager.Instance.playerEvents.GoldGained(goldGained);
 
+        if (artifactPrefab != null)
+        {
+            Vector3 spawnPos = transform.position - transform.up * 2f;
+            Instantiate(
+                artifactPrefab,
+                spawnPos,
+                Quaternion.identity,
+                null
+            );
+
+        }
+        else
+        {
+            Debug.LogError("Artifact prefab not assigned!");
+        }
     }
 
     private string GetInteractionPrompt()

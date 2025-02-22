@@ -55,9 +55,12 @@ public class DialogueVariables
             Variables.Remove(name);
 
             string enumValueString = state.ToString();
-
             globalVariablesStory.variablesState[name] = enumValueString;
             Variables.Add(name, new Ink.Runtime.StringValue(enumValueString));
+        }
+        else
+        {
+            Debug.LogWarning("Variable not found: " + name);
         }
     }
 

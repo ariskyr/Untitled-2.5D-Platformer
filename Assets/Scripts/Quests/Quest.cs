@@ -107,7 +107,7 @@ public class Quest
         }
         else
         {
-            // display all previous quests ith strikethroughs
+            // display all previous quest steps ith strikethroughs
             for (int i=0; i < currentQuestStepIndex; i++)
             {
                 fullStatus += "<s>" + questStepStates[i].status + "</s>\n";

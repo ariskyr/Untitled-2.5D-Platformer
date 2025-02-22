@@ -2,7 +2,7 @@ INCLUDE globals.ink
 
 EXTERNAL triggerQuest()
 
-{ CollectCoinsQuest:
+{ CollectCoins:
  -"CAN_START": -> can_start_quest
  -"IN_PROGRESS": -> in_progress
  -"CAN_FINISH": -> can_finish_quest
@@ -10,31 +10,33 @@ EXTERNAL triggerQuest()
  }
 
 ==can_start_quest==
-Hey #portrait: npc_default #speaker: Quest Giver 1 #layout: left #audio: aris1
-Do you want a <color=\#5B81FF>quest</color>?
+Hey #portrait: npc_default #speaker: Thomas #layout: left #audio: aris1
+I seem to have misplaced some of my collectable <color=\#5B81FF>coins</color>.
+Can you please help me find them?
 + [yes]
     ~triggerQuest()
-    Fetch me 5 coins! #portrait: npc_default
+    Thank you! There should be 5 in total. #portrait: npc_default
     -> END
 + [no]
-    bye
+    That's a shame, have a good day.
     -> END
 
 ==in_progress==
-I see you still haven't gathered them, come back when you have all 5. #speaker: Quest Giver 1 #layout: left #audio: aris1
+I see you still haven't gathered them, come back when you have all 5. #speaker: Thomas #layout: left #audio: aris1
 -> END
 
 ==can_finish_quest==
-Well done! #speaker: Quest Giver 1 #layout: left #audio: aris1
+Well done! #portrait: npc_default #speaker: Thomas #layout: left #audio: aris1
 Now give them to me.
 + [yes]
     ~triggerQuest()
     thank you!
     -> END
 + [no]
-    go away
+    They are very important to me!
     -> END
 
 ==finished_quest==
-A friend of mine told me that he has a quest for you #speaker: Quest Giver 1 #layout: left #audio: aris1
+Since you helped me with those coins, I put in a word in to the villager leader. #portrait: npc_default #speaker: Thomas #layout: left #audio: aris1
+Go speak to him.
 -> END
