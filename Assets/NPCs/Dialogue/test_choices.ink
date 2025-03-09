@@ -2,17 +2,17 @@
 
 === main ===
 Choose your fighter!
-    + [1 2]
-        -> chosen("liolios")
-    + [spatali oksygonou]
-        -> chosen("bouziotios")
-    + [re maga]
-        -> chosen("paliniotis")
+    + [choice 1]
+        -> chosen("Name 1")
+    + [choice 2]
+        -> chosen("Name 2")
+    + [choice 3]
+        -> chosen("Name 3")
 
 === chosen(fighter) ===
 You chose {fighter}!
-    +[go agane?]
+    +[pali?]
         -> main
-    +[puss?]
+    +[bye?]
         bye
         -> END

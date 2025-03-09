@@ -144,8 +144,7 @@ implement the interactable interface to get the prompt texts and the action.
 
 * **Dialogue**:
     * How to Setup a new NPC:
-    get the NPC prefab, inside the DialogueTrigger script, put an ink JSON (compiled) file that includes the story of an NPC. Example of an ink file:
-    ![Example Ink](docs/example_ink.jpg)
+    get the NPC prefab, inside the DialogueTrigger script, put an ink JSON (compiled) file that includes the story of an NPC.
         * choices are made with + symbol (inside [] the text of the choice)
         * tags can be place with #key: value
         * color can be placed with rich text like"<color=\\#FF0000>test<\/color> (this will make the test word red.)
