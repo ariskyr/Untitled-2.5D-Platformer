@@ -41,11 +41,20 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 1793287
+    locked: 0
   - name: Screen Space Layer
     uniqueID: 2183775243
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 3803336457
+    locked: 0
+  - name: Player
+    uniqueID: 1312790427
     locked: 0
   - name: InteractionPrompt
     uniqueID: 2025240967
