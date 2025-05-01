@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Player2D : MonoBehaviour
+public class Player2D : GenericSingleton<Player2D> 
 {
     public PlayerStateMachine2D StateMachine { get; private set; }
 
@@ -30,6 +31,7 @@ public class Player2D : MonoBehaviour
 
     private void Awake()
     {
+        base.Awake();
         StateMachine = new PlayerStateMachine2D();
         IdleState = new PlayerIdleState2D(this, StateMachine, playerData, "idle");
         MoveState = new PlayerMoveState2D(this, StateMachine, playerData, "move");
@@ -38,6 +40,22 @@ public class Player2D : MonoBehaviour
         LandState = new PlayerLandState2D(this, StateMachine, playerData, "land");
         CrouchIdleState = new PlayerCrouchIdleState2D(this, StateMachine, playerData, "crouchIdle");
         CrouchMoveState = new PlayerCrouchMoveState2D(this, StateMachine, playerData, "crouchMove");
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        Debug.Log("Have subscribed to event");
+        if (scene.name != "Dungeon")
+        {
+            Debug.Log("Deactivating Player2D");
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
     }
 
     private void Start()

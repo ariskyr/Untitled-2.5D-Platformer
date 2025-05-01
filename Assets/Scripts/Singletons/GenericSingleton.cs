@@ -39,6 +39,7 @@ public class GenericSingleton<T> : MonoBehaviour where T : Component
         }
         else
         {
+            Debug.Log("Destroying: " + gameObject.name);
             Destroy(gameObject);
         }
     }

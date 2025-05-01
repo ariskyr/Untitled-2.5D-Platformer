@@ -12,7 +12,7 @@ public class PlayerAttackState2D : PlayerAbilityState2D
     {
         base.Enter();
         player.SetVelocityX(0f);
-        player.attackPoint.Attack();
+        //player.attackPoint.Attack();
     }
 
     public override void Exit()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
 using Pixelplacement;
+using UnityEngine.SceneManagement;
 
 public class CameraManager : GenericSingleton<CameraManager>, IDataPersistence
 {
@@ -29,6 +30,7 @@ public class CameraManager : GenericSingleton<CameraManager>, IDataPersistence
         //set the default pos and rot before zoom in
         defaultCameraPos = transform.position;
         defaultCameraRot = transform.rotation;
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     public void LoadData(GameData data)
@@ -138,6 +140,17 @@ public class CameraManager : GenericSingleton<CameraManager>, IDataPersistence
             yield return null;
         }
         zoomingIn = false;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        if (scene.name == "Dungeon")
+        {
+            gameObject.SetActive(false);
+        } else
+        {
+            gameObject.SetActive(true);
+        }
     }
 
 }

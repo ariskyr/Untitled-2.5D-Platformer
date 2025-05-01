@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : GenericSingleton<Player>, IDataPersistence
 {
@@ -64,7 +65,8 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         CurrentExperience = playerData.startingExperience;
         CurrentGold = playerData.startingGold;
 
-
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        Debug.Log("Subscribed to sceneLoaded");
     }
 
     private void OnEnable()
@@ -83,6 +85,19 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         damageable.OnDeath -= HandleDeath;
         GameEventsManager.Instance.playerEvents.onExperienceGained -= ExperienceGained;
         GameEventsManager.Instance.playerEvents.onGoldGained -= GoldGained;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        Debug.Log("Have subscribed to event");
+        if (scene.name == "Dungeon")
+        {
+            Debug.Log("Deactivating Player");
+            gameObject.SetActive(false);
+        } else
+        {
+            gameObject.SetActive(true);
+        }
     }
 
     private void Start()
