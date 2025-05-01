@@ -4132,6 +4132,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC_Quest_Villager
       objectReference: {fileID: 0}
+    - target: {fileID: 5968746508332696028, guid: 89ef5e03368854e47bb0b1d33a9e9496,
+        type: 3}
+      propertyPath: inkJson
+      value: 
+      objectReference: {fileID: 4900000, guid: 892728a37588b914e92eb43bed84b341, type: 3}
     - target: {fileID: 7684867331543054321, guid: 89ef5e03368854e47bb0b1d33a9e9496,
         type: 3}
       propertyPath: m_RootOrder
