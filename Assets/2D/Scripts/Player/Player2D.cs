@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class Player2D : GenericSingleton<Player2D> 
+public class Player2D : GenericSingleton<Player2D>, IPlayerDirectionProvider
 {
     public PlayerStateMachine2D StateMachine { get; private set; }
 
@@ -21,6 +22,7 @@ public class Player2D : GenericSingleton<Player2D>
 
     public bool facingRight { get; private set; } = true;
     private Vector2 workspace;
+    public PlayerInput playerInput;
     private float dir = 1f;
     public Vector2 CurrentVelocity { get; private set; }
 
@@ -29,9 +31,10 @@ public class Player2D : GenericSingleton<Player2D>
     [Header("Data")]
     [SerializeField] private PlayerData playerData;
 
-    private void Awake()
+    protected override void Awake()
     {
         base.Awake();
+        playerInput = GetComponent<PlayerInput>();
         StateMachine = new PlayerStateMachine2D();
         IdleState = new PlayerIdleState2D(this, StateMachine, playerData, "idle");
         MoveState = new PlayerMoveState2D(this, StateMachine, playerData, "move");
@@ -41,21 +44,6 @@ public class Player2D : GenericSingleton<Player2D>
         CrouchIdleState = new PlayerCrouchIdleState2D(this, StateMachine, playerData, "crouchIdle");
         CrouchMoveState = new PlayerCrouchMoveState2D(this, StateMachine, playerData, "crouchMove");
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
-    {
-        Debug.Log("Have subscribed to event");
-        if (scene.name != "Dungeon")
-        {
-            Debug.Log("Deactivating Player2D");
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            gameObject.SetActive(true);
-        }
     }
 
     private void Start()
@@ -88,6 +76,11 @@ public class Player2D : GenericSingleton<Player2D>
         workspace.Set(CurrentVelocity.x, velocityY);
         RB.velocity = workspace;
         CurrentVelocity = workspace;
+    }
+
+    public void TeleportPlayer(Vector3 position)
+    {
+        transform.position = position;
     }
 
     public bool CheckIfGrounded()

@@ -1,17 +1,16 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using static UnityEngine.GraphicsBuffer;
-using System;
+using UnityEngine.UI;
 
 public class CircleWipeTransition : MonoBehaviour
 {
     [SerializeField] float transitionDuration = 1f;
+    [SerializeField] Transform playerTransform;
 
     private Canvas canvas;
     private Image blackScreen;
+    private Material materialInstance;
 
     private Vector2 playerCanvasPos;
     private static readonly int RADIUS = Shader.PropertyToID("_Radius");
@@ -22,28 +21,100 @@ public class CircleWipeTransition : MonoBehaviour
     {
         canvas = GetComponent<Canvas>();
         blackScreen = GetComponentInChildren<Image>();
+        materialInstance = new Material(blackScreen.material);
+        blackScreen.material = materialInstance;
     }
 
     private void Start()
     {
         blackScreen.material.SetFloat(RADIUS, 1);
-        DrawBlackScreen();
+        //DrawBlackScreen();
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        if (materialInstance != null)
+        {
+            materialInstance.SetFloat(RADIUS, 1);
+        }
     }
 
     public void LoadSceneTransition(string sceneName, Vector3 positionToLoad)
     {
+        playerTransform = FindActivePlayerTransform();
+        if (playerTransform == null)
+        {
+            Debug.LogError("CircleWipeTransition: Could not find active Player object tagged 'Player'. Aborting transition. Ensure ONE active player object has the 'Player' tag.");
+            return;
+        }
         StartCoroutine(LoadSceneCoroutine(sceneName, positionToLoad));
+    }
+
+    private Transform FindActivePlayerTransform()
+    {
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (playerObject != null)
+        {
+            return playerObject.transform;
+        }
+
+        Debug.LogWarning("Could not find GameObject with tag 'Player'. Make sure your active player GameObject ('Player' or 'Player2D') is tagged correctly.");
+        return null;
+
     }
 
     private IEnumerator LoadSceneCoroutine(string sceneName, Vector3 positionToLoad)
     {
+        if (materialInstance == null || playerTransform == null)
+        {
+            Debug.LogError("Transition prerequisites not met (Material or Initial Player Transform).");
+            yield break;
+        }
+
+        CalculateAndSetCenter(playerTransform.position);
         //start the closing transition
         yield return StartCoroutine(Transition(transitionDuration, 1, 0));
         //load scene
         GameManager.Instance.LoadScene(sceneName, positionToLoad);
 
+        //wait a frame
+        yield return null;
+
         // Start the opening transition
+        playerTransform = FindActivePlayerTransform();
+
+        if (playerTransform != null)
+        {
+            // Calculate center based on potentially new player position/camera
+            CalculateAndSetCenter(playerTransform.position);
+        }
+        else
+        {
+            Debug.LogWarning("Player not found after scene load. Wipe may open from old center or default location.");
+            CalculateAndSetCenter(Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, Camera.main.nearClipPlane + 1f)));
+        }
+
+        // 5. Start opening transition
         yield return StartCoroutine(Transition(transitionDuration, 0, 1));
+    }
+
+    private void CalculateAndSetCenter(Vector3 worldPosition)
+    {
+        if (materialInstance == null || Camera.main == null) return;
+
+        Vector3 viewportPoint = Camera.main.WorldToViewportPoint(worldPosition);
+        materialInstance.SetFloat(CENTER_X, viewportPoint.x);
+        materialInstance.SetFloat(CENTER_Y, viewportPoint.y);
     }
 
     private void DrawBlackScreen()
@@ -90,17 +161,16 @@ public class CircleWipeTransition : MonoBehaviour
 
     private IEnumerator Transition(float duration, float beginRadius, float endRadius)
     {
+        if (materialInstance == null) yield break;
         var time = 0f;
-        var mat = blackScreen.material;
         while (time < duration)
         {
             time += Time.deltaTime;
-            var t = time / duration;
-            var radius = Mathf.Lerp(beginRadius, endRadius, t);
-
-            mat.SetFloat(RADIUS, radius);
-
+            float t = Mathf.Clamp01(time / duration);
+            float radius = Mathf.Lerp(beginRadius, endRadius, t);
+            materialInstance.SetFloat(RADIUS, radius);
             yield return null;
         }
+        materialInstance.SetFloat(RADIUS, endRadius);
     }
 }

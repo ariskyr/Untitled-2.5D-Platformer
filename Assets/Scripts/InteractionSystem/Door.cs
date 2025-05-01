@@ -33,7 +33,7 @@ public class Door : MonoBehaviour, IInteractable
     private void Start()
     {
         //get the transition component
-        transition = Player.Instance.GetComponentInChildren<CircleWipeTransition>();
+        transition = PlayerUI.Instance.GetComponentInChildren<CircleWipeTransition>();
     }
 
     //Interact with the object
@@ -42,11 +42,12 @@ public class Door : MonoBehaviour, IInteractable
         bool isOpened = Open(interactor.transform.position);
 
         //handle how the transition between levels should happen
-        transition.LoadSceneTransition(levelToLoad, positionToLoad);
         if (transition == null)
         {
             Debug.LogError("No transition component found on player object");
+            return false;
         }
+        transition.LoadSceneTransition(levelToLoad, positionToLoad);
 
         return isOpened;
     }

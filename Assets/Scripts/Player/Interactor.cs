@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Interactor : MonoBehaviour
 {
@@ -11,64 +7,125 @@ public class Interactor : MonoBehaviour
     [SerializeField] private LayerMask _interactableMask;
     [SerializeField] private InteractionPromptUI _interactionPromptUI;
 
-    private int _numFound;
+    private IInteractable _currentInteractable;
     private bool _hasInteracted = false;
-    private readonly Collider[] _colliders = new Collider[3];
-    private IInteractable _interactable;
+    private readonly Collider[] _colliders3D = new Collider[3];
+    private readonly Collider2D[] _colliders2D = new Collider2D[3];
+
+    private bool _is3DMode;
+
+    private void Awake()
+    {
+        // Determine which player
+        _is3DMode = (GetComponentInParent<Player>() != null);
+
+        if (_interactionPoint == null)
+            Debug.LogError("Interaction Point transform is not assigned!", this);
+        if (_interactionPromptUI == null)
+            Debug.LogError("Interaction Prompt UI is not assigned!", this);
+    }
 
     private void Update()
     {
-        _numFound = Physics.OverlapSphereNonAlloc(_interactionPoint.position, _interactionPointRadius, 
-                                                _colliders, (int)_interactableMask);
+        if (_interactionPoint == null || _interactionPromptUI == null) return;
 
-        if (_numFound > 0 )
+        int numFound = 0;
+        IInteractable foundInteractableThisFrame = null;
+        if (_is3DMode)
         {
-            if (_colliders[0].TryGetComponent(out _interactable)) 
+            numFound = Physics.OverlapSphereNonAlloc(
+                _interactionPoint.position,
+                _interactionPointRadius,
+                _colliders3D,
+                _interactableMask);
+
+            if (numFound > 0)
             {
-                //if hasn't interacted
-                if (!_hasInteracted)
-                {
-                    // show the interact UI if its not displayed
-                    if (!_interactionPromptUI.IsDisplayed) _interactionPromptUI.SetUp(_interactable.InteractionPrompt);
-
-
-                    // on button press, interact
-                    if (InputManager.Instance.GetInteractPressed())
-                    {
-                        _hasInteracted = true;
-                        _interactionPromptUI.Close();
-                        _interactable.Interact(this);
-                    }
-                }
-                else
-                {
-                    // if dialogue is not playing
-                    if (_interactable is DialogueTrigger dialogueTrigger && !DialogueManager.Instance.DialogueIsPlaying)
-                    {
-                        _hasInteracted = false;
-                        CameraManager.Instance.canFollow = true;
-                        CameraManager.Instance.CameraZoomOut(dialogueTrigger.zoomDuration, dialogueTrigger.positionOffset, 
-                            dialogueTrigger.rotationOffset, dialogueTrigger.fovOffset);
-                    }
-                }
+                _colliders3D[0].TryGetComponent(out foundInteractableThisFrame);
             }
         }
-        else
+        else // 2D Mode
         {
-            // set interactable to null and close UI
-            _hasInteracted = false;
-            if (_interactable != null)
+            numFound = Physics2D.OverlapCircleNonAlloc(
+                _interactionPoint.position,
+                _interactionPointRadius,
+                _colliders2D,
+                _interactableMask);
+
+            if (numFound > 0)
             {
-                if (_interactable is DialogueTrigger dialogueTrigger)
+                _colliders2D[0].TryGetComponent(out foundInteractableThisFrame);
+            }
+        }
+
+        // Case 1: An interactable is detected this frame
+        if (foundInteractableThisFrame != null)
+        {
+            // If it's a NEW interactable entering range (or switching focus)
+            if (foundInteractableThisFrame != _currentInteractable)
+            {
+                // If we were focused on something else, close its prompt first
+                if (_currentInteractable != null && _interactionPromptUI.IsDisplayed)
                 {
+                    _interactionPromptUI.Close();
+                }
+                // Update focus to the new interactable
+                _currentInteractable = foundInteractableThisFrame;
+                _hasInteracted = false; // Reset interaction state for the new target
+            }
+
+            // Now, handle logic for the _currentInteractable
+            if (!_hasInteracted)
+            {
+                // Show prompt if not already displayed
+                if (!_interactionPromptUI.IsDisplayed)
+                {
+                    _interactionPromptUI.SetUp(_currentInteractable.InteractionPrompt);
+                }
+
+                // Check for interaction input
+                if (InputManager.Instance.GetInteractPressed())
+                {
+                    _hasInteracted = true;
+                    _interactionPromptUI.Close();
+                    _currentInteractable.Interact(this); // Perform the interaction
+                }
+            }
+            else // Already interacted, handle post-interaction (like DialogueTrigger check)
+            {
+                if (_currentInteractable is DialogueTrigger dialogueTrigger && !DialogueManager.Instance.DialogueIsPlaying)
+                {
+                    _hasInteracted = false;
                     CameraManager.Instance.canFollow = true;
-                    DialogueManager.Instance.ExitDialogueMode();
                     CameraManager.Instance.CameraZoomOut(dialogueTrigger.zoomDuration, dialogueTrigger.positionOffset,
                         dialogueTrigger.rotationOffset, dialogueTrigger.fovOffset);
                 }
-                _interactable = null;
             }
-            if (_interactionPromptUI.IsDisplayed) _interactionPromptUI.Close();
+        }
+        // Case 2: NO interactable component was found on detected colliders OR no colliders detected
+        else
+        {
+            // If we *were* focused on an interactable last frame, but not anymore...
+            if (_currentInteractable != null)
+            {
+                if (_interactionPromptUI.IsDisplayed)
+                {
+                    _interactionPromptUI.Close();
+                }
+
+                if (_currentInteractable is DialogueTrigger dialogueTrigger)
+                {
+                    DialogueManager.Instance.ExitDialogueMode();
+                    CameraManager.Instance.canFollow = true;
+                    CameraManager.Instance.CameraZoomOut(dialogueTrigger.zoomDuration, dialogueTrigger.positionOffset,
+                        dialogueTrigger.rotationOffset, dialogueTrigger.fovOffset);
+                }
+
+                // Clear focus and interaction state
+                _currentInteractable = null;
+                _hasInteracted = false;
+            }
+            // If _currentInteractable was already null, do nothing.
         }
     }
 

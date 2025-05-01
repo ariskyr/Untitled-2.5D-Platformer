@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class Player : GenericSingleton<Player>, IDataPersistence
+public class Player : GenericSingleton<Player>, IDataPersistence, IPlayerDirectionProvider
 {
     public PlayerStateMachine StateMachine { get; private set; }
 
@@ -36,6 +37,7 @@ public class Player : GenericSingleton<Player>, IDataPersistence
     private Quaternion toRotation;
     private BoxCollider topCollider;
     private float dir = 1f;
+    public PlayerInput playerInput;
 
     public int CurrentLevel { get; private set; }
     public int CurrentExperience { get; private set; }
@@ -44,6 +46,7 @@ public class Player : GenericSingleton<Player>, IDataPersistence
     protected override void Awake()
     {
         base.Awake();
+        playerInput = GetComponent<PlayerInput>();
         StateMachine = new PlayerStateMachine();
         IdleState = new PlayerIdleState(this, StateMachine, playerData, "idle");
         MoveState = new PlayerMoveState(this, StateMachine, playerData, "move");
@@ -65,8 +68,6 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         CurrentExperience = playerData.startingExperience;
         CurrentGold = playerData.startingGold;
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        Debug.Log("Subscribed to sceneLoaded");
     }
 
     private void OnEnable()
@@ -85,19 +86,6 @@ public class Player : GenericSingleton<Player>, IDataPersistence
         damageable.OnDeath -= HandleDeath;
         GameEventsManager.Instance.playerEvents.onExperienceGained -= ExperienceGained;
         GameEventsManager.Instance.playerEvents.onGoldGained -= GoldGained;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
-    {
-        Debug.Log("Have subscribed to event");
-        if (scene.name == "Dungeon")
-        {
-            Debug.Log("Deactivating Player");
-            gameObject.SetActive(false);
-        } else
-        {
-            gameObject.SetActive(true);
-        }
     }
 
     private void Start()

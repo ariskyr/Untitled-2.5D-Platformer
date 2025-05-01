@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 //DERIVE FROM GENERIC SINGLETON
 public class GameManager : GenericSingleton<GameManager>, IDataPersistence
 {
+    [Header("Scene Configuration")]
+    [SerializeField] private ScenePlayerConfiguration playerSceneConfig;
+
     private float elapsedTime = 0;
     private string currentScene;
-    private Player player;
 
         private void OnEnable()
     {
@@ -22,19 +24,6 @@ public class GameManager : GenericSingleton<GameManager>, IDataPersistence
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    private void Start()
-    {
-        GameObject playerGO = GameObject.FindGameObjectWithTag("Player");
-        if (playerGO != null)
-        {
-            player = playerGO.GetComponent<Player>();
-        }
-        else
-        {
-            Debug.LogError("Player not found, teleporting him to appropriate levels will not work!");
-        }
-    }
-
     private void Update()
     {
         Timer();
@@ -45,6 +34,57 @@ public class GameManager : GenericSingleton<GameManager>, IDataPersistence
     {
         currentScene = scene.name;
         Debug.Log("Scene loaded: " + currentScene);
+
+        if (playerSceneConfig == null)
+        {
+            Debug.LogError("ScenePlayerConfiguration is not assigned in GameManager Inspector!");
+            return; // Cannot proceed without configuration
+        }
+
+        //get the player instances
+        Player player3D = Player.Instance;
+        Player2D player2D = Player2D.Instance;
+
+        bool shouldUsePlayer2D = playerSceneConfig.scenesUsingPlayer2D.Contains(scene.name);
+
+        if (shouldUsePlayer2D)
+        {
+            if (player3D != null && player3D.gameObject.activeSelf)
+            {
+                Debug.Log("GameManager: Deactivating Player (3D) first.");
+                player3D.gameObject.SetActive(false); // Triggers OnDisable on Player
+                player3D.playerInput.enabled = false;
+            }
+        }
+        else
+        {
+            if (player2D != null && player2D.gameObject.activeSelf)
+            {
+                Debug.Log("GameManager: Deactivating Player2D first.");
+                player2D.gameObject.SetActive(false); // Triggers OnDisable on Player2D
+                player2D.playerInput.enabled = false;
+            }
+        }
+
+        // Activate the player that SHOULD be active
+        if (shouldUsePlayer2D)
+        {
+            if (player2D != null && !player2D.gameObject.activeSelf)
+            {
+                Debug.Log("GameManager: Activating Player2D.");
+                player2D.gameObject.SetActive(true); // Triggers OnEnable on Player2D
+                player2D.playerInput.enabled = true;
+            }
+        }
+        else
+        {
+            if (player3D != null && !player3D.gameObject.activeSelf)
+            {
+                Debug.Log("GameManager: Activating Player (3D).");
+                player3D.gameObject.SetActive(true); // Triggers OnEnable on Player
+                player3D.playerInput.enabled = true;
+            }
+        }
     }
 
     public void LoadData(GameData data)
@@ -72,24 +112,33 @@ public class GameManager : GenericSingleton<GameManager>, IDataPersistence
     public IEnumerator LoadSceneCoroutine(string sceneName, Vector3 positionToLoad)
     {
         yield return null;
-
-        //Begin to load the Scene you specify
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName);
-        //Don't let the Scene activate until you allow it to
         asyncOperation.allowSceneActivation = false;
-        //When the load is still in progress, output the Text and progress bar
-        while (!asyncOperation.isDone)
+        while (asyncOperation.progress < 0.9f)
         {
-            //Output the current progress
             Debug.Log("Loading progress: " + (asyncOperation.progress * 100) + "%");
-            asyncOperation.allowSceneActivation = true;
-
             yield return null;
         }
-        player.TeleportPlayer(positionToLoad);
-        // Enable the next scene
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
-        DataPersistenceManager.Instance.SaveGame();
+        Debug.Log("Loading nearly complete. Activating Scene: " + sceneName);
+        asyncOperation.allowSceneActivation = true;
+        while (!asyncOperation.isDone)
+        {
+            yield return null;
+        }
+        Debug.Log("Scene officially loaded and active: " + sceneName);
+
+        // (Updated teleport logic based on config might be needed here if teleport happens immediately)
+        bool teleport2D = playerSceneConfig != null && playerSceneConfig.scenesUsingPlayer2D.Contains(sceneName);
+        if (teleport2D)
+        {
+            Player2D player2DToTeleport = Player2D.Instance;
+            if (player2DToTeleport != null && player2DToTeleport.gameObject.activeSelf) { player2DToTeleport.TeleportPlayer(positionToLoad); }
+        }
+        else
+        {
+            Player player3DToTeleport = Player.Instance;
+            if (player3DToTeleport != null && player3DToTeleport.gameObject.activeSelf) { player3DToTeleport.TeleportPlayer(positionToLoad); }
+        }
     }
 
     private void Timer()
